@@ -12,6 +12,7 @@ shinyUI(
                width: 100%; height: 100%; background-image: url(\"\"); 
                position: fixed; z-index: -10; top: 0; left: 0; }"),
     tags$div(id="particles-js"),
+    tags$script(" $(document).ready(function(){$('[data-toggle=\"tooltip\"]').tooltip();}); "),
     
     # Page
     navbarPage(title="rPath",
@@ -22,6 +23,13 @@ shinyUI(
                                    textInput("term", "Term:",
                                              value = "name:gl?coly*"),
                                    helpText("Term can be a", a("Lucene query string", href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html", target="_blank")),
+                                   helpText("You can choose an ",
+                                            HTML('<a data-toggle="collapse" data-target="#demo">Examples</a>'),
+                                            tags$div(id = 'demo',  class="collapse",
+                                                     tags$li(a("gly*", `data-toggle`="tooltip", `data-placement`="right", `title`="Search in KEGGs all the pathways that start with gly- followed by whatever")),
+                                                     tags$li(a("met?b*", `data-toggle`="tooltip", `data-placement`="right", `title`="Search in KEGGs all the pathways that start with met- followed by whatever")),
+                                                     tags$li(a("gluc*", `data-toggle`="tooltip", `data-placement`="right", `title`="Search in KEGGs all the pathways that start with gluc- followed by whatever")),
+                                                     verbatimTextOutput('summary'))),
                                    textInput("organism", "Organism",
                                              value = "9606"),
                                    helpText("e.g. \"homo sapiens\", \"9606\""),
