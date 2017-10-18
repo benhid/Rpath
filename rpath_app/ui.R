@@ -2,9 +2,19 @@ library(shiny)
 library(DT)
 
 shinyUI(
-  fluidPage(theme = "bootstrap.min.css",
-            
-    navbarPage("rPath",
+  fluidPage(theme = "css/bootstrap.min.css",
+    # Scripts for background
+    tags$script(src="js/particles.min.js"),
+    tags$script("particlesJS.load('particles-js', 'js/particles.json', function() {
+                  console.log('callback - particles.js config loaded');
+                });"),
+    tags$style(" #particles-js { 
+               width: 100%; height: 100%; background-image: url(\"\"); 
+               position: fixed; z-index: -10; top: 0; left: 0; }"),
+    tags$div(id="particles-js"),
+    
+    # Page
+    navbarPage(title="rPath",
                tabPanel("Search",
                         fluidRow(
                           column(3,
@@ -52,6 +62,6 @@ shinyUI(
                tabPanel("tab2"),
                tabPanel("tab3")
     )
-    
+
   )
 )
