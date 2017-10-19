@@ -21,7 +21,7 @@ shinyUI(
                                  wellPanel(
                                    textInput("term", "Term:",
                                              placeholder = "name:gl?coly*"),
-                                   helpText("Consider using a", a("Lucene query string", href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html", target="_blank"),
+                                   helpText("Consider using a", a("Lucene query string", href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html", target="_blank")),
                                    textInput("organism", "Organism",
                                              value = "9606"),
                                    helpText("e.g. \"homo sapiens\", \"9606\""),
