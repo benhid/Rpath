@@ -20,8 +20,8 @@ shinyUI(
                           column(3,
                                  wellPanel(
                                    textInput("term", "Term:",
-                                             value = "name:gl?coly*"),
-                                   helpText("Term can be a", a("Lucene query string", href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html", target="_blank")),
+                                             placeholder = "name:gl?coly*"),
+                                   helpText("Consider using a", a("Lucene query string", href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html", target="_blank"),
                                    textInput("organism", "Organism",
                                              value = "9606"),
                                    helpText("e.g. \"homo sapiens\", \"9606\""),
@@ -40,13 +40,13 @@ shinyUI(
                                    helpText("Minimum 0, maximum 100"),    
 
                                    div(class="text-center", actionButton("searchButton", "Search", class="btn-primary"))
-                                 ),
-                                 wellPanel(
-                                   fileInput("fileToUpload", "Or, alternativity, upload a file:",
-                                             multiple = FALSE,
-                                             accept = c(".owl")),
-                                   div(class="text-center", actionButton("uploadButton", "Upload", class="btn-primary"))
                                  )
+                                 #wellPanel(
+                                 # fileInput("fileToUpload", "Or, alternativity, upload a file:",
+                                 #           multiple = FALSE,
+                                 #           accept = c(".owl")),
+                                 # div(class="text-center", actionButton("uploadButton", "Upload", class="btn-primary"))
+                                 #)
                           ),
                           column(9,
                                  span("Search results:"),
@@ -59,8 +59,19 @@ shinyUI(
                                  )
                           )
                         )),
-               tabPanel("tab2"),
-               tabPanel("tab3")
+               tabPanel("Visualization",
+                        absolutePanel(class="controls panel panel-default draggable ui-draggable ui-draggable-handle", 
+                                      style="background-color: white; padding: 0 20px 20px 20px; cursor: move;
+                                      opacity: 0.65; zoom: 0.9; transition: opacity 500ms 1s;", fixed = TRUE,
+                                      draggable = TRUE, top = 80, left = "auto", right = 20, bottom = "auto",
+                                      width = 330, height = "auto",
+                                      
+                                      h2("Example"),
+                                      
+                                      textInput("a", "A"),
+                                      textInput("b", "B")
+                        )),
+               tabPanel("Analysis")
     )
 
   )
