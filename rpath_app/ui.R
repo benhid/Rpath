@@ -13,10 +13,7 @@ shinyUI(
                position: fixed; z-index: -10; top: 0; left: 0; }"),
     tags$div(id="particles-js"),
     tags$script(" $(document).ready(function(){$('[data-toggle=\"tooltip\"]').tooltip();}); "),
-    tags$script("function examplesPrefedinidos(term, id) {
-                var value = document.getElementById(id).innerText;
-                document.getElementById(\"term\").value=value;
-                }"),
+    
     # Page
     navbarPage(title="rPath",
                tabPanel("Search",
@@ -26,12 +23,12 @@ shinyUI(
                                    textInput("term", "Term:",
                                              value = "name:gl?coly*"),
                                    helpText("Term can be a", a("Lucene query string", href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html", target="_blank")),
-                                   helpText("You can choose an ",
-                                            HTML('<a data-toggle="collapse" data-target="#demo">Examples</a>'),
+                                   helpText("You can copy and paste an ",
+                                            HTML('<a data-toggle="collapse" data-target="#demo">example</a>'),
                                             tags$div(id = 'demo',  class="collapse",
-                                                     tags$li(a(id="example1","gly*", onclick="examplesPrefedinidos(term, this.id)", `data-toggle`="tooltip", `data-placement`="right", `title`="Search in KEGGs all the pathways that start with gly- followed by whatever")),
-                                                     tags$li(a(id="example2", "met?b*", onclick="examplesPrefedinidos(term, this.id)", `data-toggle`="tooltip", `data-placement`="right", `title`="Search in KEGGs all the pathways that start with met- followed by whatever")),
-                                                     tags$li(a(id="example3", "gluc*",onclick="examplesPrefedinidos(term, this.id)", `data-toggle`="tooltip", `data-placement`="right", `title`="Search in KEGGs all the pathways that start with gluc- followed by whatever")),
+                                                     tags$li(a(id="example1","gly*",  `data-toggle`="tooltip", `data-placement`="right", `title`="Search in KEGGs all the pathways that start with gly- followed by whatever")),
+                                                     tags$li(a(id="example2", "met?b*",  `data-toggle`="tooltip", `data-placement`="right", `title`="Search in KEGGs all the pathways that start with met- followed by whatever")),
+                                                     tags$li(a(id="example3", "gluc*",`data-toggle`="tooltip", `data-placement`="right", `title`="Search in KEGGs all the pathways that start with gluc- followed by whatever")),
                                                      verbatimTextOutput('summary'))),
                                    textInput("organism", "Organism",
                                              value = "9606"),
@@ -71,7 +68,7 @@ shinyUI(
                           )
                         )),
                tabPanel("tab2"),
-               tabPanel("tab3")
+               tabPanel("User Manual")
     )
 
   )
