@@ -13,7 +13,10 @@ shinyUI(
                position: fixed; z-index: -10; top: 0; left: 0; }"),
     tags$div(id="particles-js"),
     tags$script(" $(document).ready(function(){$('[data-toggle=\"tooltip\"]').tooltip();}); "),
-    
+    tags$script("function examplesPrefedinidos(term, id) {
+                var value = document.getElementById(id).innerText;
+                document.getElementById(\"term\").value=value;
+                }"),
     # Page
     navbarPage(title="rPath",
                tabPanel("Search",
@@ -26,9 +29,9 @@ shinyUI(
                                    helpText("You can choose an ",
                                             HTML('<a data-toggle="collapse" data-target="#demo">Examples</a>'),
                                             tags$div(id = 'demo',  class="collapse",
-                                                     tags$li(a("gly*", `data-toggle`="tooltip", `data-placement`="right", `title`="Search in KEGGs all the pathways that start with gly- followed by whatever")),
-                                                     tags$li(a("met?b*", `data-toggle`="tooltip", `data-placement`="right", `title`="Search in KEGGs all the pathways that start with met- followed by whatever")),
-                                                     tags$li(a("gluc*", `data-toggle`="tooltip", `data-placement`="right", `title`="Search in KEGGs all the pathways that start with gluc- followed by whatever")),
+                                                     tags$li(a(id="example1","gly*", onclick="examplesPrefedinidos(term, this.id)", `data-toggle`="tooltip", `data-placement`="right", `title`="Search in KEGGs all the pathways that start with gly- followed by whatever")),
+                                                     tags$li(a(id="example2", "met?b*", onclick="examplesPrefedinidos(term, this.id)", `data-toggle`="tooltip", `data-placement`="right", `title`="Search in KEGGs all the pathways that start with met- followed by whatever")),
+                                                     tags$li(a(id="example3", "gluc*",onclick="examplesPrefedinidos(term, this.id)", `data-toggle`="tooltip", `data-placement`="right", `title`="Search in KEGGs all the pathways that start with gluc- followed by whatever")),
                                                      verbatimTextOutput('summary'))),
                                    textInput("organism", "Organism",
                                              value = "9606"),
