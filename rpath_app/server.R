@@ -74,7 +74,7 @@ shinyServer(function(input, output) {
   )
   
   getRowFromDf <- eventReactive(input$searchResults_rows_selected,{
-    as.character(finalSearchResultsDf$uri[input$searchResults_rows_selected])
+    strsplit(as.character(finalSearchResultsDf$uri[input$searchResults_rows_selected]), "\"")[[1]][2]
   })
   
   output$selectedRow <- renderPrint(
