@@ -1,0 +1,71 @@
+library(shiny)
+library(DT)
+library(shinyjs)
+shinyUI(
+  
+  
+  fluidPage(theme = "bootstrap.min.css",
+            
+    navbarPage("rPath",
+               tabPanel("Search",
+                        fluidRow(
+                          column(3,
+                                 wellPanel(
+                                   textInput("term", "Term:",
+                                             value = "name:gl?coly*"),
+                                   helpText("Term can be a", a("Lucene query string", href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html", target="_blank")),
+                                   textInput("organism", "Organism",
+                                             value = "9606"),
+                                   helpText("e.g. \"homo sapiens\", \"9606\""),
+                                   checkboxGroupInput("dataSources", "Data source:",
+                                                      choices = c("KEGG" = "kegg",
+                                                                  "WikiPathways" = "wp",
+                                                                  "Reactome" = "reactome",
+                                                                  "Panther" = "panther",
+                                                                  "SMPDB" = "smpdb",
+                                                                  "MSigDB" = "msigdb",
+                                                                  "DrugBank" = "drugbank",
+                                                                  "INOH" = "inoh"),
+                                                      selected = c("kegg", "reactome", "panther", "inoh")),
+                                   
+                                   numericInput("numberOfResults", "No. of results:", 
+                                                value = 10),
+                                   helpText("Minimum 0, maximum 100"),    
+
+                                   div(class="text-center", actionButton("searchButton", "Search", class="btn-primary"))
+                                 ),
+                                 wellPanel(
+                                   fileInput("fileToUpload", "Or, alternativity, upload a file:",
+                                             multiple = FALSE,
+                                             accept = c(".owl")),
+                                   div(class="text-center", actionButton("uploadButton", "Upload", class="btn-primary"))
+                                 )
+                          ),
+                          column(9,
+                                 span("Search results:"),
+                                 wellPanel(
+                                   DT::dataTableOutput("searchResults")
+                                 ),
+                                 span("Selected:"),
+                                 wellPanel(
+                                   verbatimTextOutput("selectedRow")
+                                 ),
+                                 useShinyjs(),
+                                 
+                                 actionButton("Plotme", "Plot"),
+                                 
+                                 span("Pueba:"),
+                                 wellPanel(
+                                   verbatimTextOutput("roto2")
+                                 )
+                                 
+                                 
+                                 
+                          )
+                        )),
+               tabPanel("tab2"),
+               tabPanel("tab3")
+    )
+    
+  )
+)
