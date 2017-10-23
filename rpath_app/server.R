@@ -3,41 +3,54 @@ library(DT)
 library(plyr)
 library(paxtoolsr)
 
-# Define server logic
-
 # Proxy settings
-# Sys.setenv(http_proxy="http://proxy.wifi.uma.es:3128/")
-
+#Sys.setenv(http_proxy="http://proxy.wifi.uma.es:3128/")
 
 createLink <- function(val) {
   sprintf('<a href="%s" target="_blank" class="btn btn-default">GO</a>', val)
 }
 
 createImg <- function(val) {
-  url_img <- paste(gsub("http://pathwaycommons.org/pc2/","",val), ".png", sep="")
-  sprintf('<img src="%s" class="img-responsive"></img>', url_img)
+  db <- gsub("http://pathwaycommons.org/pc2/","",val)
+  url_img <- paste(db, ".png", sep="")
+  sprintf('<img src="%s" class="img-rounded" alt="%s"></img>', url_img, db)
 }
 
 shinyServer(function(input, output) {
   
   getResultsDf <- eventReactive(input$searchButton,{
-    # Check if input is empty
-    if (is.null(input$term) | is.null(input$dataSources)) return()
-    if (input$numberOfResults<0 | input$numberOfResults>100) return()
+    term <- input$term 
+    dataSources <- input$dataSources
+    organism <- input$organism
+    numberOfResults <- input$numberOfResults
+    
+    # Validation
+    if (term == ""){
+      showNotification("No term provided. Executing example query...", type="error")
+      term <- "name:gl?coly*"
+    }
+    if (is.null(dataSources)){
+      showNotification("No datasource selected. Searching on Reactome...", type="error")
+      dataSources <- "reactome"
+    }
+    if (numberOfResults<0 || numberOfResults>100){
+      showNotification("No valid number of results range (1:100). Showing 10 results...", type="error")
+      numberOfResults <- 10
+    }
     
     # Loading bar
     withProgress(message = 'Loading', value = 0, {
       incProgress(0.1, detail = paste("Searching on selected databases..."))
-      searchResults <- searchPc(q = input$term, 
-                                datasource = paste(input$dataSources, sep="&"), 
-                                type = "Pathway", organism = input$organism)
+      searchResults <- searchPc(q = term, 
+                                datasource = paste(dataSources, sep="&"), 
+                                type = "Pathway", organism = organism)
       
       incProgress(0.5, detail = paste("Parsing results..."))
       searchResultsDf <- ldply(xmlToList(searchResults), data.frame) 
       
       incProgress(0.8, detail = paste("Simplifying results..."))
       searchResultsDf <- subset(searchResultsDf, .id=="searchHit") # we only keep searchHits (NOT .attrs)
-      headSearchResultsDf <- head(searchResultsDf,  input$numberOfResults) 
+      headSearchResultsDf <- head(searchResultsDf,  numberOfResults) 
     
       # If we have searchHit>=1 then create links, images and 
       # return a subset of the original dataframe
@@ -57,7 +70,7 @@ shinyServer(function(input, output) {
   
   output$searchResults <-  renderDataTable({
     return(getResultsDf())
-  }, options = list(pageLength = 10, searching = FALSE, lengthChange = FALSE), escape=FALSE, selection = 'single'
+  }, options = list(pageLength = 20, searching = FALSE, lengthChange = FALSE), escape=FALSE, selection = 'single'
   )
   
   getRowFromDf <- eventReactive(input$searchResults_rows_selected,{
