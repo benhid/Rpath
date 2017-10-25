@@ -79,12 +79,12 @@ shinyServer(function(input, output) {
   })
   
   output$searchResults <-  renderDataTable({
-    # Display the results data.frame ONLY is data.frame is not empty
+    # Display the results data.frame
     results <- getResultsDf()
     if(nrow(results) == 0){ showNotification("No results!", type="warning") 
                             return(setNames(data.frame(matrix(ncol = 6, nrow = 0)),
                                             c("name", "dataSource", "numParticipants", "numProcesses", "size", "uri"))) }
-    else{ return(getResultsDf()) }
+    else{ return(results) }
   }, options = list(pageLength = 20, searching = FALSE, lengthChange = FALSE), escape=FALSE, selection = 'single'
   )
   
