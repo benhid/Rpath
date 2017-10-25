@@ -18,7 +18,7 @@ shinyUI(
                tabPanel("Search",
                         fluidRow(
                           column(3,
-                                 wellPanel(
+                                 wellPanel( # Search panel
                                    textInput("term", "Term:",
                                              placeholder = "name:gl?coly*"),
                                    helpText("Consider using a", a("Lucene query string", href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html", target="_blank")),
@@ -41,12 +41,6 @@ shinyUI(
 
                                    div(class="text-center", actionButton("searchButton", "Search", class="btn-primary"))
                                  )
-                                 #wellPanel(
-                                 # fileInput("fileToUpload", "Or, alternativity, upload a file:",
-                                 #           multiple = FALSE,
-                                 #           accept = c(".owl")),
-                                 # div(class="text-center", actionButton("uploadButton", "Upload", class="btn-primary"))
-                                 #)
                           ),
                           column(9,
                                  span("Search results:"),
