@@ -46,11 +46,12 @@ shinyUI(
                                  span("Search results:"),
                                  wellPanel(
                                    DT::dataTableOutput("searchResults")
-                                 ),
-                                 span("Selected:"),
-                                 wellPanel(
-                                   verbatimTextOutput("selectedRow")
                                  )
+                                 #,
+                                 #span("Selected:"),
+                                 #wellPanel(
+                                 #  verbatimTextOutput("selectedRow")
+                                 #)
                           )
                         )),
                tabPanel("Visualization",

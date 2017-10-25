@@ -45,9 +45,12 @@ shinyServer(function(input, output) {
     withProgress(message = 'Loading', value = 0, {
       # Step 1. Search on pathway commons
       incProgress(0.1, detail = paste("Searching on selected databases..."))
-      searchResults <- searchPc(q = term, 
-                                datasource = paste(dataSources, sep="&"), 
-                                type = "Pathway", organism = organism)
+      searchResults <- tryCatch({searchPc(q = term, 
+                                          datasource = paste(dataSources, sep="&"), 
+                                          type = "Pathway", organism = organism)
+                                }, error = function(err) {
+                                 stop("Couldn't perform search.")
+                                })
       
       # Step 2. Transform XML data into a data.frame
       incProgress(0.5, detail = paste("Parsing results..."))
@@ -76,8 +79,12 @@ shinyServer(function(input, output) {
   })
   
   output$searchResults <-  renderDataTable({
-    # Display the results data.frame
-    return(getResultsDf())
+    # Display the results data.frame ONLY is data.frame is not empty
+    results <- getResultsDf()
+    if(nrow(results) == 0){ showNotification("No results!", type="warning") 
+                            return(setNames(data.frame(matrix(ncol = 6, nrow = 0)),
+                                            c("name", "dataSource", "numParticipants", "numProcesses", "size", "uri"))) }
+    else{ return(getResultsDf()) }
   }, options = list(pageLength = 20, searching = FALSE, lengthChange = FALSE), escape=FALSE, selection = 'single'
   )
   
@@ -86,9 +93,9 @@ shinyServer(function(input, output) {
     return(strsplit(as.character(finalSearchResultsDf$uri[input$searchResults_rows_selected]), "\"")[[1]][2])
   })
   
-  output$selectedRow <- renderPrint(
+  #output$selectedRow <- renderPrint(
     # Display the URI of the selected row (verbose)
-    getURIFromDf()
-  )
+  #  getURIFromDf()
+  #)
   
 })
