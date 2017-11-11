@@ -68,8 +68,19 @@ shinyUI(
                           )
                         )),
                tabPanel("tab2"),
-               tabPanel("User Manual")
+               tabPanel("User Manual", navlistPanel(
+                 "Index",
+                 tabPanel("Introduction",  fluidRow( column(9,
+                                                      span("What is it?")
+                 ))),
+                 tabPanel("Search",  fluidRow( column(9,
+                                                      span("How to use?")
+                 ))),
+                 tabPanel("Viewer",  fluidRow( column(9,
+                                                      span("How to paint a graph?")
+                 ))
+               )
     )
 
   )
-)
+)))
