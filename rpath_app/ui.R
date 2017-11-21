@@ -58,18 +58,17 @@ shinyUI(
                                    helpText("Minimum 0, maximum 100"),    
                                    div(class="text-center", actionButton("searchButton", "Search", class="btn-primary"))
                                  )
-                                 #wellPanel(
-                                 # fileInput("fileToUpload", "Or, alternativity, upload a file:",
-                                 #           multiple = FALSE,
-                                 #           accept = c(".owl")),
-                                 # div(class="text-center", actionButton("uploadButton", "Upload", class="btn-primary"))
-                                 #)
                           ),
                           column(9,
                                  span("Search results:"),
                                    wellPanel(
                                      DT::dataTableOutput("searchResults")
                                  )
+                                 #,
+                                 #span("Selected:"),
+                                 #wellPanel(
+                                 #  verbatimTextOutput("selectedRow")
+                                 #)
                           )
                         )),
                tabPanel("Visualization",
