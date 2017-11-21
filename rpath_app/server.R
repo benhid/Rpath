@@ -77,8 +77,8 @@ shinyServer(function(input, output) {
     strsplit(as.character(finalSearchResultsDf$uri[input$searchResults_rows_selected]), "\"")[[1]][2]
   })
   
-  output$selectedRow <- renderPrint(
-    getRowFromDf()
-  )
+  #output$selectedRow <- renderPrint(
+  #  getRowFromDf()
+  #)
   
 })
