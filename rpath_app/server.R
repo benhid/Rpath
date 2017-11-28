@@ -2,14 +2,15 @@ library(shiny)
 library(DT)
 library(plyr)
 library(paxtoolsr)
-library(XML)
 library(shinyjs)
-library(igraph)
 library(shinyFiles)
 # Define server logic
 
 # Proxy settings
+
  Sys.setenv(http_proxy="http://proxy.wifi.uma.es:3128/")
+ 
+
 
 
  
@@ -85,16 +86,12 @@ library(shinyFiles)
     strsplit(as.character(finalSearchResultsDf$uri[input$searchResults_rows_selected]), "\"")[[1]][2]
   })
   
-  
-  
-  
   output$selectedRow <- renderPrint(
-    
-    
     getRowFromDf()
+    
   )
   
-    
+  #while you didn`t press the search button the button "Select" will be hide`
    
   hide("Plotme")
   observeEvent(input$searchButton, {
@@ -102,28 +99,26 @@ library(shinyFiles)
     # toggle("plot") if you want to alternate between hiding and showing
   })
   
- 
+  
+  
+    
+ #When you press the select button you are going to extract the sif file from the the row selected
   ExtractSif <- eventReactive(input$Plotme,{
-    URI <- as.factor(finalSearchResultsDf$uri[input$searchResults_rows_selected])
+    URI <- getRowFromDf()
+  
     withProgress(message = 'Extracting information', value = 0, {
-      
-      incProgress(0.1, detail = paste("Path selected..."))
-      #OWL <- getPc(URI,"BIOPAX")
-      biopaxFile <- tempfile(tmpdir = getwd(),fileext = ".owl")
-      saveXML(getPc(URL), biopaxFile)
-      
-      
-      
-      sif <- toSif(biopaxFile)
-      #g <- graph.edgelist(as.matrix(sif[, c(1, 3)]), directed = FALSE)
+      incProgress(0.1, detail = paste('Path selected...'))
+      sif <- getPc(URI,"BINARY_SIF")
     })
-    
     return(sif)
-    
   })
+
+  output$Summary <-  renderDataTable({
+    return(ExtractSif())
+  }, options = list(pageLength = 10, searching = FALSE, lengthChange = FALSE), escape=FALSE, selection = 'single'
+  )
   
   
-  
-  
+
   
 })
