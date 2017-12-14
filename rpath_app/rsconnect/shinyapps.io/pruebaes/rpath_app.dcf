@@ -1,0 +1,10 @@
+name: rpath_app
+title:
+username:
+account: pruebaes
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 243278
+bundleId: 1111717
+url: https://pruebaes.shinyapps.io/rpath_app/
+when: 1512292869.70821

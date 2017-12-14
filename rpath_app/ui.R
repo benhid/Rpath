@@ -68,19 +68,60 @@ shinyUI(
                           )
                         )),
                tabPanel("tab2"),
-               tabPanel("User Manual", navlistPanel(
-                 "Index",
-                 tabPanel("Introduction",  fluidRow( column(9,
-                                                      span("What is it?")
-                 ))),
-                 tabPanel("Search",  fluidRow( column(9,
-                                                      span("How to use?")
-                 ))),
-                 tabPanel("Viewer",  fluidRow( column(9,
-                                                      span("How to paint a graph?")
-                 ))
+               tabPanel("User Manual", 
+                        navlistPanel("Table of contents", widths = c(3, 9),
+                                     tabPanel("Introduction",  
+                                               mainPanel(
+                                                         h5("What's it?", span(class="label label-info", "Revisar texto en ingles")), 
+                                                         p("This is a project of Estandares de Datos"),
+                                                         h5("What's make?"), 
+                                                         p("We have: "),
+                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Search section"),
+                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Visualization section"),
+                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Summary section")
+                                                       )
+                                              ),
+                                     tabPanel("Search", 
+                                              mainPanel(
+                                                h5("How to use?", span(class="label label-info", "Corregir color")),
+                                                p("In this section we can perform searches. We enter the term we want to search. 
+                                                  If we don't have an exact term or we want searches for terms related to certain words, 
+                                                  we include the following characters:?, *, knowns as wildcard search. So if we perform 
+                                                  the default search we are really looking for:"),
+                                                p(span(class="alert alert-info", "gl (one letter) coly * (any word = sis) ->? 
+                                                  for a single character and * for 0 or more characters.")),
+                                                img(src="search_term_examples.PNG", align = "center"),
+                                                p("For more information you can consult Lucene query string. Some searches are included to 
+                                                  copy and paste and view the functionality."),
+                                                p("In the field Organism: we choose the organism on which we want to look for this term."),
+                                                img(src="search_organism.PNG"),
+                                                p("We can select the different BD in which we want to perform the search, although this is 
+                                                  optional.And finally we can choose the number of results we want. This one goes from 0 to 100."),
+                                                img(src="search_data_source_num_search.PNG"),
+                                                p("The result of the search is shown in a table. In it we can see the name of the search term, 
+                                                  the source in which it was searched, the number of participants in the reaction, the number 
+                                                  of processes in which it is involved, the size of the reaction and a button to access the URI 
+                                                  of the selected result"),
+                                                img(src="search_results.PNG")
+                                              )
+                                     ),
+                                             
+                                     tabPanel("Visualization", 
+                                              mainPanel(
+                                                h5("How to use?", span(class="label label-info", "Falta TEXTO, IMG")), 
+                                                p("txt"),
+                                                p("txt")
+                                                )
+                                              ),
+                                     tabPanel("Summary", 
+                                              mainPanel(
+                                                h5("How to use?", span(class="label label-info", "Falta TEXTO, IMG")), 
+                                                p("txt"),
+                                                p("txt")
+                                              )
+                                     )
                )
     )
 
   )
-)))
+))
