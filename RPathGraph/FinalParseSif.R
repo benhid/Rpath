@@ -1,5 +1,6 @@
 library("rlist")
-
+sif<-toSif("www/file251c7b0510f5.owl")
+sif<-toSif("www/prueba3.owl")
 parseSifToDataModel <- function(sif){
   proteins <- c()
   smallA <- list()
@@ -38,6 +39,7 @@ parseSifToDataModel <- function(sif){
   chemicalSM <- c()
   
   in_complex_Proteins <- c()
+  interactsProteins <- c()
   #Lectura del sif y sus relaciones
   for(i in c(1:length(sif$INTERACTION_TYPE))){
     switch(sif$INTERACTION_TYPE[i],
@@ -65,11 +67,18 @@ parseSifToDataModel <- function(sif){
              tipoLink <- c(tipoLink, "outputLink")
              
            },
-           "in-complex-with" = {
+            "interacts-with" = {
+              PA <- sif$PARTICIPANT_A[i]
+              PB <- sif$PARTICIPANT_B[i]
+              interactsProteins <- c(interactsProteins, PA, PB)
+              source <- c(source, PA)
+              target <- c(target, PB)
+              tipoLink <- c(tipoLink, "molecule_interaction")
+            }
+           ,"in-complex-with" = {
              PA <- sif$PARTICIPANT_A[i]
              PB <- sif$PARTICIPANT_B[i]
-             in_complex_Proteins <- c(in_complex_Proteins, PA)
-             in_complex_Proteins <- c(in_complex_Proteins, PB)
+             in_complex_Proteins <- c(in_complex_Proteins, PA, PB)
              source <- c(source, PA)
              target <- c(target, PB)
              tipoLink <- c(tipoLink, "in_complexLink")
@@ -318,8 +327,9 @@ parseSifToDataModel <- function(sif){
   ProteinNodes <- unique(unlist(list(Finalproteins, stateChangeProteinsB, 
                                      proteinsChangeStateA, controlReaction, controlState,
                                      proteinChangePhosphoA, phosphoChangeProteinB, controlPhospho, 
-                                     expresionProteins, controlExpresion, chemicalProteins, controlChemicalAffects)))
-  smNodes <- unique(unlist(list(FinalsmallA, FinalsmallB, chemicalSM, in_complex_Proteins)))
+                                     expresionProteins, controlExpresion, chemicalProteins, controlChemicalAffects
+                                     , in_complex_Proteins, interactsProteins)))
+  smNodes <- unique(unlist(list(FinalsmallA, FinalsmallB, chemicalSM)))
   FinalNodes <- nodeSet(ProteinNodes, smNodes)
   return(Links)
   
