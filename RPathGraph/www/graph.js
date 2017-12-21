@@ -1,22 +1,20 @@
-var links = [];
+
 
 var nodes = {};
-var parseSif = function(sif){
-  for(i = 0; i<sif[0].PARTICIPANT_A.length; i++){
-    link = {source: sif[0].PARTICIPANT_A[i], target: sif[0].PARTICIPANT_B[i], type: sif[0].INTERACTION_TYPE[i]}
+
+shinyjs.paintGraph = function(sifParse){
+  console.log(sifParse[0].source)
+  var links = [];
+  for(i=0; i<sifParse[0].source.length; i++){
+    link={source: sifParse[0].source[i], target:sifParse[0].target[i], type:sifParse[0].tipoLink[i]};
     links.push(link)
   }
 
-}
-
-shinyjs.paintGraph = function(sif){
-  parseSif(sif);
-  console.log(links)
-
   links.forEach(function(link) {
-  link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
-  link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
-});
+    
+    link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
+    link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
+  });
 
   var width = 960,
       height = 500;
@@ -35,7 +33,7 @@ shinyjs.paintGraph = function(sif){
   var svg = d3.select(".hola").append("svg")
       .attr("width", width)
       .attr("height", height);
-
+      console.log(force.links())
   var link = svg.selectAll(".link")
       .data(force.links())
     .enter().append("line")

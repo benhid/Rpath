@@ -3,13 +3,15 @@ library(shinyjs)
 library(paxtoolsr)
 
 
-jsCode <- readLines("www/graph.js",91)
-code = ""
-for(i in 1:91){
-  code = paste(code,jsCode[i], sep= '\n')
+jsCode2 <- readLines("www/graph.js",89)
+
+code2 = ""
+
+for(i in 1:89){
+  code2 = paste(code2,jsCode2[i], sep= '\n')
   
 }
-cat(code)
+
 ui <- fluidPage(
   theme = "Estilos.css",
 
@@ -17,7 +19,7 @@ ui <- fluidPage(
     includeScript("https://d3js.org/d3.v3.min.js")
   ),
   useShinyjs(),
-  extendShinyjs(text = code),
+  extendShinyjs(text = code2),
   titlePanel("Prueba Grafos"),
   sidebarLayout(
     sidebarPanel(),
