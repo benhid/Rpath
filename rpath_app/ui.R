@@ -1,8 +1,11 @@
 library(shiny)
 library(DT)
+library(shinyjs)
+library(shinydashboard)
 shinyUI(
   
   fluidPage(theme = "css/bootstrap.min.css",
+            tags$script(src="https://use.fontawesome.com/0e40b7473a.js"),
             # Bootstrap.js
             tags$script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"),
             # Scripts for background
@@ -73,7 +76,14 @@ shinyUI(
                                  
                                  #actionButton("Plotme", "Select"),
                                  div(style="display:inline-block",actionButton("Plotme", "Select"),width=10),
+                                 
+                                 
+                                 
                                  DT::dataTableOutput("Summary")
+                                 
+                                 
+                                 
+                                 
                                  
                           )
                         )),
@@ -89,7 +99,7 @@ shinyUI(
                                       textInput("a", "A"),
                                       textInput("b", "B")
                         )),
-               tabPanel("Analysis",
+               tabPanel("Data Summarization",
                         
                         sidebarPanel(
                           
@@ -104,7 +114,7 @@ shinyUI(
                                       choices = c("Biochemical Reaction", "Catalysis", "Control","Modulation","Template Reaction","Degradation","Template Reaction Regulation")),
                           downloadButton('downloadData', 'Download')
                           # Input: Numeric entry for number of obs to view ----
-     
+                          
                         ),
                         
                         fluidRow(
@@ -113,12 +123,12 @@ shinyUI(
                         
                         
                         
-                        ),
-                        
+               ),
                
-
+               
+               
                tabPanel("User Manual")
     )
     
-  )
+               )
 )
