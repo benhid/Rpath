@@ -14,6 +14,7 @@ shinyUI(
     tags$div(id="particles-js"),
     tags$script(" $(document).ready(function(){$('[data-toggle=\"tooltip\"]').tooltip();}); "),
     
+    
     # Page
     navbarPage(title="rPath",
                tabPanel("Search",
@@ -83,7 +84,7 @@ shinyUI(
                                               ),
                                      tabPanel("Search", 
                                               mainPanel(
-                                                h5("How to use?", span(class="label label-info", "Corregir color")),
+                                                h5("How to use?", span(class="label label-info",`background-color`= "#ffff", "Corregir color")),
                                                 p("In this section we can perform searches. We enter the term we want to search. 
                                                   If we don't have an exact term or we want searches for terms related to certain words, 
                                                   we include the following characters:?, *, knowns as wildcard search. So if we perform 
