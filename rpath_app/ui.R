@@ -1,11 +1,8 @@
 library(shiny)
 library(DT)
-library(shinyjs)
-library(shinydashboard)
 shinyUI(
   
   fluidPage(theme = "css/bootstrap.min.css",
-            tags$script(src="https://use.fontawesome.com/0e40b7473a.js"),
             # Bootstrap.js
             tags$script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"),
             # Scripts for background
@@ -76,14 +73,7 @@ shinyUI(
                                  
                                  #actionButton("Plotme", "Select"),
                                  div(style="display:inline-block",actionButton("Plotme", "Select"),width=10),
-                                
-                                 
-                                 
                                  DT::dataTableOutput("Summary")
-                                 
-                                 
-                                 
-                                 
                                  
                           )
                         )),
@@ -99,7 +89,7 @@ shinyUI(
                                       textInput("a", "A"),
                                       textInput("b", "B")
                         )),
-               tabPanel("Data Summarization",
+               tabPanel("Analysis",
                         
                         sidebarPanel(
                           

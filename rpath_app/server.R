@@ -2,8 +2,6 @@ library(shiny)
 library(DT)
 library(plyr)
 library(paxtoolsr)
-library(shinyjs)
-library(shinyFiles)
 library(SPARQL)
 library(stringr)
 # Define server logic
