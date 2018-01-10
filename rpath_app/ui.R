@@ -114,11 +114,21 @@ shinyUI(
                                                 p("txt")
                                                 )
                                               ),
-                                     tabPanel("Summary", 
+                                     tabPanel("Data Summarization", 
                                               mainPanel(
-                                                h5("How to use?", span(class="label label-info", "Falta TEXTO, IMG")), 
-                                                p("txt"),
-                                                p("txt")
+                                                h5("How to use?", span(class="label label-info", "Revisar Ingles, IMG")), 
+                                                p("If we don't select any pathway we can't see any information. So the first step is go to the
+                                                  Search tab and do one search."),
+                                                p("Once time selected the pathway in Search tab, we choose the Select button. In the lower part we see
+                                                  a table where we can see the nodes that interact and the interaction between them. Under the table 
+                                                  we can change the page so we can see the other interactions."),
+                                                p("Afterwards, we go to the Data Summarization tab and choose the type. Depending on the selected type,
+                                                  we will obtain one information or another. We can download the file directly to our computer. It is download 
+                                                  with the name data-date_of_download and the format is .owl."),
+                                                p("We can also obtain information from the reaction participants by clicking on the leftReference and the 
+                                                  rightReference. This brings us www.ebi.ac.uk/chebi/."),
+                                                p("We can make a search about one term. For example : we are a lot of results and we can search only the results
+                                                  that contain the word UTP. If we delete the word write, we return to the previous table.")
                                               )
                                      )
                )
