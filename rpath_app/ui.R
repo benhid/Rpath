@@ -91,19 +91,23 @@ shinyUI(
                                                   the default search we are really looking for:"),
                                                 p(span(class="alert alert-info", "gl (one letter) coly * (any word = sis) ->? 
                                                   for a single character and * for 0 or more characters.")),
-                                                img(src="search_term_examples.PNG", align = "center"),
+                                                HTML('<center><img src="search_term_examples.PNG"></center>'),
+                                                #img(src="search_term_examples.PNG", align = "middle"),
                                                 p("For more information you can consult Lucene query string. Some searches are included to 
                                                   copy and paste and view the functionality."),
                                                 p("In the field Organism: we choose the organism on which we want to look for this term."),
-                                                img(src="search_organism.PNG"),
+                                                HTML('<center><img src="search_organism.PNG"></center>'),
+                                                #img(src="search_organism.PNG"),
                                                 p("We can select the different BD in which we want to perform the search, although this is 
                                                   optional.And finally we can choose the number of results we want. This one goes from 0 to 100."),
-                                                img(src="search_data_source_num_search.PNG"),
+                                                HTML('<center><img src="search_data_source_num_search.PNG"></center>'),
+                                                #img(src="search_data_source_num_search.PNG"),
                                                 p("The result of the search is shown in a table. In it we can see the name of the search term, 
                                                   the source in which it was searched, the number of participants in the reaction, the number 
                                                   of processes in which it is involved, the size of the reaction and a button to access the URI 
                                                   of the selected result"),
-                                                img(src="search_results.PNG")
+                                                HTML('<center><img src="search_results.PNG"></center>')
+                                                #img(src="search_results.PNG")
                                               )
                                      ),
                                              
@@ -119,16 +123,25 @@ shinyUI(
                                                 h5("How to use?", span(class="label label-info", "Revisar Ingles, IMG")), 
                                                 p("If we don't select any pathway we can't see any information. So the first step is go to the
                                                   Search tab and do one search."),
-                                                p("Once time selected the pathway in Search tab, we choose the Select button. In the lower part we see
+                                                #falta imagen inicial sin nada en la pestana Data summarization
+                                                p("Once time selected the pathway in Search tab, we choose the Select button."), 
+                                                img(src="data_search_select_first_part.PNG",alt="This is alternate text"),
+                                                img(src="data_select.PNG"),
+                                                p("In the lower part we see
                                                   a table where we can see the nodes that interact and the interaction between them. Under the table 
                                                   we can change the page so we can see the other interactions."),
+                                                img(src="data_tab_reactions.PNG"),
                                                 p("Afterwards, we go to the Data Summarization tab and choose the type. Depending on the selected type,
                                                   we will obtain one information or another. We can download the file directly to our computer. It is download 
                                                   with the name data-date_of_download and the format is .owl."),
+                                                #falta imagen download
                                                 p("We can also obtain information from the reaction participants by clicking on the leftReference and the 
                                                   rightReference. This brings us www.ebi.ac.uk/chebi/."),
+                                                img(src="data_search_select_table_reactions.PNG"),
                                                 p("We can make a search about one term. For example : we are a lot of results and we can search only the results
-                                                  that contain the word UTP. If we delete the word write, we return to the previous table.")
+                                                  that contain the word UTP. If we delete the word write, we return to the previous table."),
+                                                img(src="data_filter_data_summary.PNG")
+                                                
                                               )
                                      )
                )

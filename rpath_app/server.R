@@ -19,7 +19,7 @@ createImg <- function(val) {
 }
 
 shinyServer(function(input, output) {
-  
+
   getResultsDf <- eventReactive(input$searchButton,{
     # Check if input is empty
     if (is.null(input$term) | is.null(input$dataSources)) return()
