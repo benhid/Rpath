@@ -5,6 +5,8 @@ shinyUI(
   fluidPage(theme = "css/bootstrap.min.css",
     # Bootstrap.js
     tags$script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"),
+    # Icons
+    tags$script(src="https://use.fontawesome.com/0e40b7473a.js"),
     # Scripts for background
     tags$script(src="js/particles.min.js"),
     tags$script("particlesJS.load('particles-js', 'js/particles.json', function() {
@@ -23,7 +25,8 @@ shinyUI(
                         fluidRow(
                           column(3,
                                  wellPanel(
-                                   textInput("term", "Term:",
+                                   textInput("term", 
+                                             tags$label(tags$i(class="fa fa-search", "aria-hidden"="true", style="padding-right: 0.1cm;"), "Search term:"),
                                              placeholder = "name:gl?coly*"),
                                    helpText("Consider using a", a("Lucene query", href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html", target="_blank"),
                                             "string. Here you have some ",
@@ -32,12 +35,14 @@ shinyUI(
                                                      tags$li(a(id="example1","gly*",  `data-toggle`="tooltip", `data-placement`="right", title="Search in KEGGs all the pathways that start with gly- followed by whatever")),
                                                      tags$li(a(id="example2", "met?b*",  `data-toggle`="tooltip", `data-placement`="right", title="Search in KEGGs all the pathways that start with met- followed by whatever")),
                                                      tags$li(a(id="example3", "gluc*",`data-toggle`="tooltip", `data-placement`="right", title="Search in KEGGs all the pathways that start with gluc- followed by whatever"))
-                                                     )
-                                            ),
-                                   textInput("organism", "Organism",
+                                            )
+                                   ),
+                                   textInput("organism", 
+                                             tags$label(tags$i(class="fa fa-sitemap", "aria-hidden"="true", style="padding-right: 0.1cm;"), "Organism:"),
                                              value = "9606"),
                                    helpText("e.g. \"homo sapiens\", \"9606\""),
-                                   checkboxGroupInput("dataSources", "Data source:",
+                                   checkboxGroupInput("dataSources", 
+                                                      tags$label(tags$i(class="fa fa-database", "aria-hidden"="true", style="padding-right: 0.1cm;"), "Databases:"),
                                                       choices = c("KEGG" = "kegg",
                                                                   "WikiPathways" = "wp",
                                                                   "Reactome" = "reactome",
@@ -47,28 +52,23 @@ shinyUI(
                                                                   "DrugBank" = "drugbank",
                                                                   "INOH" = "inoh"),
                                                       selected = c("kegg", "reactome", "panther", "inoh")),
-                                   numericInput("numberOfResults", "No. of results:", 
+                                   numericInput("numberOfResults", 
+                                                tags$label(tags$i(class="fa fa-list-ol", "aria-hidden"="true", style="padding-right: 0.1cm;"), "No. of results:"), 
                                                 value = 10),
                                    helpText("Minimum 0, maximum 100"),    
-
                                    div(class="text-center", actionButton("searchButton", "Search", class="btn-primary"))
                                  )
-                                 #wellPanel(
-                                 # fileInput("fileToUpload", "Or, alternativity, upload a file:",
-                                 #           multiple = FALSE,
-                                 #           accept = c(".owl")),
-                                 # div(class="text-center", actionButton("uploadButton", "Upload", class="btn-primary"))
-                                 #)
                           ),
                           column(9,
                                  span("Search results:"),
-                                 wellPanel(
-                                   DT::dataTableOutput("searchResults")
-                                 ),
-                                 span("Selected:"),
-                                 wellPanel(
-                                   verbatimTextOutput("selectedRow")
+                                   wellPanel(
+                                     DT::dataTableOutput("searchResults")
                                  )
+                                 #,
+                                 #span("Selected:"),
+                                 #wellPanel(
+                                 #  verbatimTextOutput("selectedRow")
+                                 #)
                           )
                         )),
             
