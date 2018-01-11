@@ -1,6 +1,4 @@
-library("rlist")
-sif<-toSif("www/file251c7b0510f5.owl")
-sif<-toSif("www/prueba3.owl")
+
 parseSifToDataModel <- function(sif){
   proteins <- c()
   smallA <- list()
@@ -92,7 +90,7 @@ parseSifToDataModel <- function(sif){
              if(!any(expresionProteins==sif$PARTICIPANT_B[i])){
                expresionProteins <- c(expresionProteins, sif$PARTICIPANT_B[i])
              }
-             controlExpresion <- c(controlExpresion, paste("control_expresion", counterExpresion))
+             controlExpresion <- c(controlExpresion, paste("control_expression", counterExpresion))
              source <- c(source, sif$PARTICIPANT_A[i])
              target <- c(target, controlExpresion[counterExpresion])
              tipoLink <- c(tipoLink, "controlOf")
@@ -331,10 +329,10 @@ parseSifToDataModel <- function(sif){
                                      , in_complex_Proteins, interactsProteins)))
   smNodes <- unique(unlist(list(FinalsmallA, FinalsmallB, chemicalSM)))
   FinalNodes <- nodeSet(ProteinNodes, smNodes)
-  return(Links)
+  return(c(Links,FinalNodes))
   
 }
-parseSifToDataModel(sif)
+
 
 
 

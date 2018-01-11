@@ -1,20 +1,21 @@
 library(shiny)
 library(shinyjs)
 library(paxtoolsr)
+library("rlist")
+source("FinalParseSif.R")
 
-
-jsCode2 <- readLines("www/graph.js",89)
+jsCode2 <- readLines("www/graph.js",179)
 
 code2 = ""
 
-for(i in 1:89){
+for(i in 1:179){
   code2 = paste(code2,jsCode2[i], sep= '\n')
   
 }
 
 ui <- fluidPage(
   theme = "Estilos.css",
-
+  
   tags$head(
     includeScript("https://d3js.org/d3.v3.min.js")
   ),
