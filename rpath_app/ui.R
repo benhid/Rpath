@@ -71,76 +71,81 @@ shinyUI(
                tabPanel("tab2"),
                tabPanel("User Manual", 
                         navlistPanel("Table of contents", widths = c(3, 9),
-                                     tabPanel("Introduction",  
+                                     tabPanel(tags$p(span(class='glyphicon glyphicon-list-alt'),"Introduction"),  
                                                mainPanel(
-                                                         h5("What's it?", span(class="label label-info", "Revisar texto en ingles")), 
+                                                         h4("What's it?", span(class="label label-info", "Revisar texto en ingles")), 
                                                          p("This is a project of Estandares de Datos"),
-                                                         h5("What's make?"), 
+                                                         h4("What's make?"), 
                                                          p("We have: "),
                                                          tags$p(span(class='glyphicon glyphicon-ok'),"Search section"),
                                                          tags$p(span(class='glyphicon glyphicon-ok'),"Visualization section"),
-                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Summary section")
+                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Summary section"), 
+                                                         width = 9
                                                        )
                                               ),
-                                     tabPanel("Search", 
+                                     tabPanel(tags$p(span(class='glyphicon glyphicon-search'),"Search"), 
                                               mainPanel(
-                                                h5("How to use?", span(class="label label-info",`background-color`= "#ffff", "Corregir color")),
+                                                h4("How to use?", span(class="label label-info",`background-color`= "#ffff", "Corregir color")),
                                                 p("In this section we can perform searches. We enter the term we want to search. 
                                                   If we don't have an exact term or we want searches for terms related to certain words, 
                                                   we include the following characters:?, *, knowns as wildcard search. So if we perform 
                                                   the default search we are really looking for:"),
                                                 p(span(class="alert alert-info", "gl (one letter) coly * (any word = sis) ->? 
                                                   for a single character and * for 0 or more characters.")),
-                                                HTML('<center><img src="search_term_examples.PNG"></center>'),
-                                                #img(src="search_term_examples.PNG", align = "middle"),
+                                                #HTML('<center><img src="search_term_examples.PNG"></center>'),
+                                                img(src="search_term_examples.PNG", class="img-responsive center-block manualR"),
                                                 p("For more information you can consult Lucene query string. Some searches are included to 
                                                   copy and paste and view the functionality."),
                                                 p("In the field Organism: we choose the organism on which we want to look for this term."),
-                                                HTML('<center><img src="search_organism.PNG"></center>'),
-                                                #img(src="search_organism.PNG"),
+                                                #HTML('<center><img src="search_organism.PNG"></center>'),
+                                                img(src="search_organism.PNG", class="img-responsive center-block manualR"),
                                                 p("We can select the different BD in which we want to perform the search, although this is 
                                                   optional.And finally we can choose the number of results we want. This one goes from 0 to 100."),
-                                                HTML('<center><img src="search_data_source_num_search.PNG"></center>'),
-                                                #img(src="search_data_source_num_search.PNG"),
+                                                #HTML('<center><img src="search_data_source_num_search.PNG"></center>'),
+                                                img(src="search_data_source_num_search.PNG", class="img-responsive center-block manualR"),
                                                 p("The result of the search is shown in a table. In it we can see the name of the search term, 
                                                   the source in which it was searched, the number of participants in the reaction, the number 
                                                   of processes in which it is involved, the size of the reaction and a button to access the URI 
                                                   of the selected result"),
-                                                HTML('<center><img src="search_results.PNG"></center>')
-                                                #img(src="search_results.PNG")
+                                                #HTML('<center><img src="search_results.PNG"></center>')
+                                                img(src="search_results.PNG", class="img-responsive center-block manualR"),
+                                                width = 12
+                                                
                                               )
                                      ),
                                              
-                                     tabPanel("Visualization", 
+                                     tabPanel(tags$p(span(class='glyphicon glyphicon-picture'),"Visualization"), 
                                               mainPanel(
-                                                h5("How to use?", span(class="label label-info", "Falta TEXTO, IMG")), 
+                                                h4("How to use?", span(class="label label-info", "Falta TEXTO, IMG")), 
                                                 p("txt"),
                                                 p("txt")
                                                 )
                                               ),
-                                     tabPanel("Data Summarization", 
+                                     tabPanel(tags$p(span(class='glyphicon glyphicon-list'),"Data Summarization"), 
                                               mainPanel(
-                                                h5("How to use?", span(class="label label-info", "Revisar Ingles, IMG")), 
+                                                h4("How to use?", span(class="label label-info", "Revisar Ingles, IMG")), 
                                                 p("If we don't select any pathway we can't see any information. So the first step is go to the
                                                   Search tab and do one search."),
                                                 #falta imagen inicial sin nada en la pestana Data summarization
                                                 p("Once time selected the pathway in Search tab, we choose the Select button."), 
-                                                img(src="data_search_select_first_part.PNG",alt="This is alternate text"),
-                                                img(src="data_select.PNG"),
+                                                img(src="data_search_select_first_part.PNG", class="img-responsive center-block manualR"),
+                                                img(src="data_select.PNG", class="img-responsive center-block manualR"),
                                                 p("In the lower part we see
                                                   a table where we can see the nodes that interact and the interaction between them. Under the table 
                                                   we can change the page so we can see the other interactions."),
-                                                img(src="data_tab_reactions.PNG"),
+                                                img(src="data_tab_reactions.PNG", class="img-responsive center-block manualR"),
                                                 p("Afterwards, we go to the Data Summarization tab and choose the type. Depending on the selected type,
                                                   we will obtain one information or another. We can download the file directly to our computer. It is download 
                                                   with the name data-date_of_download and the format is .owl."),
                                                 #falta imagen download
                                                 p("We can also obtain information from the reaction participants by clicking on the leftReference and the 
                                                   rightReference. This brings us www.ebi.ac.uk/chebi/."),
-                                                img(src="data_search_select_table_reactions.PNG"),
+                                                img(src="data_search_select_table_reactions.PNG", class="img-responsive center-block manualR"),
                                                 p("We can make a search about one term. For example : we are a lot of results and we can search only the results
                                                   that contain the word UTP. If we delete the word write, we return to the previous table."),
-                                                img(src="data_filter_data_summary.PNG")
+                                                img(src="data_filter_data_summary.PNG", class="img-responsive center-block manualR"),
+                                                width = 12
+                                                
                                                 
                                               )
                                      )
