@@ -71,6 +71,7 @@ shinyUI(
                                  #)
                           )
                         )),
+            
                tabPanel("Visualization",
                         absolutePanel(class="controls panel panel-default draggable ui-draggable ui-draggable-handle", 
                                       style="background-color: white; padding: 0 20px 20px 20px; cursor: move;
@@ -83,7 +84,8 @@ shinyUI(
                                       textInput("a", "A"),
                                       textInput("b", "B")
                         )),
-               tabPanel("Analysis")
+               tabPanel("Analysis"),
+               tabPanel("User Manual")
     )
 
   )
