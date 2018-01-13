@@ -114,12 +114,30 @@ shinyUI(
                                               )
                                      ),
                                              
-                                     tabPanel(tags$p(span(class='glyphicon glyphicon-picture'),"Visualization"), 
+                                     tabPanel(tags$p(span(class='glyphicon glyphicon-picture'),"Graphs"), 
                                               mainPanel(
                                                 h4("How to use?", span(class="label label-info", "Falta TEXTO, IMG")), 
                                                 p("txt"),
-                                                p("txt")
-                                                )
+                                                p("Hola, esta es la parte de visualizacion de grafos"),
+                                                tags$table(
+                                                  tags$tr(
+                                                    tags$th('Name of interaction'),tags$th('Description'),tags$th('Image')),
+                                                  tags$tr(
+                                                    tags$td('In-complex-with'),tags$td('ComponentA is in complex with ComponentB'),tags$td(img(src="graph_A_in_complex_with_B.PNG", class="img-responsive center-block manualR"))),
+                                                  tags$tr(
+                                                    tags$td('Interacts-with'),tags$td('ComponentA interacts with ComponentB'),tags$td(img(src="graph_A_interacts_with_B.PNG", class="img-responsive center-block manualR"))),
+                                                  tags$tr(
+                                                    tags$td('Control-of-expression'),tags$td('ComponentA control the expression of ComponentB'),tags$td(img(src="graph_A_control_expression_of_B.PNG", class="img-responsive center-block manualR"))),
+                                                  tags$tr(
+                                                    tags$td('Control-of-fosforilation'),tags$td('ComponentA control the fosforilation of ComponentB'),tags$td(img(src="graph_A_control_of_fosforilation_of_B.PNG", class="img-responsive center-block manualR"))),
+                                                  tags$tr(
+                                                    tags$td('Control-state-change'),tags$td('ComponentA control the state change of ComponentB'),tags$td(img(src="graph_A_control_state_change_of_B.PNG", class="img-responsive center-block manualR"))),
+                                                 
+                                                  class="table table-condensed"), width = 12
+
+                                                ),
+                                              width = 12
+                                              
                                               ),
                                      tabPanel(tags$p(span(class='glyphicon glyphicon-list'),"Data Summarization"), 
                                               mainPanel(
