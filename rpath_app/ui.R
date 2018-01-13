@@ -76,11 +76,26 @@ shinyUI(
                                                          h4("What's it?", span(class="label label-info", "Revisar texto en ingles")), 
                                                          p("This is a project of Estandares de Datos"),
                                                          h4("What's make?"), 
-                                                         p("We have: "),
-                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Search section"),
-                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Visualization section"),
-                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Summary section"), 
-                                                         width = 9
+                                                         p("We have:"),
+                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Search section", class="lead text-center"),
+                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Visualization section", class="lead text-center"),
+                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Summary section", class="lead text-center"), 
+                                                         h4("Who are we?"), 
+                                                         tags$table(
+                                                           tags$tr(
+                                                             tags$th('Name'),tags$th('Description'),tags$th('Email')),
+                                                           tags$tr(
+                                                             tags$td('Antonio Benitez Hidalgo'),tags$td(''),tags$td('antonio.b@uma.es')),
+                                                           tags$tr(
+                                                             tags$td('Cesar Lobato Fernandez'),tags$td(''),tags$td('ceslobfer95@gmail.com')),
+                                                           tags$tr(
+                                                             tags$td('Daniel Torres Ramirez'),tags$td(''),tags$td()),
+                                                           tags$tr(
+                                                             tags$td('Maria Jose Munoz Gonzalez'),tags$td(''),tags$td('marmungon@uma.es')),
+                                                           class="table table-striped",
+                                                           width = 12
+                                                         ),
+                                                         width = 12
                                                        )
                                               ),
                                      tabPanel(tags$p(span(class='glyphicon glyphicon-search'),"Search"), 
@@ -90,8 +105,10 @@ shinyUI(
                                                   If we don't have an exact term or we want searches for terms related to certain words, 
                                                   we include the following characters:?, *, knowns as wildcard search. So if we perform 
                                                   the default search we are really looking for:"),
-                                                p(span(class="alert alert-info", "gl (one letter) coly * (any word = sis) ->? 
-                                                  for a single character and * for 0 or more characters.")),
+                                                
+                                                p(strong("gl (one letter) coly * (any word = sis) ->? 
+                                                  for a single character and * for 0 or more characters."), class= "text-center"),
+                                                
                                                 #HTML('<center><img src="search_term_examples.PNG"></center>'),
                                                 img(src="search_term_examples.PNG", class="img-responsive center-block manualR"),
                                                 p("For more information you can consult Lucene query string. Some searches are included to 
@@ -133,7 +150,7 @@ shinyUI(
                                                   tags$tr(
                                                     tags$td('Control-state-change'),tags$td('ComponentA control the state change of ComponentB'),tags$td(img(src="graph_A_control_state_change_of_B.PNG", class="img-responsive center-block manualR"))),
                                                  
-                                                  class="table table-condensed"), width = 12
+                                                   class="table table-hover"), width = 12
 
                                                 ),
                                               width = 12
