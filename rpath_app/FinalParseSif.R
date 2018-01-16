@@ -1,4 +1,6 @@
 
+library("rlist")
+
 parseSifToDataModel <- function(sif){
   proteins <- c()
   smallA <- list()
@@ -44,10 +46,10 @@ parseSifToDataModel <- function(sif){
            "chemical-affects" ={
              P <- sif$PARTICIPANT_B[i]
              SM <- sif$PARTICIPANT_A[i]
-             if(!any(chemicalProteins) == P){
+             if(!any(chemicalProteins == P)){
                chemicalProteins <- c(chemicalProteins, P)
              }
-             if(!any(chemicalSM) == SM){
+             if(!any(chemicalSM == SM)){
                chemicalSM <- c(chemicalSM, SM)
              }
              controlChemicalAffects <- c(controlChemicalAffects, paste("control_chemical", counterChemical))
@@ -63,7 +65,7 @@ parseSifToDataModel <- function(sif){
              source <- c(source, posCOUNT)
              target <- c(target, paste(P,"_chem_Affects"))
              tipoLink <- c(tipoLink, "outputLink")
-             
+             counterChemical = counterChemical + 1 
            },
             "interacts-with" = {
               PA <- sif$PARTICIPANT_A[i]
@@ -98,7 +100,7 @@ parseSifToDataModel <- function(sif){
              source <- c(source, controlExpresion[counterExpresion])
              target <- c(target, sif$PARTICIPANT_B[i])
              tipoLink <- c(tipoLink, "outputLink")
-             
+             counterExpresion = counterExpresion + 1
            },
            "controls-phosphorylation-of" = {
              if(!any(proteinChangePhosphoA == sif$PARTICIPANT_A[i])){
