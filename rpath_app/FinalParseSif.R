@@ -162,7 +162,7 @@ parseSifToDataModel <- function(sif){
              }
              length(smallB)<-length(proteins)
            },
-           "controls-production-of"={
+         "controls-production-of"={
              SM <- sif$PARTICIPANT_B[i]
             
              if (!any(proteins==sif$PARTICIPANT_A[i])){

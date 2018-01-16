@@ -1,5 +1,4 @@
 
-
 var nodes = {};
 
 shinyjs.paintGraph = function(sifParse){
@@ -32,8 +31,9 @@ shinyjs.paintGraph = function(sifParse){
 		.links(links)
 		.size([width, height])
 		.linkDistance(80)
-		.charge(-150)
+		.charge(-200)
 		.on("tick", tick)
+		.gravity(0.07)
 		.start();
 
 	var drag = force.drag()
