@@ -1,7 +1,6 @@
 library(shiny)
 library(DT)
-library(shinyjs)
-library(shinydashboard)
+
 shinyUI(
   
   fluidPage(theme = "css/bootstrap.min.css",
