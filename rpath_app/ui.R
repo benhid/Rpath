@@ -83,15 +83,15 @@ shinyUI(
                                                          h4("Who are we?"), 
                                                          tags$table(
                                                            tags$tr(
-                                                             tags$th('Name'),tags$th('Description'),tags$th('Email')),
+                                                             tags$th('Name'),tags$th('Email')),
                                                            tags$tr(
-                                                             tags$td('Antonio Benitez Hidalgo'),tags$td(''),tags$td('antonio.b@uma.es')),
+                                                             tags$td('Antonio Benitez Hidalgo'),tags$td('antonio.benitez@lcc.uma.es')),
                                                            tags$tr(
-                                                             tags$td('Cesar Lobato Fernandez'),tags$td(''),tags$td('ceslobfer95@gmail.com')),
+                                                             tags$td('Cesar Lobato Fernandez'),tags$td('ceslobfer95@uma.es')),
                                                            tags$tr(
-                                                             tags$td('Daniel Torres Ramirez'),tags$td(''),tags$td()),
+                                                             tags$td('Daniel Torres Ramirez'),tags$td('dantorram@uma.es')),
                                                            tags$tr(
-                                                             tags$td('Maria Jose Munoz Gonzalez'),tags$td(''),tags$td('marmungon@uma.es')),
+                                                             tags$td('Maria Jose Munoz Gonzalez'),tags$td('marmungon@uma.es')),
                                                            class="table table-striped",
                                                            width = 12
                                                          ),
@@ -140,15 +140,38 @@ shinyUI(
                                                   tags$tr(
                                                     tags$th('Name of interaction'),tags$th('Description'),tags$th('Image')),
                                                   tags$tr(
-                                                    tags$td('In-complex-with'),tags$td('ComponentA is in complex with ComponentB'),tags$td(img(src="graph_A_in_complex_with_B.PNG", class="img-responsive center-block manualR"))),
+                                                    tags$td('In-complex-with'),
+                                                    tags$td('ComponentA is in complex with ComponentB. So, they are members og the same complex.'),
+                                                    tags$td(img(src="graph_A_in_complex_with_B.PNG", class="img-responsive center-block manualR"))),
                                                   tags$tr(
-                                                    tags$td('Interacts-with'),tags$td('ComponentA interacts with ComponentB'),tags$td(img(src="graph_A_interacts_with_B.PNG", class="img-responsive center-block manualR"))),
+                                                    tags$td('Interacts-with'),
+                                                    tags$td('ComponentA interacts with ComponentB. So, they are participants of the same interaction.'),
+                                                    tags$td(img(src="graph_A_interacts_with_B.PNG", class="img-responsive center-block manualR"))),
                                                   tags$tr(
-                                                    tags$td('Control-of-expression'),tags$td('ComponentA control the expression of ComponentB'),tags$td(img(src="graph_A_control_expression_of_B.PNG", class="img-responsive center-block manualR"))),
+                                                    tags$td('Control-of-expression'),
+                                                    tags$td('ComponentA control the expression of ComponentB.'),
+                                                    tags$td(img(src="graph_A_control_expression_of_B.PNG", class="img-responsive center-block manualR"))),
                                                   tags$tr(
-                                                    tags$td('Control-of-fosforilation'),tags$td('ComponentA control the fosforilation of ComponentB'),tags$td(img(src="graph_A_control_of_fosforilation_of_B.PNG", class="img-responsive center-block manualR"))),
+                                                    tags$td('Control-of-fosforilation'),
+                                                    tags$td('ComponentA control the fosforilation of ComponentB.'),
+                                                    tags$td(img(src="graph_A_control_of_fosforilation_of_B.PNG", class="img-responsive center-block manualR"))),
                                                   tags$tr(
-                                                    tags$td('Control-state-change'),tags$td('ComponentA control the state change of ComponentB'),tags$td(img(src="graph_A_control_state_change_of_B.PNG", class="img-responsive center-block manualR"))),
+                                                    tags$td('Control-state-change'),
+                                                    tags$td('ComponentA control the state change of ComponentB.'),
+                                                    tags$td(img(src="graph_A_control_state_change_of_B.PNG", class="img-responsive center-block manualR"))),
+                                                  tags$tr(
+                                                    tags$td(p('Consumption-controlled-by'), p('Controls-production-of')),
+                                                    tags$td('The ComponentA (smallMolecule) is consumed by a reaction that is controled by a protein.'),
+                                                    tags$td(img(src="graph_A_two_relations_B_C_compuesto.PNG", class="img-responsive center-block manualR"))),
+                                                  tags$tr(
+                                                    tags$td('Chemical-affects'),
+                                                    tags$td('ComponentA (smallMolecule) has an effect on the ComponentB'),
+                                                    tags$td(img(src="graph_A_chemical_affects_B.PNG", class="img-responsive center-block manualR"))),
+                                                  tags$tr(
+                                                    tags$td('Neighbor-of'),
+                                                    tags$td('ProteinA is neighbor of ProteinB and they are participants / controllers of same interaction.'),
+                                                    tags$td(img(src="graph_A_neighbor_B.PNG", class="img-responsive center-block manualR"))),
+                                                  
                                                  
                                                    class="table table-hover"), width = 12
 
