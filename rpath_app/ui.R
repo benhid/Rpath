@@ -78,9 +78,9 @@ shinyUI(
                                                           Specific subject of Bioinformatic of Malaga University."),
                                                          h4("What's make?"), 
                                                          p("We have:"), 
-                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Search section",span(class='glyphicon glyphicon-arrow-right'), "Responsible for allowing the search of the metabolic path through different data sources."),
-                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Visualization section", span(class='glyphicon glyphicon-arrow-right'), "Responsible for graphically representing the route as a directed graph."),
-                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Summary section", span(class='glyphicon glyphicon-arrow-right'), "Responsible for carrying out an analysis of the components of the route and showing the user its most characteristic elements."), 
+                                                         tags$p(span(class='glyphicon glyphicon-ok'),strong("Search section"),span(class='glyphicon glyphicon-arrow-right'), "Responsible for allowing the search of the metabolic path through different data sources."),
+                                                         tags$p(span(class='glyphicon glyphicon-ok'),strong("Visualization section"), span(class='glyphicon glyphicon-arrow-right'), "Responsible for graphically representing the route as a directed graph."),
+                                                         tags$p(span(class='glyphicon glyphicon-ok'),strong("Data summarization section"), span(class='glyphicon glyphicon-arrow-right'), "Responsible for carrying out an analysis of the components of the route and showing the user its most characteristic elements."), 
                                                          h4("Who are we?"), 
                                                          tags$table(
                                                            tags$tr(
