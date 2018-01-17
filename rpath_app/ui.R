@@ -73,13 +73,14 @@ shinyUI(
                         navlistPanel("Table of contents", widths = c(3, 9),
                                      tabPanel(tags$p(span(class='glyphicon glyphicon-list-alt'),"Introduction"),  
                                                mainPanel(
-                                                         h4("What's it?", span(class="label label-info", "Revisar texto en ingles")), 
-                                                         p("This is a project of Estandares de Datos"),
+                                                         h4("What's it?"), 
+                                                         p("Rpath is a project of 'Estandares de datos y algoritmos' of fourth of 'Ingenieria de la Salud.
+                                                          Specific subject of Bioinformatic of Malaga University."),
                                                          h4("What's make?"), 
-                                                         p("We have:"),
-                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Search section", class="lead text-center"),
-                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Visualization section", class="lead text-center"),
-                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Summary section", class="lead text-center"), 
+                                                         p("We have:"), 
+                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Search section",span(class='glyphicon glyphicon-arrow-right'), "Responsible for allowing the search of the metabolic path through different data sources."),
+                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Visualization section", span(class='glyphicon glyphicon-arrow-right'), "Responsible for graphically representing the route as a directed graph."),
+                                                         tags$p(span(class='glyphicon glyphicon-ok'),"Summary section", span(class='glyphicon glyphicon-arrow-right'), "Responsible for carrying out an analysis of the components of the route and showing the user its most characteristic elements."), 
                                                          h4("Who are we?"), 
                                                          tags$table(
                                                            tags$tr(
@@ -100,7 +101,7 @@ shinyUI(
                                               ),
                                      tabPanel(tags$p(span(class='glyphicon glyphicon-search'),"Search"), 
                                               mainPanel(
-                                                h4("How to use?", span(class="label label-info",`background-color`= "#ffff", "Corregir color")),
+                                                h4("How to use?"),
                                                 p("In this section we can perform searches. We enter the term we want to search. 
                                                   If we don't have an exact term or we want searches for terms related to certain words, 
                                                   we include the following characters:?, *, knowns as wildcard search. So if we perform 
@@ -109,33 +110,31 @@ shinyUI(
                                                 p(strong("gl (one letter) coly * (any word = sis) ->? 
                                                   for a single character and * for 0 or more characters."), class= "text-center"),
                                                 
-                                                #HTML('<center><img src="search_term_examples.PNG"></center>'),
                                                 img(src="search_term_examples.PNG", class="img-responsive center-block manualR"),
                                                 p("For more information you can consult Lucene query string. Some searches are included to 
                                                   copy and paste and view the functionality."),
                                                 p("In the field Organism: we choose the organism on which we want to look for this term."),
-                                                #HTML('<center><img src="search_organism.PNG"></center>'),
                                                 img(src="search_organism.PNG", class="img-responsive center-block manualR"),
                                                 p("We can select the different BD in which we want to perform the search, although this is 
                                                   optional.And finally we can choose the number of results we want. This one goes from 0 to 100."),
-                                                #HTML('<center><img src="search_data_source_num_search.PNG"></center>'),
                                                 img(src="search_data_source_num_search.PNG", class="img-responsive center-block manualR"),
                                                 p("The result of the search is shown in a table. In it we can see the name of the search term, 
                                                   the source in which it was searched, the number of participants in the reaction, the number 
                                                   of processes in which it is involved, the size of the reaction and a button to access the URI 
                                                   of the selected result"),
-                                                #HTML('<center><img src="search_results.PNG"></center>')
                                                 img(src="search_results.PNG", class="img-responsive center-block manualR"),
                                                 width = 12
                                                 
                                               )
                                      ),
                                              
-                                     tabPanel(tags$p(span(class='glyphicon glyphicon-picture'),"Graphs"), 
+                                     tabPanel(tags$p(span(class='glyphicon glyphicon-picture'),"Visualization"), 
                                               mainPanel(
-                                                h4("How to use?", span(class="label label-info", "Falta TEXTO, IMG")), 
-                                                p("txt"),
-                                                p("Hola, esta es la parte de visualizacion de grafos"),
+                                                h4("How to use?"), 
+                                                p("If we don't select any pathway we can't see any information. So the first step is go to the Search tab and do one search."),
+                                                p("Once time selected the pathway in Search tab, we choose the Graph button."),
+                                                #falta imagen
+                                                h4("Type of relations"),
                                                 tags$table(
                                                   tags$tr(
                                                     tags$th('Name of interaction'),tags$th('Description'),tags$th('Image')),
@@ -161,7 +160,8 @@ shinyUI(
                                                     tags$td(img(src="graph_A_control_state_change_of_B.PNG", class="img-responsive center-block manualR"))),
                                                   tags$tr(
                                                     tags$td(p('Consumption-controlled-by'), p('Controls-production-of')),
-                                                    tags$td('The ComponentA (smallMolecule) is consumed by a reaction that is controled by a protein.'),
+                                                    tags$td(p('The ComponentA (smallMolecule) is consumed by a reaction that is controled by a protein.'),
+                                                            p('The protein controls a reaction of which the ComponentA is an output.')),
                                                     tags$td(img(src="graph_A_two_relations_B_C_compuesto.PNG", class="img-responsive center-block manualR"))),
                                                   tags$tr(
                                                     tags$td('Chemical-affects'),
@@ -181,10 +181,9 @@ shinyUI(
                                               ),
                                      tabPanel(tags$p(span(class='glyphicon glyphicon-list'),"Data Summarization"), 
                                               mainPanel(
-                                                h4("How to use?", span(class="label label-info", "Revisar Ingles, IMG")), 
+                                                h4("How to use?"), 
                                                 p("If we don't select any pathway we can't see any information. So the first step is go to the
                                                   Search tab and do one search."),
-                                                #falta imagen inicial sin nada en la pestana Data summarization
                                                 p("Once time selected the pathway in Search tab, we choose the Select button."), 
                                                 img(src="data_search_select_first_part.PNG", class="img-responsive center-block manualR"),
                                                 img(src="data_select.PNG", class="img-responsive center-block manualR"),
@@ -195,8 +194,7 @@ shinyUI(
                                                 p("Afterwards, we go to the Data Summarization tab and choose the type. Depending on the selected type,
                                                   we will obtain one information or another. We can download the file directly to our computer. It is download 
                                                   with the name data-date_of_download and the format is .owl."),
-                                                #falta imagen download
-                                                p("We can also obtain information from the reaction participants by clicking on the leftReference and the 
+                                                img(src="data_data_summary.PNG", class="img-responsive center-block manualR"),                                                p("We can also obtain information from the reaction participants by clicking on the leftReference and the 
                                                   rightReference. This brings us www.ebi.ac.uk/chebi/."),
                                                 img(src="data_search_select_table_reactions.PNG", class="img-responsive center-block manualR"),
                                                 p("We can make a search about one term. For example : we are a lot of results and we can search only the results
