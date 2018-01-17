@@ -1,17 +1,18 @@
 library(shiny)
 library(DT)
-
+library(shinyjs)
+library(shinydashboard)
 shinyUI(
+  
   fluidPage(theme = "css/bootstrap.min.css",
-    # Bootstrap.js
-    tags$script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"),
-    # Icons
-    tags$script(src="https://use.fontawesome.com/0e40b7473a.js"),
-    # Scripts for background
-    tags$script(src="js/particles.min.js"),
-    tags$script("particlesJS.load('particles-js', 'js/particles.json', function() {
-                  console.log('callback - particles.js config loaded');
-                });"),
+            tags$script(src="https://use.fontawesome.com/0e40b7473a.js"),
+            # Bootstrap.js
+            tags$script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"),
+            # Scripts for background
+            tags$script(src="js/particles.min.js"),
+            tags$script("particlesJS.load('particles-js', 'js/particles.json', function() {
+                        console.log('callback - particles.js config loaded');
+                        });"),
     tags$style(" #particles-js { 
                width: 100%; height: 100%; background-image: url(\"\"); 
                position: fixed; z-index: -10; top: 0; left: 0; }"),
@@ -25,8 +26,7 @@ shinyUI(
                         fluidRow(
                           column(3,
                                  wellPanel(
-                                   textInput("term", 
-                                             tags$label(tags$i(class="fa fa-search", "aria-hidden"="true", style="padding-right: 0.1cm;"), "Search term:"),
+                                   textInput("term", "Term:",
                                              placeholder = "name:gl?coly*"),
                                    helpText("Consider using a", a("Lucene query", href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html", target="_blank"),
                                             "string. Here you have some ",
@@ -37,12 +37,10 @@ shinyUI(
                                                      tags$li(a(id="example3", "gluc*",`data-toggle`="tooltip", `data-placement`="right", title="Search in KEGGs all the pathways that start with gluc- followed by whatever"))
                                             )
                                    ),
-                                   textInput("organism", 
-                                             tags$label(tags$i(class="fa fa-sitemap", "aria-hidden"="true", style="padding-right: 0.1cm;"), "Organism:"),
+                                   textInput("organism", "Organism",
                                              value = "9606"),
                                    helpText("e.g. \"homo sapiens\", \"9606\""),
-                                   checkboxGroupInput("dataSources", 
-                                                      tags$label(tags$i(class="fa fa-database", "aria-hidden"="true", style="padding-right: 0.1cm;"), "Databases:"),
+                                   checkboxGroupInput("dataSources", "Data source:",
                                                       choices = c("KEGG" = "kegg",
                                                                   "WikiPathways" = "wp",
                                                                   "Reactome" = "reactome",
@@ -52,29 +50,40 @@ shinyUI(
                                                                   "DrugBank" = "drugbank",
                                                                   "INOH" = "inoh"),
                                                       selected = c("kegg", "reactome", "panther", "inoh")),
-                                   numericInput("numberOfResults", 
-                                                tags$label(tags$i(class="fa fa-list-ol", "aria-hidden"="true", style="padding-right: 0.1cm;"), "No. of results:"), 
+                                   numericInput("numberOfResults", "No. of results:", 
                                                 value = 10),
                                    helpText("Minimum 0, maximum 100"),    
+                                   
                                    div(class="text-center", actionButton("searchButton", "Search", class="btn-primary"))
                                  )
+                                 #wellPanel(
+                                 # fileInput("fileToUpload", "Or, alternativity, upload a file:",
+                                 #           multiple = FALSE,
+                                 #           accept = c(".owl")),
+                                 # div(class="text-center", actionButton("uploadButton", "Upload", class="btn-primary"))
+                                 #)
                           ),
                           column(9,
                                  span("Search results:"),
-                                   wellPanel(
-                                     DT::dataTableOutput("searchResults")
-                                 )
-                                 span("Selected:"),
                                  wellPanel(
-                                   verbatimTextOutput("selectedRow")
+                                   DT::dataTableOutput("searchResults")
                                  ),
+                                
                                  useShinyjs(),
+                                 
                                  #actionButton("Plotme", "Select"),
                                  div(style="display:inline-block",actionButton("Plotme", "Select"),width=10),
+                                 
+                                 
+                                 
                                  DT::dataTableOutput("Summary")
+                                 
+                                 
+                                 
+                                 
+                                 
                           )
                         )),
-            
                tabPanel("Visualization",
                         absolutePanel(class="controls panel panel-default draggable ui-draggable ui-draggable-handle", 
                                       style="background-color: white; padding: 0 20px 20px 20px; cursor: move;
@@ -88,11 +97,14 @@ shinyUI(
                                       textInput("b", "B")
                         )),
                tabPanel("Data Summarization",
+                        
                         sidebarPanel(
+                          
                           # Input: Text for providing a caption ----
                           # Note: Changes made to the caption in the textInput control
                           # are updated in the output area immediately as you type
-
+                          
+                          
                           # Input: Selector for choosing dataset ----
                           selectInput(inputId = "dataset",
                                       label = "Choose a type:",
@@ -105,7 +117,10 @@ shinyUI(
                         fluidRow(
                           DT::dataTableOutput("table")
                         )
-                                       ),
+                        
+                        
+                        
+               ),
                
                
                
@@ -113,7 +128,4 @@ shinyUI(
     )
     
                )
-    )
-
-  )
 )
