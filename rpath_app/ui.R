@@ -74,7 +74,7 @@ shinyUI(
                                      tabPanel(tags$p(span(class='glyphicon glyphicon-list-alt'),"Introduction"),  
                                                mainPanel(
                                                          h4("What's it?"), 
-                                                         p("Rpath is a project of 'Estandares de datos y algoritmos' of fourth of 'Ingenieria de la Salud.
+                                                         p("Rpath is a project of 'Estandares de datos y algoritmos' of fourth of 'Ingenieria de la Salud'.
                                                           Specific subject of Bioinformatic of Malaga University."),
                                                          h4("What's make?"), 
                                                          p("We have:"), 
@@ -111,8 +111,9 @@ shinyUI(
                                                   for a single character and * for 0 or more characters."), class= "text-center"),
                                                 
                                                 img(src="search_term_examples.PNG", class="img-responsive center-block manualR"),
-                                                p("For more information you can consult Lucene query string. Some searches are included to 
-                                                  copy and paste and view the functionality."),
+                                                p("For more information you can consult", 
+                                                    a("Lucene query string.", href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html", target="_blank"), 
+                                                    "Some searches are included to copy and paste and view the functionality."),
                                                 p("In the field Organism: we choose the organism on which we want to look for this term."),
                                                 img(src="search_organism.PNG", class="img-responsive center-block manualR"),
                                                 p("We can select the different BD in which we want to perform the search, although this is 
@@ -193,9 +194,12 @@ shinyUI(
                                                 img(src="data_tab_reactions.PNG", class="img-responsive center-block manualR"),
                                                 p("Afterwards, we go to the Data Summarization tab and choose the type. Depending on the selected type,
                                                   we will obtain one information or another. We can download the file directly to our computer. It is download 
-                                                  with the name data-date_of_download and the format is .owl."),
-                                                img(src="data_data_summary.PNG", class="img-responsive center-block manualR"),                                                p("We can also obtain information from the reaction participants by clicking on the leftReference and the 
-                                                  rightReference. This brings us www.ebi.ac.uk/chebi/."),
+                                                  with the name",  em("data-date_of_download"), "and the format is",  em(".owl.")),
+                                                img(src="data_data_summary.PNG", class="img-responsive center-block manualR"),                                                
+                                                p("We can also obtain information from the reaction participants by clicking on the", em("leftReference"), "and the", 
+                                                  em("rightReference"), "This brings us (in this example)",
+                                                  a("chEBI.", href="https://www.ebi.ac.uk/chebi/", target="_blank")
+                                                  ),
                                                 img(src="data_search_select_table_reactions.PNG", class="img-responsive center-block manualR"),
                                                 p("We can make a search about one term. For example : we are a lot of results and we can search only the results
                                                   that contain the word UTP. If we delete the word write, we return to the previous table."),
