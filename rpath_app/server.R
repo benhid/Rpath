@@ -26,7 +26,7 @@ createImg <- function(val) {
 }
 
 shinyServer(function(input, output) {
-  
+
   getResultsDf <- eventReactive(input$searchButton,{
     term <- input$term 
     dataSources <- input$dataSources
