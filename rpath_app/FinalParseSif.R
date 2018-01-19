@@ -2,6 +2,8 @@
 library("rlist")
 
 parseSifToDataModel <- function(sif){
+  Links<-c()
+  FinalNodes <- c()
   proteins <- c()
   smallA <- list()
   smallB <- list()
@@ -158,6 +160,7 @@ parseSifToDataModel <- function(sif){
                
              }else{
                posP <- grep(sif$PARTICIPANT_B[i], proteins)
+               
                smallA[[posP]] <- c(smallA[[posP]],SM)
              }
              length(smallB)<-length(proteins)
@@ -220,9 +223,16 @@ parseSifToDataModel <- function(sif){
   for(i in c(1:length(sif$INTERACTION_TYPE))){
     switch(sif$INTERACTION_TYPE[i],
            "neighbor-of" ={
-             posPA<-grep(sif$PARTICIPANT_A[i], proteins)
              
-             posPB<-grep(sif$PARTICIPANT_B[i], proteins)
+             if (!any(proteins==sif$PARTICIPANT_A[i])){
+               proteins <- c(proteins, sif$PARTICIPANT_A[i])
+             }
+             if (!any(proteins==sif$PARTICIPANT_B[i])){
+               proteins <- c(proteins, sif$PARTICIPANT_B[i])
+             }
+             length(neighbor_of) <- length(proteins)
+             posPA<-grep(sif$PARTICIPANT_A[i], proteins, fixed = F)
+             posPB<-grep(sif$PARTICIPANT_B[i], proteins, fixed = F)
              neighbor_of[[posPA]]<-c(neighbor_of[[posPA]], proteins[posPB])
              neighbor_of[[posPA]]<-c(neighbor_of[[posPA]], proteins[posPA])
              neighbor_of[[posPA]]<-unique(neighbor_of[[posPA]])
@@ -324,20 +334,18 @@ parseSifToDataModel <- function(sif){
     }
   }
   Links <- data.frame(source,tipoLink,target)
+  ProteinNodes<-c()
   ProteinNodes <- unique(unlist(list(Finalproteins, stateChangeProteinsB, 
                                      proteinsChangeStateA, controlReaction, controlState,
                                      proteinChangePhosphoA, phosphoChangeProteinB, controlPhospho, 
                                      expresionProteins, controlExpresion, chemicalProteins, controlChemicalAffects
                                      , in_complex_Proteins, interactsProteins)))
+  smNodes <- c()
   smNodes <- unique(unlist(list(FinalsmallA, FinalsmallB, chemicalSM)))
   FinalNodes <- nodeSet(ProteinNodes, smNodes)
   return(c(Links,FinalNodes))
   
 }
-
-
-
-
 
 nodeSet <- function(ProteinNodes, smNodes){
   #Metadatos para almacenamiento de nodos

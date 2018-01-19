@@ -1,8 +1,9 @@
-
 var nodes = {};
 
 shinyjs.paintGraph = function(sifParse){
-  
+ 
+ 
+  var nodes = []
 	var links = [];
   	var nodeName = [];
   	var nodeType = [];
@@ -11,7 +12,6 @@ shinyjs.paintGraph = function(sifParse){
     	nodeType.push(sifParse[0].tipoNodo[i]);
   	}
   
-  	console.log(nodeName)
   	for(i=0; i<sifParse[0].source.length; i++){
     	link={source: sifParse[0].source[i], target:sifParse[0].target[i], type:sifParse[0].tipoLink[i]};
     	links.push(link)
@@ -22,10 +22,10 @@ shinyjs.paintGraph = function(sifParse){
     	link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
   	});
 
-  	var width = 960,
-		height = 500,
+  	var width = 1400,
+		height = 700,
 		radius = 6;
-	  
+	  console.log(nodes);
   	var force = d3.layout.force()
 		.nodes(d3.values(nodes))
 		.links(links)
@@ -39,9 +39,10 @@ shinyjs.paintGraph = function(sifParse){
 	var drag = force.drag()
 		.on("dragstart", dragstart);
 
-	var svg = d3.select("body").append("svg")
+	var svg = d3.select(".paintGraph").append("svg")
 	  	.attr("width", width)
 	 	.attr("height", height);
+	  
 	  
 	svg.append("defs").selectAll("marker")
 		.data(["controlOf","outputLink"])
@@ -61,7 +62,6 @@ shinyjs.paintGraph = function(sifParse){
 		.enter().append("line")
 		.attr("class", function(d) { return "link " + d.type; })
 		.attr("marker-end", function(d) { return "url(#" + d.type + ")"; });
-
 
 
 	var rectSet = []
@@ -168,6 +168,7 @@ shinyjs.paintGraph = function(sifParse){
 	      	.duration(750)
 	      	.attr("r", 6);
 	}
+
 
 	function dblclick(d) {
    		d3.select(this).classed("fixed", d.fixed = false);

@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(shiny)\nlibrary(shinyjs)\nlibrary(paxtoolsr)\nlibrary(\"rlist\")\nsource(\"FinalParseSif.R\")\n\njsCode2 <- readLines(\"www/graph.js\",180)\n\ncode2 = \"\"\n\nfor(i in 1:180){\n  code2 = paste(code2,jsCode2[i], sep= '\\n')\n  \n}\n\nui <- fluidPage(\n  theme = \"Estilos.css\",\n  \n  tags$head(\n    includeScript(\"https://d3js.org/d3.v3.min.js\")\n  ),\n  useShinyjs(),\n  extendShinyjs(text = code2),\n  titlePanel(\"Prueba Grafos\"),\n  sidebarLayout(\n    sidebarPanel(),\n    mainPanel(\n      actionButton(\"button\", \"Click me\"),\n      actionButton(\"button2\", \"Click me2\"),\n      tags$div(id=\"graph1\" ,class = \"hola\"),\n      actionButton(\"delete\",\"DeleteGraph\")\n      \n    )\n  )\n)",
+    "created" : 1516295372676.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1789564851",
+    "id" : "1C238704",
+    "lastKnownWriteTime" : 1516387705,
+    "last_content_update" : 1516387705675,
+    "path" : "C:/Users/cesar/Dropbox/Cuarto/Estándares/Rpath/rpath_app/ui.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
