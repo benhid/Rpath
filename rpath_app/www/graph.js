@@ -22,7 +22,7 @@ shinyjs.paintGraph = function(sifParse){
     	link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
   	});
 
-  	var width = 1400,
+  	var width = 1500,
 		height = 700,
 		radius = 6;
 	  console.log(nodes);

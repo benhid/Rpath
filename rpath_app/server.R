@@ -320,9 +320,13 @@ shinyServer(function(input, output) {
   
   #Visualization
   observeEvent(input$buttonGraph, {
-    #sif<-toSif("www/file251c7b0510f5.owl")
-    sif<-toSif(GetOwl())
-    #sif <- rbind(sif,c("hello","in-complex-with", "quease"))
+    tryCatch({
+      sif<-toSif(GetOwl())
+    },error = function(e){
+      showNotification("Sorry, your graph can not be displayed. The sif file is empty or can not be extracted correctly.",
+                       type = "error")
+    })
+   
     tryCatch({
       insertUI(
         selector = "#graph",
@@ -331,14 +335,26 @@ shinyServer(function(input, output) {
       )
       links<-parseSifToDataModel(sif)
       js$paintGraph(links)
-      
+      showNotification("Graph displayed")
     }, warning = function(w) {
       warning-handler-code
     }, error = function(e) {
-      error-handler-code
-    }, finally = {
+      tryCatch({ js$paintBinaryGraph(sif)
+        showNotification("We continue working on the visualization of graphs. 
+                         The current graph is represented directly from the binary file.
+                         We hope to show you the rendered graph as soon as possible. Thanks for using Rpath.", duration = 10, 
+                         type = "warning")}
+        ,error=function(e){
+          
+        })
+     
     })
-    
+  })
+  
+  observeEvent(input$deleteGraph, {
+    removeUI(
+      selector = "div#graph"
+    )
     
   })
 })

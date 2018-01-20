@@ -72,7 +72,11 @@
 	stroke: #333;
 	stroke-width: 1.5px;
 }
-
+.node {
+  fill: rgb(238, 242, 243);
+    stroke: #333;
+    stroke-width: 1.5px;
+}
 text {
 	font: 10px sans-serif;
 	pointer-events: none;

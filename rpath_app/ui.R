@@ -4,13 +4,16 @@ library(shinyjs)
 library(shinydashboard)
 library(rlist)
 source("FinalParseSif.R")
-jsCode2 <- readLines("www/graph.js",180)
-
+jsCode1 <- readLines("www/graph.js",180)
+jsCode2 <- readLines("www/js/binaryGraph.js", 95)
+code1 = ""
 code2 = ""
 
 for(i in 1:180){
+  code1 = paste(code1,jsCode1[i], sep= '\n')
+}
+for(i in 1:95){
   code2 = paste(code2,jsCode2[i], sep= '\n')
-  
 }
 shinyUI(
   
@@ -20,6 +23,7 @@ shinyUI(
               includeScript("https://d3js.org/d3.v3.min.js")
             ),
             useShinyjs(),
+            extendShinyjs(text = code1),
             extendShinyjs(text = code2),
             tags$script(src="https://use.fontawesome.com/0e40b7473a.js"),
             # Bootstrap.js
@@ -105,7 +109,10 @@ shinyUI(
                tabPanel("Visualization",
                         
                             actionButton("buttonGraph", "VISUALIZATION GRAPH"),
-                            tags$div(id="graph" ,class = "paintGraph")),
+                            tags$div(id="graph" ,class = "paintGraph"),
+                            actionButton("deleteGraph","DeleteGraph")
+               ),
+                            
                tabPanel("Data Summarization",
                         
                         sidebarPanel(
