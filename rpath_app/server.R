@@ -317,7 +317,7 @@ shinyServer(function(input, output) {
       a <- saveXML(GetOwl(), file)
     }
   )
-  
+
   #Visualization
   observeEvent(input$buttonGraph, {
     tryCatch({

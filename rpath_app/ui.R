@@ -89,7 +89,7 @@ shinyUI(
                                  wellPanel(
                                    DT::dataTableOutput("searchResults")
                                  ),
-                                
+                                 
                                  useShinyjs(),
                                  
                                  #actionButton("Plotme", "Select"),
@@ -105,14 +105,14 @@ shinyUI(
                                  
                           )
                         )),
-
+               
                tabPanel("Visualization",
                         
-                            actionButton("buttonGraph", "VISUALIZATION GRAPH"),
-                            tags$div(id="graph" ,class = "paintGraph"),
-                            actionButton("deleteGraph","DeleteGraph")
+                        actionButton("buttonGraph", "VISUALIZATION GRAPH"),
+                        tags$div(id="graph" ,class = "paintGraph"),
+                        actionButton("deleteGraph","DeleteGraph")
                ),
-                            
+               
                tabPanel("Data Summarization",
                         
                         sidebarPanel(
@@ -141,36 +141,36 @@ shinyUI(
                
                
                
-                tabPanel("User Manual", 
+               tabPanel("User Manual", 
                         navlistPanel("Table of contents", widths = c(3, 9),
                                      tabPanel(tags$p(span(class='glyphicon glyphicon-list-alt'),"Introduction"),  
-                                               mainPanel(
-                                                         h4("What's it?"), 
-                                                         p("Rpath is a project of 'Estandares de datos y algoritmos' of fourth of 'Ingenieria de la Salud'.
-                                                          Specific subject of Bioinformatic of Malaga University."),
-                                                         h4("What's make?"), 
-                                                         p("We have:"), 
-                                                         tags$p(span(class='glyphicon glyphicon-ok'),strong("Search section"),span(class='glyphicon glyphicon-arrow-right'), "Responsible for allowing the search of the metabolic path through different data sources."),
-                                                         tags$p(span(class='glyphicon glyphicon-ok'),strong("Visualization section"), span(class='glyphicon glyphicon-arrow-right'), "Responsible for graphically representing the route as a directed graph."),
-                                                         tags$p(span(class='glyphicon glyphicon-ok'),strong("Data summarization section"), span(class='glyphicon glyphicon-arrow-right'), "Responsible for carrying out an analysis of the components of the route and showing the user its most characteristic elements."), 
-                                                         h4("Who are we?"), 
-                                                         tags$table(
-                                                           tags$tr(
-                                                             tags$th('Name'),tags$th('Email')),
-                                                           tags$tr(
-                                                             tags$td('Antonio Benitez Hidalgo'),tags$td('antonio.benitez@lcc.uma.es')),
-                                                           tags$tr(
-                                                             tags$td('Cesar Lobato Fernandez'),tags$td('ceslobfer95@uma.es')),
-                                                           tags$tr(
-                                                             tags$td('Daniel Torres Ramirez'),tags$td('dantorram@uma.es')),
-                                                           tags$tr(
-                                                             tags$td('Maria Jose Munoz Gonzalez'),tags$td('marmungon@uma.es')),
-                                                           class="table table-striped",
-                                                           width = 12
-                                                         ),
-                                                         width = 12
-                                                       )
-                                              ),
+                                              mainPanel(
+                                                h4("What's it?"), 
+                                                p("Rpath is a project of 'Estandares de datos y algoritmos' of fourth of 'Ingenieria de la Salud'.
+                                                  Specific subject of Bioinformatic of Malaga University."),
+                                                h4("What's make?"), 
+                                                p("We have:"), 
+                                                tags$p(span(class='glyphicon glyphicon-ok'),strong("Search section"),span(class='glyphicon glyphicon-arrow-right'), "Responsible for allowing the search of the metabolic path through different data sources."),
+                                                tags$p(span(class='glyphicon glyphicon-ok'),strong("Visualization section"), span(class='glyphicon glyphicon-arrow-right'), "Responsible for graphically representing the route as a directed graph."),
+                                                tags$p(span(class='glyphicon glyphicon-ok'),strong("Data summarization section"), span(class='glyphicon glyphicon-arrow-right'), "Responsible for carrying out an analysis of the components of the route and showing the user its most characteristic elements."), 
+                                                h4("Who are we?"), 
+                                                tags$table(
+                                                  tags$tr(
+                                                    tags$th('Name'),tags$th('Email')),
+                                                  tags$tr(
+                                                    tags$td('Antonio Benitez Hidalgo'),tags$td('antonio.benitez@lcc.uma.es')),
+                                                  tags$tr(
+                                                    tags$td('Cesar Lobato Fernandez'),tags$td('ceslobfer95@uma.es')),
+                                                  tags$tr(
+                                                    tags$td('Daniel Torres Ramirez'),tags$td('dantorram@uma.es')),
+                                                  tags$tr(
+                                                    tags$td('Maria Jose Munoz Gonzalez'),tags$td('marmungon@uma.es')),
+                                                  class="table table-striped",
+                                                  width = 12
+                                                ),
+                                                width = 12
+                                                )
+                                     ),
                                      tabPanel(tags$p(span(class='glyphicon glyphicon-search'),"Search"), 
                                               mainPanel(
                                                 h4("How to use?"),
@@ -180,12 +180,12 @@ shinyUI(
                                                   the default search we are really looking for:"),
                                                 
                                                 p(strong("gl (one letter) coly * (any word = sis) ->? 
-                                                  for a single character and * for 0 or more characters."), class= "text-center"),
+                                                         for a single character and * for 0 or more characters."), class= "text-center"),
                                                 
                                                 img(src="search_term_examples.PNG", class="img-responsive center-block manualR"),
                                                 p("For more information you can consult", 
-                                                    a("Lucene query string.", href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html", target="_blank"), 
-                                                    "Some searches are included to copy and paste and view the functionality."),
+                                                  a("Lucene query string.", href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html", target="_blank"), 
+                                                  "Some searches are included to copy and paste and view the functionality."),
                                                 p("In the field Organism: we choose the organism on which we want to look for this term."),
                                                 img(src="search_organism.PNG", class="img-responsive center-block manualR"),
                                                 p("We can select the different BD in which we want to perform the search, although this is 
@@ -198,9 +198,9 @@ shinyUI(
                                                 img(src="search_results.PNG", class="img-responsive center-block manualR"),
                                                 width = 12
                                                 
-                                              )
-                                     ),
-                                             
+                                                )
+                                                ),
+                                     
                                      tabPanel(tags$p(span(class='glyphicon glyphicon-picture'),"Visualization"), 
                                               mainPanel(
                                                 h4("How to use?"), 
@@ -245,13 +245,13 @@ shinyUI(
                                                     tags$td('ProteinA is neighbor of ProteinB and they are participants / controllers of same interaction.'),
                                                     tags$td(img(src="graph_A_neighbor_B.PNG", class="img-responsive center-block manualR"))),
                                                   
-                                                 
-                                                   class="table table-hover"), width = 12
-
-                                                ),
+                                                  
+                                                  class="table table-hover"), width = 12
+                                                
+                                              ),
                                               width = 12
                                               
-                                              ),
+                                     ),
                                      tabPanel(tags$p(span(class='glyphicon glyphicon-list'),"Data Summarization"), 
                                               mainPanel(
                                                 h4("How to use?"), 
@@ -271,7 +271,7 @@ shinyUI(
                                                 p("We can also obtain information from the reaction participants by clicking on the", em("leftReference"), "and the", 
                                                   em("rightReference"), "This brings us (in this example)",
                                                   a("chEBI.", href="https://www.ebi.ac.uk/chebi/", target="_blank")
-                                                  ),
+                                                ),
                                                 img(src="data_search_select_table_reactions.PNG", class="img-responsive center-block manualR"),
                                                 p("We can make a search about one term. For example : we are a lot of results and we can search only the results
                                                   that contain the word UTP. If we delete the word write, we return to the previous table."),
@@ -279,12 +279,12 @@ shinyUI(
                                                 width = 12
                                                 
                                                 
-                                              )
+                                                )
+                                                )
+                                                )
                                      )
+  )
+  
                )
-    )
-    )
-    
                )
-)
 
