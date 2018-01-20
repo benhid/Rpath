@@ -317,4 +317,44 @@ shinyServer(function(input, output) {
       a <- saveXML(GetOwl(), file)
     }
   )
+
+  #Visualization
+  observeEvent(input$buttonGraph, {
+    tryCatch({
+      sif<-toSif(GetOwl())
+    },error = function(e){
+      showNotification("Sorry, your graph can not be displayed. The sif file is empty or can not be extracted correctly.",
+                       type = "error")
+    })
+   
+    tryCatch({
+      insertUI(
+        selector = "#graph",
+        where = "afterEnd",
+        ui = tags$div(id="graph" ,class = "paintGraph")
+      )
+      links<-parseSifToDataModel(sif)
+      js$paintGraph(links)
+      showNotification("Graph displayed")
+    }, warning = function(w) {
+      warning-handler-code
+    }, error = function(e) {
+      tryCatch({ js$paintBinaryGraph(sif)
+        showNotification("We continue working on the visualization of graphs. 
+                         The current graph is represented directly from the binary file.
+                         We hope to show you the rendered graph as soon as possible. Thanks for using Rpath.", duration = 10, 
+                         type = "warning")}
+        ,error=function(e){
+          
+        })
+     
+    })
+  })
+  
+  observeEvent(input$deleteGraph, {
+    removeUI(
+      selector = "div#graph"
+    )
+    
+  })
 })
