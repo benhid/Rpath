@@ -189,9 +189,15 @@ shinyUI(
                                      tabPanel(tags$p(span(class='glyphicon glyphicon-picture'),"Visualization"), 
                                               mainPanel(
                                                 h4("How to use?"), 
-                                                p("If we don't select any pathway we can't see any information. So the first step is go to the Search tab and do one search."),
-                                                p("Once time selected the pathway in Search tab, we choose the Graph button."),
-                                                #falta imagen
+                                                p("If we don't select any pathway we can't see any information. So the first step is go to the",em("Search tab")," and do one search."),
+                                                p("Once time selected the pathway in Search tab, we choose the", em("VISUALIZATION GRAPH"),"button in this tab."),
+                                                img(src="graph_first_image.PNG", class="img-responsive center-block manualR"),
+                                                p("And we obtain the graph:"),
+                                                img(src="graph_visualization.PNG", class="img-responsive center-block manualR"),
+                                                p(em("If you click once on any node, the node is fixed at that point. And if you double-click on the node, it becomes mobile again.")),
+                                                p("For not see the graph, we selec the", em("DELETE GRAPH"), "button."),
+                                                p("If the graph can't play display, a message will appear:"),
+                                                img(src="graph_error.PNG", class="img-responsive center-block manualR"),
                                                 h4("Type of relations"),
                                                 tags$table(
                                                   tags$tr(
