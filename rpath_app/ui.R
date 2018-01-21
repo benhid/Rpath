@@ -251,6 +251,8 @@ shinyUI(
                                                 p("Once time selected the pathway in Search tab, we choose the Select button."), 
                                                 img(src="data_search_select_first_part.PNG", class="img-responsive center-block manualR"),
                                                 img(src="data_select.PNG", class="img-responsive center-block manualR"),
+                                                p("If the path can't play display, a message will appear:"),
+                                                img(src="data_error.PNG", class="img-responsive center-block manualR"),
                                                 p("In the lower part we see
                                                   a table where we can see the nodes that interact and the interaction between them. Under the table 
                                                   we can change the page so we can see the other interactions."),
