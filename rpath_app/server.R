@@ -93,14 +93,19 @@ shinyServer(function(input, output) {
   
   #while you didn`t press the search button the button "Select" will be hide`
   
-  hide("Plotme")
-  observeEvent(input$searchButton, {
-    toggle("Plotme")
-    # toggle("plot") if you want to alternate between hiding and showing
+  observe({
+    hide("Plotme")
+    observeEvent(input$searchButton, {
+      shinyjs::show("Plotme")
+      # toggle("plot") if you want to alternate between hiding and showing
+    })
   })
-  
-  
   Sif <- reactive({
+    req(input$searchResults_rows_selected)
+    if (finalSearchResultsDf$numParticipants[input$searchResults_rows_selected]==0){
+      showNotification("The path selected is empty, please select another one", type="error")
+      return(NULL)
+    }
     URI <- getRowFromDf()
     withProgress(message = 'Extracting SIF', value = 0, {
       incProgress(0.1, detail = paste('Path selected...'))
@@ -108,10 +113,13 @@ shinyServer(function(input, output) {
       return(sif)
     })
   })
-  
   #When you press the select button you are going to extract the sif file from the the row selected
   ExtractSif <- eventReactive(input$Plotme,{
-    return(Sif())
+    if(is.null(input$Plotme)){
+      stop()
+    }else{
+      return(Sif())
+    }
   })
   
   output$Summary <-  renderDataTable({
