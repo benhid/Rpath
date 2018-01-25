@@ -11,7 +11,8 @@
 RPath integra la librería [PaxtoolsR](https://github.com/BioPAX/paxtoolsr) para facilitar la búsqueda a través de las diversas bases de datos proporcionadas por el servicio web de Pathway Commons.
 
 ## Módulo de visualización
-
+Permite la visualización del archivo owl de referencia como un grafo. 
+Se extrae el estádar .sif del owl, el cual es procesado y pintado con la tecnología de [d3.js](https://d3js.org/).
 
 ## Manual de usuario
 En esta sección, el usuario podrá tener una idea de cómo utilizar correctamente la aplicación. 
