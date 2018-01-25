@@ -4,20 +4,13 @@ library(plyr)
 library(paxtoolsr)
 library(SPARQL)
 library(stringr)
-# Define server logic
 
 # Proxy settings
-
 #Sys.setenv(http_proxy="http://proxy.wifi.uma.es:3128/")
-
-
-
-
 
 createLink <- function(val) {
   sprintf('<a href="%s" target="_blank" class="btn btn-default">GO</a>', val)
 }
-
 
 createImg <- function(val) {
   db <- gsub("http://pathwaycommons.org/pc2/","",val)
@@ -26,7 +19,7 @@ createImg <- function(val) {
 }
 
 shinyServer(function(input, output) {
-
+  
   getResultsDf <- eventReactive(input$searchButton,{
     term <- input$term 
     dataSources <- input$dataSources
@@ -91,16 +84,22 @@ shinyServer(function(input, output) {
     
   )
   
-  #while you didn`t press the search button the button "Select" will be hide`
-  
-  hide("Plotme")
-  observeEvent(input$searchButton, {
-    toggle("Plotme")
-    # toggle("plot") if you want to alternate between hiding and showing
+  # While you didn`t press the search button the button "Select" will be hide`
+  observe({
+    hide("Plotme")
+    observeEvent(input$searchButton, {
+      shinyjs::show("Plotme")
+    })
   })
   
-  
   Sif <- reactive({
+    req(input$searchResults_rows_selected)
+    
+    if (finalSearchResultsDf$numParticipants[input$searchResults_rows_selected]==0){
+      showNotification("The selected path is empty, please select another one", type="error")
+      return(NULL)
+    }
+    
     URI <- getRowFromDf()
     withProgress(message = 'Extracting SIF', value = 0, {
       incProgress(0.1, detail = paste('Path selected...'))
@@ -109,9 +108,13 @@ shinyServer(function(input, output) {
     })
   })
   
-  #When you press the select button you are going to extract the sif file from the the row selected
+  # When you press the select button you are going to extract the sif file from the the row selected
   ExtractSif <- eventReactive(input$Plotme,{
-    return(Sif())
+    if(is.null(input$Plotme)){
+      stop()
+    }else{
+      return(Sif())
+    }
   })
   
   output$Summary <-  renderDataTable({
@@ -119,10 +122,9 @@ shinyServer(function(input, output) {
   }, options = list(pageLength = 10, searching = FALSE, lengthChange = FALSE), escape=FALSE, selection = 'single'
   )
   
-  
-  #ANALYSIS PART
-  
+  # Analysis module
   endpoint <- "http://rdf.pathwaycommons.org/sparql/"
+  
   BiochemicalReactions <- reactive({
     withProgress(message = 'Extracting information', value = 0, {
       URL <- getRowFromDf()
@@ -137,7 +139,7 @@ shinyServer(function(input, output) {
                                      ?right bp:displayName ?nright.\n
                                      ?left   <http://www.biopax.org/release/biopax-level3.owl#entityReference> ?leftReference.\n
                                      ?right <http://www.biopax.org/release/biopax-level3.owl#entityReference> ?rightReference.\n
-    }',URL)
+      }',URL)
     
       BiochemicalReaction <- str_replace_all(BiochemicalReaction, "[\r\n]" , "")
       BiochemicalReaction <- SPARQL(url=endpoint, BiochemicalReaction)$results
@@ -145,10 +147,10 @@ shinyServer(function(input, output) {
       BiochemicalReaction$rightReference <- gsub("<|>","",BiochemicalReaction$rightReference)
       BiochemicalReaction$leftReference <- createLink(BiochemicalReaction$leftReference)
       BiochemicalReaction$rightReference <- createLink(BiochemicalReaction$rightReference)
-      
-  })
+    })
+    
     return(BiochemicalReaction)
-})
+  })
   
   CatalysisReactions <- reactive({
     withProgress(message = 'Extracting information', value = 0, {
@@ -163,16 +165,16 @@ shinyServer(function(input, output) {
                            ?Catalysis bp:controlled ?controlled.\n
                            ?controller bp:entityReference ?reference.\n
                            ?controller bp:standardName ?nameController.\n
-                           ?controlled bp:standardName ?nameControlled.\n
-    }',URL)
-    Catalysis <- str_replace_all(Catalysis, "[\r\n]" , "")
-    Catalysis <- SPARQL(url=endpoint, Catalysis)$results
-    Catalysis$reference <- gsub("<|>","",Catalysis$reference)
-    Catalysis$reference <- createLink(Catalysis$reference)
-  })
-    return(Catalysis)
-    
+                           ?controlled bp:standardName ?nameControlled.\n}',URL)
+      Catalysis <- str_replace_all(Catalysis, "[\r\n]" , "")
+      Catalysis <- SPARQL(url=endpoint, Catalysis)$results
+      Catalysis$reference <- gsub("<|>","",Catalysis$reference)
+      Catalysis$reference <- createLink(Catalysis$reference)
     })
+    
+    return(Catalysis)
+  })
+  
   ControlReactions <- reactive({
     withProgress(message = 'Extracting information', value = 0, {
       URL <- getRowFromDf()
@@ -184,15 +186,16 @@ shinyServer(function(input, output) {
                          ?ReactionControl bp:controlled ?controlled.\n
                          ?controller bp:standardName ?nameController.\n
                          ?controlled bp:standardName ?nameControlled.\n
-                         ?controller bp:entityReference ?reference. \n
-    }',URL)
-    Control <- str_replace_all(Control, "[\r\n]" , "")
-    Control <- SPARQL(url=endpoint, Control)$results
-    Control$reference <- gsub("<|>","",Control$reference)
-    Control$reference <- createLink(Control$reference)
-  })
-    return(Control)
+                         ?controller bp:entityReference ?reference. \n}',URL)
+      Control <- str_replace_all(Control, "[\r\n]" , "")
+      Control <- SPARQL(url=endpoint, Control)$results
+      Control$reference <- gsub("<|>","",Control$reference)
+      Control$reference <- createLink(Control$reference)
     })
+    
+    return(Control)
+  })
+  
   TemplateReactions <- reactive({
     withProgress(message = 'Extracting information', value = 0, {
       URL <- getRowFromDf()
@@ -202,10 +205,8 @@ shinyServer(function(input, output) {
                                  ?TemplateReaction a bp:TemplateReaction.\n
                                  ?TemplateReaction bp:product ?product. \n
                                  ?product bp:displayName ?name.\n
-                                 ?product  bp:entityReference ?reference.\n
-    }',URL)
-    
-      
+                                 ?product  bp:entityReference ?reference.\n}',URL)
+
       TemplateReaction <- str_replace_all(TemplateReaction, "[\r\n]" , "")
       TemplateReaction <- SPARQL(url=endpoint, TemplateReaction)$results
       TemplateReaction$TemplateReaction <-  gsub("<|>","",TemplateReaction$TemplateReaction)
@@ -214,10 +215,11 @@ shinyServer(function(input, output) {
       TemplateReaction$product <- createLink(TemplateReaction$product)
       TemplateReaction$reference <-  gsub("<|>","",TemplateReaction$reference)
       TemplateReaction$reference <- createLink(TemplateReaction$reference)
-  })
-    return(TemplateReaction)
-    
     })
+    
+    return(TemplateReaction)
+  })
+  
   TemplateReactionRegulations <- reactive({
     withProgress(message = 'Extracting information', value = 0, {
       URL <- getRowFromDf()
@@ -229,16 +231,18 @@ shinyServer(function(input, output) {
                                             ?TemplateReactionRegulation bp:controller ?controller.\n
                                             ?controller bp:displayName ?nameController.\n
                                             ?controller bp:entityReference ?reference.\n
-    }',URL)
-    TemplateReactionRegulation <- str_replace_all(TemplateReactionRegulation, "[\r\n]" , "")
-    TemplateReactionRegulation <- SPARQL(url=endpoint, TemplateReactionRegulation)$results
-    TemplateReactionRegulation$reference <- gsub("<|>","",TemplateReactionRegulation$reference)
-    TemplateReactionRegulation$reference <- createLink(TemplateReactionRegulation$reference)
-    TemplateReactionRegulation$controller <- gsub("<|>","",TemplateReactionRegulation$controller)
-    TemplateReactionRegulation$controller <- createLink(TemplateReactionRegulation$controller)
-  })
-    return(TemplateReactionRegulation)
+      }',URL)
+      TemplateReactionRegulation <- str_replace_all(TemplateReactionRegulation, "[\r\n]" , "")
+      TemplateReactionRegulation <- SPARQL(url=endpoint, TemplateReactionRegulation)$results
+      TemplateReactionRegulation$reference <- gsub("<|>","",TemplateReactionRegulation$reference)
+      TemplateReactionRegulation$reference <- createLink(TemplateReactionRegulation$reference)
+      TemplateReactionRegulation$controller <- gsub("<|>","",TemplateReactionRegulation$controller)
+      TemplateReactionRegulation$controller <- createLink(TemplateReactionRegulation$controller)
     })
+    
+    return(TemplateReactionRegulation)
+  })
+  
   DegradationReactions <- reactive({
     withProgress(message = 'Extracting information', value = 0, {
       URL <- getRowFromDf()
@@ -246,15 +250,15 @@ shinyServer(function(input, output) {
       Degradation <- sprintf('select * where {\n
                              %s bp:pathwayComponent ?Degradation.\n
                              ?Degradation a bp:Degradation .\n
-                             ?Degradation bp:displayName ?name. \n
-    }',URL)
-    Degradation <- str_replace_all(Degradation, "[\r\n]" , "")
-    Degradation <- SPARQL(url=endpoint, Degradation)$results
-    Degradation$Degradation <- gsub("<|>","",Degradation$Degradation)
-    Degradation$Degradation <- createLink(Degradation$Degradation)
-  })
-    return(Degradation)
+                             ?Degradation bp:displayName ?name. \n}',URL)
+      Degradation <- str_replace_all(Degradation, "[\r\n]" , "")
+      Degradation <- SPARQL(url=endpoint, Degradation)$results
+      Degradation$Degradation <- gsub("<|>","",Degradation$Degradation)
+      Degradation$Degradation <- createLink(Degradation$Degradation)
     })
+    return(Degradation)
+  })
+  
   ModulationReactions <- reactive({
     withProgress(message = 'Extracting information', value = 0, {
       URL <- getRowFromDf()
@@ -266,15 +270,16 @@ shinyServer(function(input, output) {
                             ?controller bp:displayName ?nameController.\n
                             ?controller bp:entityReference  ?reference.\n
                             ?Modulation bp:controlled ?controlled.\n
-                            ?controlled bp:displayName ?nameControlled.\n
-    }',URL)
-    Modulation <- str_replace_all(Modulation, "[\r\n]" , "")
-    Modulation <- SPARQL(url=endpoint, Modulation)$results
-    Modulation$reference <- gsub("<|>","",Modulation$reference)
-    Modulation$reference <- createLink(Modulation$reference)
-  })
-    return(Modulation)
+                            ?controlled bp:displayName ?nameControlled.\n}',URL)
+      Modulation <- str_replace_all(Modulation, "[\r\n]" , "")
+      Modulation <- SPARQL(url=endpoint, Modulation)$results
+      Modulation$reference <- gsub("<|>","",Modulation$reference)
+      Modulation$reference <- createLink(Modulation$reference)
     })
+    
+    return(Modulation)
+  })
+  
   output$table <- DT::renderDataTable(DT::datatable({
     
     if (input$dataset =="Biochemical Reaction") {
@@ -299,21 +304,19 @@ shinyServer(function(input, output) {
       data <- ModulationReactions()
     }
     
-    
-    
-  },escape = FALSE
+    },escape = FALSE
   ))
   
   GetOwl <- reactive({
     URL <- getRowFromDf()
     getPc(URL)
   })
+  
   output$downloadData <- downloadHandler(
     filename = function() {
       paste('data-', Sys.Date(), '.owl', sep='')
     },
     content = function(file) {
-      
       a <- saveXML(GetOwl(), file)
     }
   )
@@ -357,4 +360,5 @@ shinyServer(function(input, output) {
     )
     
   })
+
 })
