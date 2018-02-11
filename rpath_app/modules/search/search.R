@@ -1,4 +1,5 @@
 library(DT)
+library(plyr)
 library(paxtoolsr)
 
 createLink <- function(val) {
