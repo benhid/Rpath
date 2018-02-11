@@ -36,7 +36,13 @@ app.ui <-
       
       # Page
       navbarPage(
-        title="rPath",
+        div(
+          img(
+            src = "logo_small.png",
+            height = 24,
+            width = "auto"
+          )
+        ),
         search.panel,
         visualization.panel,
         analysis.panel,
