@@ -17,7 +17,7 @@ search.panel <-
                              )
                     ),
                     textInput("organism", "Organism",
-                              value = "9606"),
+                              placeholder = "9606"),
                     helpText("e.g. \"homo sapiens\", \"9606\""),
                     checkboxGroupInput("dataSources", "Data source:",
                                        choices = c("KEGG" = "kegg",

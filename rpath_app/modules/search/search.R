@@ -28,7 +28,7 @@ getResultsDf <- eventReactive(input$searchButton,{
     term <- "name:gl?coly*"
   }
   if (is.null(dataSources)){
-    showNotification("No datasource selected. Searching on Reactome...", type="error")
+    showNotification("No datasource selected. Searching on Reactome only...", type="error")
     dataSources <- "reactome"
   }
   if (numberOfResults<0 || numberOfResults>100){
@@ -41,7 +41,7 @@ getResultsDf <- eventReactive(input$searchButton,{
     incProgress(0.1, detail = paste("Searching on selected databases..."))
     searchResults <- searchPc(q = term, 
                               datasource = paste(dataSources, sep="&"), 
-                              type = "Pathway", organism = organism)
+                              type = "Pathway", organism = organism, verbose = TRUE)
     
     incProgress(0.5, detail = paste("Parsing results..."))
     searchResultsDf <- ldply(xmlToList(searchResults), data.frame) 
