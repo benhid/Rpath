@@ -1,4 +1,3 @@
-
 library("rlist")
 
 parseSifToDataModel <- function(sif){
