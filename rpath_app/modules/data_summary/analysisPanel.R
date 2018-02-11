@@ -1,5 +1,5 @@
 analysis.panel <- 
-  tabPanel(title = "Data Summarization", value = "dataTab",
+  tabPanel(title = "Data Summarization", value = "analysisTab",
          sidebarPanel(
            # Input: Text for providing a caption ----
            # Note: Changes made to the caption in the textInput control

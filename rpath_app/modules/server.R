@@ -1,8 +1,19 @@
 library(shiny)
-library(plyr)
+library(shinyjs)
+
 library(stringr)
 
 app.server <- shinyServer(function(input, output) {
+
+  observe({
+    shinyjs::addClass(selector = ".navbar li a[data-value=visTab]", class = "disabledTab")
+    shinyjs::addClass(selector = ".navbar li a[data-value=analysisTab]", class = "disabledTab")
+
+    observeEvent(input$searchButton,{
+      shinyjs::removeClass(selector = ".navbar li a[data-value=visTab]", class = "disabledTab")
+      shinyjs::removeClass(selector = ".navbar li a[data-value=analysisTab]", class = "disabledTab")
+    })
+  })
   
   # Search module
   source('modules/search/search.R', local = TRUE)
@@ -56,7 +67,8 @@ app.server <- shinyServer(function(input, output) {
   
   observe({
     # While you didn`t press the search button the button "Select" will be hide`
-    hide("Plotme")
+    shinyjs::hide("Plotme")
+    
     observeEvent(input$searchButton, {
       shinyjs::show("Plotme")
     })

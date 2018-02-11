@@ -10,7 +10,7 @@ source("modules/visualization/FinalParseSif.R", local = TRUE)
 
 graphJS <- scan("www/js/graph.js", what = 'character', sep = '\n')
 graphBinaryJS <- scan("www/js/binaryGraph.js", what = 'character', sep = '\n')
- 
+
 app.ui <- 
   shinyUI(
     fluidPage(
