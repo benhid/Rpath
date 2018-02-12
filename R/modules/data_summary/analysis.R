@@ -1,5 +1,3 @@
-library(SPARQL)
-
 source('modules/data_summary/queries.R', local = TRUE)
 
 GetOwl <- reactive({
@@ -9,12 +7,12 @@ GetOwl <- reactive({
 
 Sif <- reactive({
   req(input$searchResults_rows_selected)
-  
+
   if (finalSearchResultsDf$numParticipants[input$searchResults_rows_selected]==0){
     showNotification("The selected path is empty (no participants!), please select another one", type="error")
     return(NULL)
   }
-  
+
   URI <- getRowFromDf()
   withProgress(message = 'Extracting SIF', value = 0, {
     incProgress(0.1, detail = paste('Path selected...'))
@@ -35,7 +33,7 @@ BiochemicalReactions <- reactive({
     BiochemicalReaction$leftReference <- createLink(BiochemicalReaction$leftReference)
     BiochemicalReaction$rightReference <- createLink(BiochemicalReaction$rightReference)
   })
-  
+
   return(BiochemicalReaction)
 })
 
@@ -49,7 +47,7 @@ CatalysisReactions <- reactive({
     Catalysis$reference <- gsub("<|>","",Catalysis$reference)
     Catalysis$reference <- createLink(Catalysis$reference)
   })
-  
+
   return(Catalysis)
 })
 
@@ -63,7 +61,7 @@ ControlReactions <- reactive({
     Control$reference <- gsub("<|>","",Control$reference)
     Control$reference <- createLink(Control$reference)
   })
-  
+
   return(Control)
 })
 
@@ -81,7 +79,7 @@ TemplateReactions <- reactive({
     TemplateReaction$reference <-  gsub("<|>","",TemplateReaction$reference)
     TemplateReaction$reference <- createLink(TemplateReaction$reference)
   })
-  
+
   return(TemplateReaction)
 })
 
@@ -97,7 +95,7 @@ TemplateReactionRegulations <- reactive({
     TemplateReactionRegulation$controller <- gsub("<|>","",TemplateReactionRegulation$controller)
     TemplateReactionRegulation$controller <- createLink(TemplateReactionRegulation$controller)
   })
-  
+
   return(TemplateReactionRegulation)
 })
 
@@ -111,10 +109,10 @@ DegradationReactions <- reactive({
       Degradation$Degradation <- gsub("<|>","",Degradation$Degradation)
       Degradation$Degradation <- createLink(Degradation$Degradation)
   })
-  
+
   return(Degradation)
 })
-  
+
 ModulationReactions <- reactive({
   withProgress(message = 'Extracting information', value = 0, {
     URL <- getRowFromDf()
@@ -125,6 +123,6 @@ ModulationReactions <- reactive({
     Modulation$reference <- gsub("<|>","",Modulation$reference)
     Modulation$reference <- createLink(Modulation$reference)
   })
-  
+
   return(Modulation)
 })

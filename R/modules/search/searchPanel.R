@@ -1,6 +1,4 @@
-library(DT)
-
-search.panel <- 
+search.panel <-
   tabPanel("Search",
          fluidRow(
            column(3,
@@ -29,15 +27,16 @@ search.panel <-
                                                    "DrugBank" = "drugbank",
                                                    "INOH" = "inoh"),
                                        selected = c("kegg", "reactome", "panther", "inoh")),
-                    numericInput("numberOfResults", "No. of results:", 
+                    numericInput("numberOfResults", "No. of results:",
                                  value = 10),
-                    helpText("Minimum 0, maximum 100"),    
-                    
+                    helpText("Minimum 0, maximum 100"),
+
                     div(class="text-center", actionButton("searchButton", "Search", class="btn-primary"))
                   ),
                   wellPanel(
                     fileInput("file1", "Or upload your own OWL file:",
                               multiple = FALSE,
+                              placeholder = "  Select file",
                               accept = c(".owl")),
                     div(class="text-center", actionButton("uploadButton", "Upload", class="btn-primary"))
                   )

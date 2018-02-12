@@ -1,6 +1,3 @@
-library(shiny)
-library(shinyjs)
-
 # Load modules
 source('modules/search/searchPanel.R', local = TRUE)
 source('modules/user_manual/userManualPanel.R', local = TRUE)
@@ -11,7 +8,7 @@ source("modules/visualization/FinalParseSif.R", local = TRUE)
 graphJS <- scan("www/js/graph.js", what = 'character', sep = '\n')
 graphBinaryJS <- scan("www/js/binaryGraph.js", what = 'character', sep = '\n')
 
-app.ui <- 
+app.ui <-
   shinyUI(
     fluidPage(
       theme = "css/bootstrap.min.css",
@@ -24,8 +21,8 @@ app.ui <-
       tags$script("particlesJS.load('particles-js', 'js/particles.json', function() {
                   console.log('callback - particles.js config loaded');
                   });"),
-      tags$style(" #particles-js { 
-                 width: 100%; height: 100%; background-image: url(\"\"); 
+      tags$style(" #particles-js {
+                 width: 100%; height: 100%; background-image: url(\"\");
                  position: fixed; z-index: -10; top: 0; left: 0; }"),
       tags$div(id="particles-js"),
       # Scripts for Visualization module
@@ -33,13 +30,13 @@ app.ui <-
       useShinyjs(),
       extendShinyjs(text = graphJS),
       extendShinyjs(text = graphBinaryJS),
-      
+
       # Page
       navbarPage(
         div(
           img(
             src = "logo_small.png",
-            height = 24,
+            height = 30,
             width = "auto"
           )
         ),
