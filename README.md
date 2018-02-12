@@ -1,8 +1,5 @@
 <p align="center">
-  <br/>
   <img src=resources/logo_small.png alt="RPath">
-  <img src=resources/modulos-mermaid-diagram.png alt="RPath modules">
-  <br/>
 </p>
 
 # Rpath: A Web-App for Biologic Pathway Exploration
