@@ -10,7 +10,7 @@ graphBinaryJS <- scan("www/js/binaryGraph.js", what = 'character', sep = '\n')
 
 app.ui <-
   shinyUI(
-    fluidPage(
+    fluidPage(title = "RPath",
       theme = "css/bootstrap.min.css",
       # Bootstrap.js
       tags$script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"),
@@ -41,8 +41,8 @@ app.ui <-
           )
         ),
         search.panel,
-        visualization.panel,
         analysis.panel,
+        visualization.panel,
         user.panel
       )
     )

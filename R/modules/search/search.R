@@ -2,6 +2,7 @@ library(DT)
 library(plyr)
 library(paxtoolsr)
 
+# Auxiliar functions to prettify the output table
 createLink <- function(val) {
   sprintf('<a href="%s" target="_blank" class="btn btn-default">GO</a>', val)
 }
@@ -12,16 +13,22 @@ createImg <- function(val) {
   sprintf('<img src="img/search/%s" class="img-rounded" alt="%s"></img>', url_img, db)
 }
 
-getRowFromDf <- eventReactive(input$searchResults_rows_selected,{
-  strsplit(as.character(finalSearchResultsDf$uri[input$searchResults_rows_selected]), "\"")[[1]][2]
-})
+getRowFromDf <- function(){
+  if(length(input$searchResults_rows_selected) > 0){
+    return(strsplit(as.character(finalSearchResultsDf$uri[input$searchResults_rows_selected]), "\"")[[1]][2])
+  }
+}
 
-getResultsDf <- eventReactive(input$searchButton,{
-  term <- input$term 
+getResultsDf <- eventReactive(input$searchButton, {
+  shinyjs::addClass(selector = ".navbar li a[data-value=visTab]", class = "disabledTab")
+  shinyjs::addClass(selector = ".navbar li a[data-value=analysisTab]", class = "disabledTab")
+  shinyjs::hide("downloadOWL")
+
+  term <- input$term
   dataSources <- input$dataSources
   organism <- input$organism
   numberOfResults <- input$numberOfResults
-  
+
   # Validation
   if (term == ""){
     showNotification("No term provided. Executing example query...", type="error")
@@ -35,22 +42,22 @@ getResultsDf <- eventReactive(input$searchButton,{
     showNotification("No valid number of results range (1:100). Showing 10 results...", type="error")
     numberOfResults <- 10
   }
-  
+
   # Loading bar
   withProgress(message = 'Loading', value = 0, {
     incProgress(0.1, detail = paste("Searching on selected databases..."))
-    searchResults <- searchPc(q = term, 
-                              datasource = paste(dataSources, sep="&"), 
+    searchResults <- searchPc(q = term,
+                              datasource = paste(dataSources, sep="&"),
                               type = "Pathway", organism = organism, verbose = TRUE)
-    
+
     incProgress(0.5, detail = paste("Parsing results..."))
-    searchResultsDf <- ldply(xmlToList(searchResults), data.frame) 
-    
+    searchResultsDf <- ldply(xmlToList(searchResults), data.frame)
+
     incProgress(0.8, detail = paste("Simplifying results..."))
     searchResultsDf <- subset(searchResultsDf, .id=="searchHit") # we only keep searchHits (NOT .attrs)
-    headSearchResultsDf <- head(searchResultsDf,  numberOfResults) 
-    
-    # If we have searchHit>=1 then create links, images and 
+    headSearchResultsDf <- head(searchResultsDf,  numberOfResults)
+
+    # If we have searchHit>=1 then create links, images and
     # return a subset of the original dataframe
     if("uri" %in% colnames(headSearchResultsDf))
     {
@@ -58,10 +65,19 @@ getResultsDf <- eventReactive(input$searchButton,{
       headSearchResultsDf$dataSource <- createImg(headSearchResultsDf$dataSource)
       headSearchResultsDf <- headSearchResultsDf[, c("name", "dataSource", "numParticipants", "numProcesses", "size", "uri")]
     }
-    
+
     incProgress(1.0, detail = paste("Done!"))
     finalSearchResultsDf <<- headSearchResultsDf # global variable
   })
-  
+
+  if(!is.data.frame(finalSearchResultsDf)){
+    # Error in search; replace with empty dataframe
+    finalSearchResultsDf <- data.frame()
+  } else{
+    shinyjs::removeClass(selector = ".navbar li a[data-value=visTab]", class = "disabledTab")
+    shinyjs::removeClass(selector = ".navbar li a[data-value=analysisTab]", class = "disabledTab")
+    shinyjs::show("downloadOWL")
+  }
+
   return(finalSearchResultsDf)
 })

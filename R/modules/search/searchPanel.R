@@ -2,6 +2,7 @@ search.panel <-
   tabPanel("Search",
          fluidRow(
            column(3,
+                  span("Search box:"),
                   wellPanel(
                     textInput("term", "Term:",
                               placeholder = "name:gl?coly*"),
@@ -44,10 +45,10 @@ search.panel <-
            column(9,
                   span("Search results:"),
                   wellPanel(
-                    DT::dataTableOutput("searchResults")
+                    dataTableOutput("searchResults")
                   ),
-                  div(style="display:inline-block", actionButton("Plotme", "Select"), width=10),
-                  DT::dataTableOutput("Summary")
+                  downloadButton('downloadOWL', 'Download'),
+                  dataTableOutput("Summary")
            )
          )
   )

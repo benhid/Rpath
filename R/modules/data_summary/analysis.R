@@ -1,24 +1,45 @@
 source('modules/data_summary/queries.R', local = TRUE)
 
-GetOwl <- reactive({
-  URL <- getRowFromDf()
-  getPc(URL)
-})
-
-Sif <- reactive({
-  req(input$searchResults_rows_selected)
-
-  if (finalSearchResultsDf$numParticipants[input$searchResults_rows_selected]==0){
-    showNotification("The selected path is empty (no participants!), please select another one", type="error")
+getSIF <- function(){
+  if (finalSearchResultsDf$numParticipants[input$searchResults_rows_selected] == 0){
+    showNotification("The selected path is empty (no participant found!), please use another one", type="error")
     return(NULL)
   }
 
-  URI <- getRowFromDf()
+  URL <- getRowFromDf()
+
   withProgress(message = 'Extracting SIF', value = 0, {
     incProgress(0.1, detail = paste('Path selected...'))
-    sif <- getPc(URI,"BINARY_SIF")
+    sif <- getPc(URL, "BINARY_SIF")
+
     return(sif)
   })
+}
+
+extractSIF <- eventReactive(input$showSIFFButton, {
+  return(getSIF())
+})
+
+CustomQuery <- eventReactive(input$queryButton, {
+  withProgress(message = 'Extracting information', value = 0, {
+    URL <- getRowFromDf()
+    URL <- paste0('<',URL,'>')
+    CustomQx <- sprintf(input$customQuery, URL)
+
+    tryCatch({
+      CustomQx <- SPARQL(url=endpoint, CustomQx)$results
+      print(CustomQx)
+    }, error = function(e){
+      showNotification("Not a SPARQL statement", type = "error")
+    })
+  })
+
+  if(!is.data.frame(CustomQx)){
+    # Error in statement; replace with empty dataframe
+    CustomQx <- data.frame()
+  }
+
+  return(CustomQx)
 })
 
 BiochemicalReactions <- reactive({
