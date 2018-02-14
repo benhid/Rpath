@@ -2,7 +2,7 @@
   <img src=resources/logo_small.png alt="RPath">
 </p>
 
-# Rpath: A Web-App for Biologic Pathway Exploration
+# RPath: A Web-App for Biologic Pathway Exploration
 
 RPath is a web application for the end-to-end manipulation of biologic pathways. Its divided in three modules: built-in search engine via the [Pathway Commons](http://www.pathwaycommons.org/)' API, analysis techniques using SPARQL queries and graph visualization.
 
@@ -10,7 +10,9 @@ RPath is a web application for the end-to-end manipulation of biologic pathways.
 
 To download RPath just clone the Git repository hosted in GitHub:
 
+```sh
 $ git clone https://github.com/benhid/rpath.git
+```
 
 ## Prerequisites
 
