@@ -32,7 +32,9 @@ search.panel <-
                                  value = 10),
                     helpText("Minimum 0, maximum 100"),
 
-                    div(class="text-center", actionButton("searchButton", "Search", class="btn-primary"))
+                    div(class="text-center", 
+                        actionButton("searchButton", "Search", class="btn-primary"),
+                        actionButton("searchTopButton", "Search top pathways", class="btn-primary"))
                   ),
                   wellPanel(
                     fileInput("file1", "Or upload your own OWL file:",

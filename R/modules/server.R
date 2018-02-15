@@ -14,7 +14,7 @@ app.server <- shinyServer(function(input, output) {
       return(getResultsDf())
     }, options = list(pageLength = 10, searching = FALSE, lengthChange = FALSE), escape=FALSE, selection = 'single'
   )
-
+  
   # Data summarization module
   source('modules/data_summary/analysis.R', local = TRUE)
 
@@ -72,7 +72,8 @@ app.server <- shinyServer(function(input, output) {
   # Visualization module
   observeEvent(input$buttonGraph, {
     tryCatch({
-      sif <- toSif(getOwl())
+      owl <- getPc(getRowFromDf())
+      sif <- toSif(owl)
     }, error = function(e){
       showNotification("Sorry, your graph can not be displayed. The sif file is empty or can not be extracted correctly.",
                        type = "error")
@@ -82,22 +83,26 @@ app.server <- shinyServer(function(input, output) {
       insertUI(
         selector = "#graph",
         where = "afterEnd",
-        ui = tags$div(id="graph" ,class = "paintGraph")
+        ui = tags$div(id="graph", class = "paintGraph")
       )
+      
+      # Paint graph
       links <- parseSifToDataModel(sif)
       js$paintGraph(links)
+      
       showNotification("Graph displayed")
     }, warning = function(w) {
       warning-handler-code
     }, error = function(e) {
-      tryCatch({ js$paintBinaryGraph(sif)
+      tryCatch({
+        # Paint graph
+        js$paintBinaryGraph(sif)
+        
         showNotification("We continue working on the visualization of graphs.
                          The current graph is represented directly from the binary file.
                          We hope to show you the rendered graph as soon as possible. Thanks for using Rpath.", duration = 10,
-                         type = "warning")}
-        ,error=function(e){
-
-        })
+                         type = "warning")
+        } ,error=function(e){})
     })
   })
 
