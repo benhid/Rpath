@@ -15,15 +15,25 @@ createImg <- function(val) {
 
 getRowFromDf <- function(){
   if(length(input$searchResults_rows_selected) > 0){
+    print("Reading url")
     return(strsplit(as.character(finalSearchResultsDf$uri[input$searchResults_rows_selected]), "\"")[[1]][2])
+  }
+  else if(!is.null(input$owlFile)){
+    print("Reading file")
+
+    inFile <- input$owlFile
+
+    if (is.null(inFile)){
+      showNotification("Error parsing file")
+      return(NULL)
+    } else{
+      # todo Validate BIOPAX file
+      return(inFile)
+    }
   }
 }
 
 getResultsDf <- eventReactive(input$searchButton, {
-  shinyjs::addClass(selector = ".navbar li a[data-value=visTab]", class = "disabledTab")
-  shinyjs::addClass(selector = ".navbar li a[data-value=analysisTab]", class = "disabledTab")
-  shinyjs::hide("downloadOWL")
-
   term <- input$term
   dataSources <- input$dataSources
   organism <- input$organism
@@ -73,10 +83,6 @@ getResultsDf <- eventReactive(input$searchButton, {
   if(!is.data.frame(finalSearchResultsDf)){
     # Error in search; replace with empty dataframe
     finalSearchResultsDf <- data.frame()
-  } else{
-    shinyjs::removeClass(selector = ".navbar li a[data-value=visTab]", class = "disabledTab")
-    shinyjs::removeClass(selector = ".navbar li a[data-value=analysisTab]", class = "disabledTab")
-    shinyjs::show("downloadOWL")
   }
 
   return(finalSearchResultsDf)

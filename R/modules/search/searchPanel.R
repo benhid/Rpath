@@ -31,11 +31,10 @@ search.panel <-
                     numericInput("numberOfResults", "No. of results:",
                                  value = 10),
                     helpText("Minimum 0, maximum 100"),
-
                     div(class="text-center", actionButton("searchButton", "Search", class="btn-primary"))
                   ),
                   wellPanel(
-                    fileInput("file1", "Or upload your own OWL file:",
+                    fileInput("owlFile", "Or upload your own OWL file:",
                               multiple = FALSE,
                               placeholder = "  Select file",
                               accept = c(".owl")),
@@ -45,7 +44,8 @@ search.panel <-
            column(9,
                   span("Search results:"),
                   wellPanel(
-                    dataTableOutput("searchResults")
+                    dataTableOutput("searchResults"),
+                    tableOutput('contents')
                   ),
                   downloadButton('downloadOWL', 'Download'),
                   dataTableOutput("Summary")

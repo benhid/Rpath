@@ -2,9 +2,18 @@ app.server <- shinyServer(function(input, output) {
 
   observe({
     # Hide at start-up
-    shinyjs::addClass(selector = ".navbar li a[data-value=visTab]", class = "disabledTab")
-    shinyjs::addClass(selector = ".navbar li a[data-value=analysisTab]", class = "disabledTab")
-    shinyjs::hide("downloadOWL")
+    if(length(input$searchResults_rows_selected) > 0){
+      shinyjs::removeClass(selector = ".navbar li a[data-value=visTab]", class = "disabledTab")
+      shinyjs::removeClass(selector = ".navbar li a[data-value=analysisTab]", class = "disabledTab")
+      shinyjs::show("downloadOWL")
+    } else if (!is.null(input$owlFile)){
+      shinyjs::removeClass(selector = ".navbar li a[data-value=visTab]", class = "disabledTab")
+      shinyjs::removeClass(selector = ".navbar li a[data-value=analysisTab]", class = "disabledTab")
+    } else{
+      shinyjs::addClass(selector = ".navbar li a[data-value=visTab]", class = "disabledTab")
+      shinyjs::addClass(selector = ".navbar li a[data-value=analysisTab]", class = "disabledTab")
+      shinyjs::hide("downloadOWL")
+    }
   })
 
   # Search module
@@ -13,6 +22,19 @@ app.server <- shinyServer(function(input, output) {
   output$searchResults <-  renderDataTable({
       return(getResultsDf())
     }, options = list(pageLength = 10, searching = FALSE, lengthChange = FALSE), escape=FALSE, selection = 'single'
+  )
+
+  output$downloadOWL <- downloadHandler(
+    filename = function() {
+      paste('data-', Sys.Date(), '.owl', sep='')
+    },
+    content = function(file) {
+      showNotification("Downloading file...")
+      URL <- getRowFromDf()
+      owl <- getPc(URL)
+
+      saveXML(owl, file)
+    }
   )
 
   # Data summarization module
@@ -47,21 +69,8 @@ app.server <- shinyServer(function(input, output) {
   output$customQueryDf <- renderDataTable(datatable({
       data <- CustomQuery()
     }, options = list(pageLength = 10, searching = FALSE, lengthChange = FALSE),
-    escape=FALSE, selection = 'single'
+    selection = 'single'
   ))
-
-  output$downloadOWL <- downloadHandler(
-    filename = function() {
-      paste('data-', Sys.Date(), '.owl', sep='')
-    },
-    content = function(file) {
-      showNotification("Downloading file...")
-      URL <- getRowFromDf()
-      owl <- getPc(URL)
-
-      saveXML(owl, file)
-    }
-  )
 
   output$pathwaySummary <- renderDataTable({
       return(extractSIF())
@@ -72,7 +81,12 @@ app.server <- shinyServer(function(input, output) {
   # Visualization module
   observeEvent(input$buttonGraph, {
     tryCatch({
-      sif <- toSif(getOwl())
+      # Extract SIF from OWL
+      owl <- getRowFromDf()
+      print(owl)
+
+      # Convert a BioPAX OWL file to a binary SIF file
+      sif <- toSif(owl)
     }, error = function(e){
       showNotification("Sorry, your graph can not be displayed. The sif file is empty or can not be extracted correctly.",
                        type = "error")
