@@ -75,10 +75,19 @@ parseSifInteractions <- function(sifx){
   length(protein.catalysis) <- length(Proteins)
   length(protein.imput) <- length(Proteins)
   length(protein.output) <- length(Proteins)
-  counterPhospho <- 1
-  counterControlState <- 1
+  counterExpresion <- 1
   #Phosphorylation
   proteins.phosphorylation <- c()
+  counterPhospho <- 1
+  #state-change
+  proteins.state <- c()
+  counterControlState <-1
+  #control-expresion-of
+  proteins.expresion <- c()
+  counterExpresion <- 1
+  #chemical-affects
+  counterChemical <- 1
+  proteins.chemical <- c()
   
   for(i in c(1:length(interactions$INTERACTION_TYPE))){
     ParticipantA <- interactions$PARTICIPANT_A[i]
@@ -116,7 +125,6 @@ parseSifInteractions <- function(sifx){
              if(neighborBoolean == F){
                if(any(protein.catalysis == ParticipantB)){
                  pos <- grep(ParticipantB, protein.catalysis)
-                 print(pos)
                  protein.imput[[pos]] <- c(protein.imput[[pos]],ParticipantA)
                }else {
                  protein.catalysis <- c(protein.catalysis,ParticipantB)
@@ -155,6 +163,46 @@ parseSifInteractions <- function(sifx){
              target <- c(target, paste(ParticipantB,"_STATE_CHANGE"))
              typeLink <- c(typeLink, "outputLink")
              counterControlState <- counterControlState + 1
+             proteins.state <- c(proteins.state,ParticipantB)
+           },
+           "controls-expression-of" = {
+             
+             controlExpresion <- paste("control_expression", counterExpresion)
+             source <- c(source, ParticipantA)
+             target <- c(target, controlExpresion)
+             typeLink <- c(typeLink, "controlOf")
+             
+             source <- c(source, controlExpresion)
+             target <- c(target, ParticipantB)
+             typeLink <- c(typeLink, "outputLink")
+             counterExpresion = counterExpresion + 1
+             proteins.expresion <- c(proteins.expresion, ParticipantB)
+             },
+           "interacts-with" = {
+             source <- c(source, ParticipantA)
+             target <- c(target, ParticipantB)
+             typeLink <- c(typeLink, "molecule_interaction")
+           },
+           "in-complex-with" = {
+             source <- c(source, ParticipantA)
+             target <- c(target, ParticipantB)
+             typeLink <- c(typeLink, "in_complexLink")}
+           ,
+           "chemical-affects" ={
+             controlChemicalAffects <- paste("control_chemical", counterChemical)
+             source <- c(source, ParticipantA)
+             target <- c(target, controlChemicalAffects)
+             typeLink <- c(typeLink, "controlOf")
+             
+             source<- c(source, ParticipantB)
+             target <- c(target, controlChemicalAffects)
+             typeLink <- c(typeLink, "imputLink")
+             
+             source <- c(source, controlChemicalAffects)
+             target <- c(target, paste(ParticipantB,"_chem_Affects"))
+             typeLink <- c(typeLink, "outputLink")
+             proteins.chemical <- c(proteins.chemical, ParticipantB)
+             counterChemical = counterChemical + 1 
            })
   }
 }
