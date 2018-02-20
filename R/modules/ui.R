@@ -3,10 +3,6 @@ source('modules/search/searchPanel.R', local = TRUE)
 source('modules/user_manual/userManualPanel.R', local = TRUE)
 source('modules/data_summary/analysisPanel.R', local = TRUE)
 source('modules/visualization/visualizationPanel.R', local = TRUE)
-source("modules/visualization/FinalParseSif.R", local = TRUE)
-
-graphJS <- scan("www/js/graph.js", what = 'character', sep = '\n')
-graphBinaryJS <- scan("www/js/binaryGraph.js", what = 'character', sep = '\n')
 
 app.ui <-
   shinyUI(
@@ -28,8 +24,6 @@ app.ui <-
       # Scripts for Visualization module
       tags$head( includeScript("https://d3js.org/d3.v3.min.js") ),
       useShinyjs(),
-      extendShinyjs(text = graphJS),
-      extendShinyjs(text = graphBinaryJS),
 
       # Page
       navbarPage(

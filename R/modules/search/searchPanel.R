@@ -20,26 +20,24 @@ search.panel <-
                     helpText("e.g. \"homo sapiens\", \"9606\""),
                     checkboxGroupInput("dataSources", "Data source:",
                                        choices = c("KEGG" = "kegg",
-                                                   "WikiPathways" = "wp",
+                                                   #"WikiPathways" = "wp",
                                                    "Reactome" = "reactome",
                                                    "Panther" = "panther",
-                                                   "SMPDB" = "smpdb",
-                                                   "MSigDB" = "msigdb",
-                                                   "DrugBank" = "drugbank",
                                                    "INOH" = "inoh"),
                                        selected = c("kegg", "reactome", "panther", "inoh")),
                     numericInput("numberOfResults", "No. of results:",
                                  value = 10),
                     helpText("Minimum 0, maximum 100"),
                     div(class="text-center", actionButton("searchButton", "Search", class="btn-primary"))
-                  ),
-                  wellPanel(
-                    fileInput("owlFile", "Or upload your own OWL file:",
-                              multiple = FALSE,
-                              placeholder = "  Select file",
-                              accept = c(".owl")),
-                    div(class="text-center", actionButton("uploadButton", "Upload", class="btn-primary"))
                   )
+                  #,
+                  #wellPanel(
+                  #  fileInput("owlFile", "Or upload your own OWL file:",
+                  #            multiple = FALSE,
+                  #            placeholder = "  Select file",
+                  #            accept = c(".owl")),
+                  #  div(class="text-center", actionButton("uploadButton", "Upload", class="btn-primary"))
+                  #)
            ),
            column(9,
                   span("Search results:"),

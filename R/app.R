@@ -10,8 +10,8 @@ ipak <- function(pkg){
 
 ipak(c('shiny', 'shinyjs', 'DT'))
 ipak(c('paxtoolsr')) # Search module
-ipak(c('SPARQL', 'stringr')) # Analysis module
-ipak(c('V8')) # Visualization module
+ipak(c('SPARQL', 'stringr', 'XML')) # Analysis module
+ipak(c('igraph', 'visNetwork')) # Visualization module
 
 # Load modules
 source('modules/ui.R', local = TRUE)

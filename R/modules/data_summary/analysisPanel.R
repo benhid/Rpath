@@ -5,7 +5,8 @@ analysis.panel <-
                   tabsetPanel(type = "tabs",
                               tabPanel("Summary",
                                        wellPanel(
-                                         actionButton("showSIFFButton", "Show SIF", class="btn-primary")
+                                         actionButton("showSIFFButton", "Show SIF", class="btn-primary"),
+                                         downloadButton('downloadSIFF', 'Download SIF')
                                        ),
                                        wellPanel(
                                          dataTableOutput("pathwaySummary")

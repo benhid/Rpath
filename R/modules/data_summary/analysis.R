@@ -1,16 +1,14 @@
 source('modules/data_summary/queries.R', local = TRUE)
 
 getSIF <- function(){
-  if (finalSearchResultsDf$numParticipants[input$searchResults_rows_selected] == 0){
-    showNotification("The selected path is empty (no participant found!), please use another one", type="error")
-    return(NULL)
-  }
-
-  URL <- getRowFromDf()
-
   withProgress(message = 'Extracting SIF', value = 0, {
     incProgress(0.1, detail = paste('Path selected...'))
-    sif <- getPc(URL, "BINARY_SIF")
+
+    tryCatch({
+      URL <- getRowFromDf()
+      sif <- getPc(URL, "BINARY_SIF")
+    }, error = function(e){
+    })
 
     return(sif)
   })
