@@ -4,7 +4,7 @@ library(plyr)
 library(paxtoolsr)
 library(SPARQL)
 library(stringr)
-
+library(rcytoscapejs)
 # Proxy settings
 #Sys.setenv(http_proxy="http://proxy.wifi.uma.es:3128/")
 

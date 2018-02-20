@@ -3,6 +3,7 @@ library(DT)
 library(shinyjs)
 library(shinydashboard)
 library(rlist)
+library(V8)
 source("FinalParseSif.R")
 jsCode1 <- readLines("www/graph.js",180)
 jsCode2 <- readLines("www/js/binaryGraph.js", 95)
@@ -181,6 +182,8 @@ shinyUI(
                                       p("For not see the graph, we selec the", em("DELETE GRAPH"), "button."),
                                       p("If the graph can't play display, a message will appear:"),
                                       img(src="graph_error.PNG", class="img-responsive center-block manualR"),
+                                      p("Before the failure of some element that can not be processed as standard of the sif format, 
+                                        it will paint a graph with binary relations of the sif."),
                                       h4("Type of relations"),
                                       tags$table(
                                         tags$tr(
