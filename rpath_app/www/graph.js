@@ -2,7 +2,6 @@ var nodes = {};
 
 shinyjs.paintGraph = function(sifParse){
  
- 
   var nodes = []
 	var links = [];
   	var nodeName = [];
@@ -21,11 +20,10 @@ shinyjs.paintGraph = function(sifParse){
     	link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
     	link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
   	});
-
   	var width = 1500,
 		height = 700,
 		radius = 6;
-	  console.log(nodes);
+
   	var force = d3.layout.force()
 		.nodes(d3.values(nodes))
 		.links(links)
@@ -68,19 +66,21 @@ shinyjs.paintGraph = function(sifParse){
  	var circleSet = []
   	var circleSMSet = []
 	  
-	force.nodes().forEach(function(d){
-	    i = nodeName.indexOf(d.name);
+	force.nodes().forEach(function(n){
+	    i = nodeName.indexOf(n.name);
 	    if(nodeType[i]=="NProt"){
-	      circleSet.push(d);
+	      circleSet.push(n);
 	    }else if(nodeType[i]=="control"){
-	      rectSet.push(d);
+	      rectSet.push(n);
 	    }else if(nodeType[i]=="NSM"){
-	      circleSMSet.push(d);
+	      circleSMSet.push(n);
 	    }else {
-	    	circleSet.push(d);
+	    	circleSet.push(n);
 	    }
 	});
-	  
+	
+	console.log(rectSet)
+
 	var control = svg.append("g").selectAll("rect")
 	  	.data(rectSet)
 		.enter().append("rect")
@@ -96,8 +96,9 @@ shinyjs.paintGraph = function(sifParse){
 	  		return "control " + type})
 	  	.on("dblclick", dblclick)
 	  	.call(force.drag);
-		
-	var circleSM = svg.append("g").selectAll("circle")
+
+	
+		var circleSM = svg.append("g").selectAll("circle")
 	  	.data(circleSMSet)
   		.enter().append("circle")
     	.attr("r", radius)
@@ -106,21 +107,26 @@ shinyjs.paintGraph = function(sifParse){
     	.on("mouseout", mouseout)
     	.on("dblclick", dblclick)
     	.call(force.drag);
+	
+	
 	  
 	var circle = svg.append("g").selectAll("circle")
 	  	.data(circleSet)
   		.enter().append("circle")
     	.attr("r", radius)
     	.attr("class",function(d){
-    		var styleType = "";
-    		if (d.name.includes("_P")) {
-    			styleType="phosphorylation";
-    		}else if(d.name.includes("_chem_Affects")){
-    			styleType="chem_Affects"
-    		}else if(d.name.includes("_STATE_CHANGE")){
-    			styleType="state_change"
+    		if(d.name != null){
+	    		var styleType = "";
+	    		if (d.name.includes("_P")) {
+	    			styleType="phosphorylation";
+	    		}else if(d.name.includes("_chem_Affects")){
+	    			styleType="chem_Affects"
+	    		}else if(d.name.includes("_STATE_CHANGE")){
+	    			styleType="state_change"
+	    		}
+	    		return "circle " + styleType;
     		}
-    		return "circle " + styleType;
+    		
     	})
     	.on("mouseover", mouseover)
     	.on("mouseout", mouseout)
@@ -133,13 +139,16 @@ shinyjs.paintGraph = function(sifParse){
 	  	.attr("x", 8)
 	  	.attr("y", ".31em")
 	  	.text(function(d) { 
+	  		if(d.name != null){
+
 	    	var name = d.name;
+
 		    if(d.name.includes("control")){
     	  		name="";
 		    }else if(d.name.includes("_")){
 		    	name=d.name.split("_")[0];
 		    }
-		    return name; });
+		    return name; }});
 	   
   	function tick() {
 		path.attr("x1", function(d) { return d.source.x; })

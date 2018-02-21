@@ -324,7 +324,8 @@ shinyServer(function(input, output) {
   #Visualization
   observeEvent(input$buttonGraph, {
     tryCatch({
-      sif<-toSif(GetOwl())
+      
+      sif<-toSifnx(GetOwl())
     },error = function(e){
       showNotification("Sorry, your graph can not be displayed. The sif file is empty or can not be extracted correctly.",
                        type = "error")
@@ -336,7 +337,7 @@ shinyServer(function(input, output) {
         where = "afterEnd",
         ui = tags$div(id="graph" ,class = "paintGraph")
       )
-      links<-parseSifToDataModel(sif)
+      links<-parseSifInteractions(sif)
       js$paintGraph(links)
       showNotification("Graph displayed")
     }, warning = function(w) {

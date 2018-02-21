@@ -4,13 +4,13 @@ library(shinyjs)
 library(shinydashboard)
 library(rlist)
 library(V8)
-source("FinalParseSif.R")
-jsCode1 <- readLines("www/graph.js",180)
+source("parseSifIterations.R")
+jsCode1 <- readLines("www/graph.js",189)
 jsCode2 <- readLines("www/js/binaryGraph.js", 95)
 code1 = ""
 code2 = ""
 
-for(i in 1:180){
+for(i in 1:189){
   code1 = paste(code1,jsCode1[i], sep= '\n')
 }
 for(i in 1:95){

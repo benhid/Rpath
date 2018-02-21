@@ -3,10 +3,11 @@ library("rlist")
 parseSifInteractions <- function(sifx){
   interactions <- sifx$edges
   components <- sifx$nodes
-  Links <- data.frame()
+  Links <- c()
   source <- c()
   target <- c()
-  typeLink <- c()
+  tipoLink <- c()
+  controls <- c()
 
   # Node type in set
   Proteins <- c() 
@@ -96,14 +97,18 @@ parseSifInteractions <- function(sifx){
            "controls-production-of" ={
              neighborBoolean <- F
              for (j in c(1:length(neighbor_of))){
-               if(any(neighbor_of[[j]]==ParticipantA)){
-                 neighborImput[[j]] <- c(neighborImput[[j]], ParticipantB) 
-                 neighborBoolean <- T
+               if(length(neighbor_of)>0){
+                 if(any(neighbor_of[[j]]==ParticipantA)){
+                   neighborImput[[j]] <- c(neighborImput[[j]], ParticipantB) 
+                   neighborBoolean <- T
+                 }
                }
+               
              }
              if(neighborBoolean == F){
                if(any(protein.catalysis == ParticipantA)){
-                 pos <- grep(ParticipantA, protein.catalysis)
+                 poset <- grep(ParticipantA, protein.catalysis)
+                 pos <- poset[1]
                  protein.output[[pos]] <- c(protein.output[[pos]],ParticipantB)
                }else {
                  protein.catalysis <- c(protein.catalysis,ParticipantA)
@@ -116,15 +121,19 @@ parseSifInteractions <- function(sifx){
            "consumption-controlled-by" = {
              neighborBoolean <- F
              for (j in c(1:length(neighbor_of))){
-               if(any(neighbor_of[[j]]==ParticipantB)){
-                 neighborOutput[[j]] <- c(neighborOutput[[j]], ParticipantA) 
-                 neighborBoolean <- T
+               if(length(neighbor_of)>0){
+                 if(any(neighbor_of[[j]]==ParticipantB)){
+                   neighborOutput[[j]] <- c(neighborOutput[[j]], ParticipantA) 
+                   neighborBoolean <- T
+                 }
                }
+               
              }
              
              if(neighborBoolean == F){
                if(any(protein.catalysis == ParticipantB)){
-                 pos <- grep(ParticipantB, protein.catalysis)
+                 poset <- grep(ParticipantB, protein.catalysis)
+                 pos<-poset[1]
                  protein.imput[[pos]] <- c(protein.imput[[pos]],ParticipantA)
                }else {
                  protein.catalysis <- c(protein.catalysis,ParticipantB)
@@ -137,72 +146,160 @@ parseSifInteractions <- function(sifx){
              controlPhospho<-paste("phospho_control", counterPhospho)
              source <- c(source, ParticipantB)
              target <- c(target, controlPhospho)
-             typeLink <- c(typeLink, "imputLink")
+             tipoLink <- c(tipoLink, "imputLink")
              #añadimos enlace proteinaControl->contorl
              source <- c(source, ParticipantA)
              target <- c(target, controlPhospho)
-             typeLink <- c(typeLink, "controlOf")
+             tipoLink <- c(tipoLink, "controlOf")
              #añadimos enlace control->proteinaPhospho
              source <- c(source, controlPhospho)
              target <- c(target, paste(ParticipantB,"_P"))
-             typeLink <- c(typeLink, "outputLink")
+             tipoLink <- c(tipoLink, "outputLink")
              counterPhospho <- counterPhospho +1
-             proteins.phosphorylation <- c(proteins.phosphorylation, ParticipantB)
+             controls <- c(controls, controlPhospho)
            },
            "controls-state-change-of" = {
              controlState <- paste("controlState",counterControlState)
              source <- c(source, ParticipantB)
              target <- c(target, controlState)
-             typeLink <- c(typeLink, "imputLink")
+             tipoLink <- c(tipoLink, "imputLink")
              #añadimos el enlace proteinaControl->control
              source <- c(source, ParticipantA)
              target <- c(target, controlState)
-             typeLink <- c(typeLink, "controlOf")
+             tipoLink <- c(tipoLink, "controlOf")
              #añadimos el enlace control->proteina final
              source <- c(source, controlState)
              target <- c(target, paste(ParticipantB,"_STATE_CHANGE"))
-             typeLink <- c(typeLink, "outputLink")
+             tipoLink <- c(tipoLink, "outputLink")
              counterControlState <- counterControlState + 1
-             proteins.state <- c(proteins.state,ParticipantB)
+             controls <- c(controls,controlState)
            },
            "controls-expression-of" = {
              
              controlExpresion <- paste("control_expression", counterExpresion)
              source <- c(source, ParticipantA)
              target <- c(target, controlExpresion)
-             typeLink <- c(typeLink, "controlOf")
+             tipoLink <- c(tipoLink, "controlOf")
              
              source <- c(source, controlExpresion)
              target <- c(target, ParticipantB)
-             typeLink <- c(typeLink, "outputLink")
+             tipoLink <- c(tipoLink, "outputLink")
              counterExpresion = counterExpresion + 1
-             proteins.expresion <- c(proteins.expresion, ParticipantB)
+             controls <- c(controls, controlExpresion)
              },
            "interacts-with" = {
              source <- c(source, ParticipantA)
              target <- c(target, ParticipantB)
-             typeLink <- c(typeLink, "molecule_interaction")
+             tipoLink <- c(tipoLink, "molecule_interaction")
            },
            "in-complex-with" = {
              source <- c(source, ParticipantA)
              target <- c(target, ParticipantB)
-             typeLink <- c(typeLink, "in_complexLink")}
+             tipoLink <- c(tipoLink, "in_complexLink")}
            ,
            "chemical-affects" ={
              controlChemicalAffects <- paste("control_chemical", counterChemical)
              source <- c(source, ParticipantA)
              target <- c(target, controlChemicalAffects)
-             typeLink <- c(typeLink, "controlOf")
+             tipoLink <- c(tipoLink, "controlOf")
              
              source<- c(source, ParticipantB)
              target <- c(target, controlChemicalAffects)
-             typeLink <- c(typeLink, "imputLink")
+             tipoLink <- c(tipoLink, "imputLink")
              
              source <- c(source, controlChemicalAffects)
              target <- c(target, paste(ParticipantB,"_chem_Affects"))
-             typeLink <- c(typeLink, "outputLink")
+             tipoLink <- c(tipoLink, "outputLink")
              proteins.chemical <- c(proteins.chemical, ParticipantB)
              counterChemical = counterChemical + 1 
+             controls<- c(controls, controlChemicalAffects)
            })
   }
+  protein.imput <- list.clean(protein.imput, fun = is.null, recursive = T)
+  protein.output <- list.clean(protein.output, fun = is.null, recursive = T)
+  
+  counterCatalysis <- 1
+  
+  for (i in c(1:length(protein.catalysis))){
+    imput.sm <- protein.imput[[i]]
+    out <- F
+    if(length(protein.output)>=i){
+      out <- T
+      output.sm <- protein.output[[i]]
+    }
+    
+    for(j in c(1:length(imput.sm))){
+      control <- paste("control", counterCatalysis)
+      
+      source <- c(source, imput.sm[j])
+      target <- c(target, control)
+      tipoLink <- c(tipoLink, "imputLink")
+      if(out){
+        source <- c(source, control)
+        target <- c(target, output.sm[j])
+        tipoLink <- c(tipoLink, "outputLink")
+      }
+      
+      source <- c(source, protein.catalysis[i])
+      target <- c(target, control)
+      tipoLink <- c(tipoLink, "controlOf")
+      
+    }
+    controls <- c(controls,control)
+    counterCatalysis <- counterCatalysis + 1
+  }
+  
+  if(length(neighbor_of)>1){
+    for (k in c(1:length(neighbor_of) )){
+      sn <- neighbor_of[[k]]
+      for (i in c(1:length(sn))){
+        imput.sm <- neighborImput[[k]]
+        output.sm <- neighborOutput[[k]]
+        control <- paste("control", counterCatalysis)
+        for(j in c(1:length(imput.sm))){
+          
+          
+          source <- c(source, imput.sm[j])
+          target <- c(target, control)
+          tipoLink <- c(tipoLink, "imputLink")
+          
+          source <- c(source, control)
+          target <- c(target, output.sm[j])
+          tipoLink <- c(tipoLink, "outputLink")
+          
+          source <- c(source, sn[i])
+          target <- c(target, control)
+          tipoLink <- c(tipoLink, "controlOf")
+        }
+      }
+      controls <- c(controls, control)
+      counterCatalysis <- counterCatalysis + 1
+    }
+    
+  }
+  
+  Links <- data.frame(source, tipoLink, target)
+  
+  FinalNodes <- c()
+  
+  nodos <-c()
+  tipoNodo <- c()
+  for(p in Proteins){
+    nodos<-c(nodos,p)
+    tipoNodo <-c(tipoNodo,"NProt")
+  }
+  if(length(SmallMolecules)>1){
+    for(sm in SmallMolecules){
+      nodos <- c(nodos,sm)
+      tipoNodo <- c(tipoNodo, "NSM")
+    }
+  }
+  print(controls)
+  for(c in controls){
+    nodos <- c(nodos,c)
+    tipoNodo <- c(tipoNodo, "control")
+  }
+  FinalNodes <- data.frame(nodos, tipoNodo)
+  
+  return(c(Links,FinalNodes))
 }
