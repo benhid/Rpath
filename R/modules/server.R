@@ -111,22 +111,43 @@ app.server <- shinyServer(function(input, output) {
   # Visualization module
   output$binaryGraph <- renderVisNetwork({
     tryCatch({
-      showNotification("Loading...")
+      withProgress(message = 'Loading', value = 0, {
+        incProgress(0.1, detail = paste("Getting binary SIF"))
 
-      URL <- getRowFromDf()
-      sif <- getPc(URL, "BINARY_SIF")
-      g <- loadSifInIgraph(sif, directed = TRUE)
+        URL <- getRowFromDf()
+        owl <- getPc(URL)
 
-      showNotification(paste("Clustering coefficient:", transitivity(g)), type = "message", duration = 15)
-      showNotification(paste("Network density:", graph.density(g)), type = "message", duration = 15)
-      showNotification(paste("Network diameter:", diameter(g)), type = "message", duration = 15)
+        incProgress(0.5, detail = paste("Parsing..."))
+
+        edges <- toSif(owl)
+        colnames(edges) <- c("from", "title", "to")
+
+        incProgress(0.8, detail = paste("Parsing..."))
+
+        sifnx <- toSifnx(owl)
+        nodes <- sifnx$nodes[, 1:2]
+        nodes$id <- nodes$PARTICIPANT
+        colnames(nodes) <- c("label", "group", "id")
+      })
+
+      # Get summary
+      #g <- loadSifInIgraph(edges, directed = TRUE)
+      #showNotification(paste("Clustering coefficient:", transitivity(g)), type = "message", duration = 15)
+      #showNotification(paste("Network density:", graph.density(g)), type = "message", duration = 15)
+      #showNotification(paste("Network diameter:", diameter(g)), type = "message", duration = 15)
     }, error = function(e){
-      showNotification("Sorry, your graph can not be displayed. The sif file is empty or can not be extracted correctly.",
+      print(e)
+      showNotification("Sorry, your graph can not be displayed. The SIF file is empty or can not be extracted correctly.",
                        type = "error")
     })
 
-    graph <- visIgraph(g)
-    visOptions(graph, highlightNearest = TRUE, nodesIdSelection = TRUE)
+    visNetwork(nodes, edges, width = "100%", directed = TRUE) %>%
+      visEdges(arrows="to", smooth="false") %>%
+      visGroups(groupname = "SmallMoleculeReference", shape = "square") %>%
+      visGroups(groupname = "ProteinReference", shape = "dot") %>%
+      visLayout(randomSeed = 12) %>%
+      visPhysics(enabled=FALSE) %>%
+      visOptions(clickToUse = TRUE, nodesIdSelection = TRUE, highlightNearest = list(enabled = T, degree = 1, hover = T))
   })
 
 })

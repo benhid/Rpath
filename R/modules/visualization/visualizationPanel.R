@@ -7,7 +7,7 @@ visualization.panel <-
                                 #      opacity: 0.65; zoom: 0.9; transition: opacity 500ms 1s;", fixed = TRUE,
                                 #              draggable = TRUE, top = 80, left = "auto", right = 20, bottom = "auto",
                                 #              width = 330, height = "auto",
-                                #              sliderInput("deg", "Degree of depth:",
+                                #              sliderInput("binaryDegree", "Degree of depth:",
                                 #                          min = 1, max = 20, value = 4
                                 #              )
                                 #),
