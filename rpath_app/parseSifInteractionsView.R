@@ -322,7 +322,24 @@ parseSifInteractionsVisNetwork <- function(sifx){
     tipoNodo <- c(tipoNodo, "control")
   }
   
+  for(ph in proteins.phosphorylation){
+    nodos <- c(nodos,ph)
+    tipoNodo <- c(tipoNodo, "phospho")
+  }
   
+  for(pc in proteins.chemical){
+    nodos <- c(nodos,pc)
+    tipoNodo <- c(tipoNodo, "chemical")
+  }
+  
+  for(ps in proteins.state){
+    nodos <- c(nodos,ps)
+    tipoNodo <- c(tipoNodo, "state")
+  }
+  for(pe in proteins.expresion){
+    nodos <- c(nodos,pe)
+    tipoNodo <- c(tipoNodo, "NProt")
+  }
   
   FinalNodes <- data.frame(nodos, tipoNodo)
   
