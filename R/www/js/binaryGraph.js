@@ -1,6 +1,5 @@
 var links = [];
 
-
 var parseSif = function(sif){
   for(i = 0; i<sif[0].PARTICIPANT_A.length; i++){
     link = {source: sif[0].PARTICIPANT_A[i], target: sif[0].PARTICIPANT_B[i], type: sif[0].INTERACTION_TYPE[i]}

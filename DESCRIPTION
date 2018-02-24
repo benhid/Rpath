@@ -1,0 +1,21 @@
+Package: RPath
+Title: A Web-App for Biologic Pathway Exploration
+Version: 0.1.0
+Depends: R (>= 3.4.2)
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Authors@R: c(
+    person("Antonio", "Benítez", email = "antonio.benitez@lcc.uma.es", role = "aut"),
+    person("Daniel", "Torres", email = "dantorram@uma.es", role = "aut"),
+    person("César", "Lobato", email = "ceslobfer95@uma.es", role = "aut"),
+    person("Maria José", "Muñoz", email = "marmungon@uma.es", role = "aut"))
+Imports:
+    shiny (>= 1.0.5),
+    shinyjs (>= 0.9.1),
+    DT (>= 0.2),
+    paxtoolsr (>= 1.10.0),
+    stringr (>= 1.2.0),
+    plyr (>= 1.8.4),
+    V8 (>= 1.5),
+    SPARQL (>= 1.16)

@@ -1,8 +1,6 @@
 var nodes = {};
 
 shinyjs.paintGraph = function(sifParse){
- 
- 
   var nodes = []
 	var links = [];
   	var nodeName = [];
