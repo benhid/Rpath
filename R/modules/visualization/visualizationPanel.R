@@ -14,7 +14,10 @@ visualization.panel <-
                                 wellPanel(
                                   visNetworkOutput("binaryGraph", height = "600px")
                                 )),
-                       tabPanel("Extended graph")
+                       tabPanel("Extended graph",
+                                wellPanel(
+                                  visNetworkOutput("extendedGraph", height = "600px")
+                                ))
 
            )
   )
