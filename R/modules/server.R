@@ -147,7 +147,7 @@ app.server <- shinyServer(function(input, output) {
       visGroups(groupname = "ProteinReference", shape = "dot") %>%
       visLayout(randomSeed = 12) %>%
       visPhysics(enabled=FALSE) %>%
-      visOptions(clickToUse = TRUE, nodesIdSelection = TRUE, highlightNearest = list(enabled = T, degree = 1, hover = T))
+      visOptions(nodesIdSelection = TRUE, highlightNearest = list(enabled = T, degree = 1, hover = T))
   })
 
 })
