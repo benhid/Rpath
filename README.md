@@ -20,4 +20,10 @@ $ git clone https://github.com/benhid/rpath.git
 
 ## Usage
 
-To start up the app, go to the `R` folder and run the `app.R` file.
+To start up the app download the source code, then go to the `R` folder and run the `app.R` file.
+
+Or by just running one command:
+
+```R
+shiny::runGitHub("RPath", "your-username", subdir = "R/")
+```
