@@ -1,4 +1,11 @@
-endpoint <- "http://rdf.pathwaycommons.org/sparql/"
+query.custom <-
+  'SELECT ?name, ?organism WHERE {
+ %s rdf:type bp:Pathway .
+ ?pathway bp:pathwayComponent ?c .
+ ?pathway bp:organism ?organism .
+ ?c bp:name ?name .
+ ?c rdf:type bp:BiochemicalReaction
+} LIMIT 20'
 
 query.controlreactions <-
   'select  ?nameController ?reference  ?nameControlled where {\n

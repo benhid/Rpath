@@ -23,13 +23,11 @@ CustomQuery <- eventReactive(input$queryButton, {
     URL <- getRowFromDf()
     URL <- paste0('<',URL,'>')
 
-    print(URL)
-
     tryCatch({
       CustomQx <- sprintf(input$customQuery, URL)
-      CustomQx <- SPARQL(url=endpoint, CustomQx)$results
+      CustomQx <- SPARQL(url=input$customEndpoint, CustomQx)$results
     }, error = function(e){
-      showNotification("Not a SPARQL statement", type = "error")
+      showNotification("Not a SPARQL statement or endpoint not valid.", type = "error")
     })
   })
 
