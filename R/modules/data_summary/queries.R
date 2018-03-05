@@ -1,3 +1,5 @@
+pw.endpoint <- "http://rdf.pathwaycommons.org/sparql/"
+
 query.custom <-
   'SELECT ?name, ?organism WHERE {
  %s rdf:type bp:Pathway .

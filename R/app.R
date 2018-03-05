@@ -9,16 +9,13 @@ ipak <- function(pkg){
 }
 
 ipak(c('shiny', 'shinyjs', 'DT'))
-ipak(c('paxtoolsr')) # Search module
+ipak(c('paxtoolsr', 'plyr')) # Search module
 ipak(c('SPARQL', 'stringr', 'XML')) # Analysis module
 ipak(c('igraph', 'visNetwork', 'rlist')) # Visualization module
 
 # Load modules
 source('modules/ui.R', local = TRUE)
 source('modules/server.R', local = TRUE)
-
-# Proxy settings
-#Sys.setenv(http_proxy="http://proxy.wifi.uma.es:3128/")
 
 # Run app
 shinyApp(
