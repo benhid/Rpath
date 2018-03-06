@@ -1,6 +1,9 @@
 source('modules/visualization/parseSifInteractions.R', local = TRUE)
 
 output$binaryGraph <- renderVisNetwork({
+  nodes <- data.frame(label="", group="", id="", stringsAsFactors=FALSE)
+  edges <- data.frame(from="", title="", to="", stringsAsFactors=FALSE)
+  
   tryCatch({
     withProgress(message = 'Loading', value = 0, {
       incProgress(0.1, detail = paste("Getting binary SIF"))
@@ -20,19 +23,13 @@ output$binaryGraph <- renderVisNetwork({
       nodes$id <- nodes$PARTICIPANT
       colnames(nodes) <- c("label", "group", "id")
     })
-    
-    # Get summary
-    #g <- loadSifInIgraph(edges, directed = TRUE)
-    #showNotification(paste("Clustering coefficient:", transitivity(g)), type = "message", duration = 15)
-    #showNotification(paste("Network density:", graph.density(g)), type = "message", duration = 15)
-    #showNotification(paste("Network diameter:", diameter(g)), type = "message", duration = 15)
   }, error = function(e){
-    print(e)
-    showNotification("Sorry, your graph can not be displayed. The SIF file is empty or can not be extracted correctly.",
-                     type = "error")
+    showNotification("Sorry, your graph couldn't be displayed propertly.", type = "error")
   })
   
-  visNetwork(nodes, edges, width = "100%", directed = TRUE) %>%
+  title <- as.character(finalSearchResultsDf$name[input$searchResults_rows_selected])
+  
+  visNetwork(nodes, edges, width = "100%", directed = TRUE, main = title) %>%
     visEdges(arrows="to", smooth="false") %>%
     visGroups(groupname = "SmallMoleculeReference", shape = "square") %>%
     visGroups(groupname = "ProteinReference", shape = "dot") %>%
@@ -42,6 +39,9 @@ output$binaryGraph <- renderVisNetwork({
 })
 
 output$extendedGraph <- renderVisNetwork({
+  nodes <- data.frame(label="", group="", id="", stringsAsFactors=FALSE)
+  edges <- data.frame(from="", title="", to="", stringsAsFactors=FALSE)
+  
   tryCatch({
     withProgress(message = 'Loading', value = 0, {
       incProgress(0.1, detail = paste("Getting extended SIF"))
@@ -65,12 +65,12 @@ output$extendedGraph <- renderVisNetwork({
       colnames(nodes) <- c("label", "group", "id")
     })
   }, error = function(e){
-    print(e)
-    showNotification("Sorry, your graph can not be displayed. The SIF file is empty or can not be extracted correctly.",
-                     type = "error")
+    showNotification("Sorry, your graph couldn't be displayed propertly.", type = "error")
   })
   
-  visNetwork(nodes, edges, width = "100%", directed = TRUE) %>%
+  title <- as.character(finalSearchResultsDf$name[input$searchResults_rows_selected])
+
+  visNetwork(nodes, edges, width = "100%", directed = TRUE, main = title) %>%
     visEdges(arrows="to", smooth="false") %>%
     visGroups(groupname = "NProt", shape = "dot", color = "darkblue") %>%
     visGroups(groupname = "control", shape = "square", color = "purple") %>%
