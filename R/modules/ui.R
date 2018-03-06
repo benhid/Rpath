@@ -1,8 +1,11 @@
+# Load helper
+source('modules/modules.R', local = TRUE)
+
 # Load modules
-source('modules/search/searchPanel.R', local = TRUE)
-source('modules/user_manual/userManualPanel.R', local = TRUE)
-source('modules/data_summary/analysisPanel.R', local = TRUE)
-source('modules/visualization/visualizationPanel.R', local = TRUE)
+for(m in modules.tabs){
+  print(paste("Loading ui module: ", m, sep=''))
+  source(paste("modules/", m, "/", m, "Panel.R", sep=''), local = TRUE)
+}
 
 app.ui <-
   shinyUI(
@@ -21,8 +24,6 @@ app.ui <-
                  width: 100%; height: 100%; background-image: url(\"\");
                  position: fixed; z-index: -10; top: 0; left: 0; }"),
       tags$div(id="particles-js"),
-      # Scripts for Visualization module
-      tags$head( includeScript("https://d3js.org/d3.v3.min.js") ),
       useShinyjs(),
 
       # Page

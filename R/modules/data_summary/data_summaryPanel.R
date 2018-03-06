@@ -1,3 +1,5 @@
+source('modules/data_summary/queries.R', local = TRUE)
+
 analysis.panel <-
   tabPanel(title = "Data Summarization", value = "analysisTab",
          fluidRow(
@@ -28,14 +30,8 @@ analysis.panel <-
                                        )),
                               tabPanel("Custom query",
                                        wellPanel(
-                                         textAreaInput("customQuery", "Custom SPARQL query:",
-                                                       value="SELECT ?name, ?organism WHERE {
- %s rdf:type bp:Pathway .
- ?pathway bp:pathwayComponent ?c .
- ?pathway bp:organism ?organism .
- ?c bp:name ?name .
- ?c rdf:type bp:BiochemicalReaction
-} LIMIT 20"),
+                                         textInput("customEndpoint", "Endpoint:", value = "http://rdf.pathwaycommons.org/sparql/"),
+                                         textAreaInput("customQuery", "Custom SPARQL query:", value = query.custom),
                                          actionButton("queryButton", "Perform custom query", class="btn-primary")
                                        ),
                                        wellPanel(
