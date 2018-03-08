@@ -31,7 +31,21 @@ Or by just running one command:
 shiny::runGitHub("RPath", "benhid", subdir = "R/")
 ```
 
-# Custom modules
+## Using Docker
+
+It's possible to run the web-app inside a Docker container. First, build the image from the [Dockerfile](Dockerfile):
+
+```sh
+sudo docker build -t khaosresearch/rpath .
+```
+
+e.g.
+
+```sh
+sudo docker run -it -p 3838:3838 khaosresearch/rpath
+```
+
+## Custom modules
 
 Every module in RPath is listed on the [modules](R/modules) folder. Each of them contains at least two files: `<module_name>.R` and `<module_name>Panel.R`. The first one will be used on the server-side of the app. The other one defines the user interface.
 
