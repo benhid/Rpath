@@ -28,7 +28,11 @@ user.panel <-
                                    h4("Version history"),
                                    tags$ul(
                                      tags$li(
-                                       span(strong("v1.0."), em("May 2018.")),
+                                       span(strong("v1.1."), em("May 2018.")),
+                                       "Major version published on khaos.uma.es"
+                                     ),
+                                     tags$li(
+                                       span(strong("v1.0."), em("Feb 2018.")),
                                        "First major version released on Github."
                                      )
                                    ),
