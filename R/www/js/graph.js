@@ -1,6 +1,7 @@
 var nodes = {};
 
 shinyjs.paintGraph = function(sifParse){
+
   var nodes = []
 	var links = [];
   	var nodeName = [];
@@ -9,7 +10,7 @@ shinyjs.paintGraph = function(sifParse){
     	nodeName.push(sifParse[0].nodos[i]);
     	nodeType.push(sifParse[0].tipoNodo[i]);
   	}
-  
+
   	for(i=0; i<sifParse[0].source.length; i++){
     	link={source: sifParse[0].source[i], target:sifParse[0].target[i], type:sifParse[0].tipoLink[i]};
     	links.push(link)
@@ -20,10 +21,10 @@ shinyjs.paintGraph = function(sifParse){
     	link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
   	});
 
-  	var width = 1500,
+  	var width = 1000,
 		height = 700,
 		radius = 6;
-	  console.log(nodes);
+
   	var force = d3.layout.force()
 		.nodes(d3.values(nodes))
 		.links(links)
@@ -40,8 +41,8 @@ shinyjs.paintGraph = function(sifParse){
 	var svg = d3.select(".paintGraph").append("svg")
 	  	.attr("width", width)
 	 	.attr("height", height);
-	  
-	  
+
+
 	svg.append("defs").selectAll("marker")
 		.data(["controlOf","outputLink"])
 		.enter().append("marker")
@@ -54,7 +55,7 @@ shinyjs.paintGraph = function(sifParse){
 	  	.attr("orient", "auto")
 		.append("path")
 	  	.attr("d", "M0,-5L10,0L0,5");
-	  
+
 	var path = svg.append("g").selectAll("path")
 		.data(force.links())
 		.enter().append("line")
@@ -64,21 +65,29 @@ shinyjs.paintGraph = function(sifParse){
 
 	var rectSet = []
  	var circleSet = []
+ 	var circleSetC = []
+  	var circleSMSetC = []
   	var circleSMSet = []
-	  
-	force.nodes().forEach(function(d){
-	    i = nodeName.indexOf(d.name);
+
+	force.nodes().forEach(function(n){
+	    i = nodeName.indexOf(n.name);
 	    if(nodeType[i]=="NProt"){
-	      circleSet.push(d);
+	      circleSet.push(n);
+	    }else if(nodeType[i]=="NProtC"){
+	      circleSetC.push(n);
 	    }else if(nodeType[i]=="control"){
-	      rectSet.push(d);
+	      rectSet.push(n);
 	    }else if(nodeType[i]=="NSM"){
-	      circleSMSet.push(d);
-	    }else {
-	    	circleSet.push(d);
+	      circleSMSet.push(n);
+	    }else if(nodeType[i]=="NSMC"){
+	      circleSetC.push(n);
+	    }else{
+	    	circleSet.push(n);
 	    }
 	});
-	  
+
+	console.log(circleSet)
+
 	var control = svg.append("g").selectAll("rect")
 	  	.data(rectSet)
 		.enter().append("rect")
@@ -94,8 +103,9 @@ shinyjs.paintGraph = function(sifParse){
 	  		return "control " + type})
 	  	.on("dblclick", dblclick)
 	  	.call(force.drag);
-		
-	var circleSM = svg.append("g").selectAll("circle")
+
+
+		var circleSM = svg.append("g").selectAll("circle")
 	  	.data(circleSMSet)
   		.enter().append("circle")
     	.attr("r", radius)
@@ -104,41 +114,61 @@ shinyjs.paintGraph = function(sifParse){
     	.on("mouseout", mouseout)
     	.on("dblclick", dblclick)
     	.call(force.drag);
-	  
+
+
+
 	var circle = svg.append("g").selectAll("circle")
 	  	.data(circleSet)
   		.enter().append("circle")
     	.attr("r", radius)
     	.attr("class",function(d){
-    		var styleType = "";
-    		if (d.name.includes("_P")) {
-    			styleType="phosphorylation";
-    		}else if(d.name.includes("_chem_Affects")){
-    			styleType="chem_Affects"
-    		}else if(d.name.includes("_STATE_CHANGE")){
-    			styleType="state_change"
+    		if(d.name != null){
+	    		var styleType = "";
+	    		if (d.name.includes("_P")) {
+	    			styleType="phosphorylation";
+	    		}else if(d.name.includes("_chem_Affects")){
+	    			styleType="chem_Affects"
+	    		}else if(d.name.includes("_STATE_CHANGE")){
+	    			styleType="state_change"
+	    		}
+	    		return "circle " + styleType;
     		}
-    		return "circle " + styleType;
+
     	})
     	.on("mouseover", mouseover)
     	.on("mouseout", mouseout)
     	.on("dblclick", dblclick)
     	.call(force.drag);
-	  
+
+	var circleC = svg.append("g").selectAll("circle")
+  	.data(circleSetC)
+		.enter().append("circle")
+	.attr("r", radius)
+	.attr("class",function(d){
+    		return "circleC";
+	})
+	.on("mouseover", mouseover)
+	.on("mouseout", mouseout)
+	.on("dblclick", dblclick)
+	.call(force.drag);
+
   	var text = svg.append("g").selectAll("text")
 	  	.data(force.nodes())
 		.enter().append("text")
 	  	.attr("x", 8)
 	  	.attr("y", ".31em")
-	  	.text(function(d) { 
+	  	.text(function(d) {
+	  		if(d.name != null){
+
 	    	var name = d.name;
+
 		    if(d.name.includes("control")){
     	  		name="";
 		    }else if(d.name.includes("_")){
 		    	name=d.name.split("_")[0];
 		    }
-		    return name; });
-	   
+		    return name; }});
+
   	function tick() {
 		path.attr("x1", function(d) { return d.source.x; })
         .attr("y1", function(d) { return d.source.y; })
@@ -146,12 +176,13 @@ shinyjs.paintGraph = function(sifParse){
         .attr("y2", function(d) { return d.target.y; });
 		control.attr("transform", transform);
 		circle.attr("transform", transform);
+		circleC.attr("transform", transform);
 		circleSM.attr("transform", transform);
 		text.attr("transform", transform);
   	}
-	  
+
   	function transform(d) {
-  		
+
 		return "translate(" + Math.max(radius, Math.min(width - radius, d.x)) + "," + Math.max(radius, Math.min(height - radius, d.y)) + ")";
   	}
 

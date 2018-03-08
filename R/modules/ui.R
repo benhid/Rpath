@@ -25,6 +25,8 @@ app.ui <-
                  position: fixed; z-index: -10; top: 0; left: 0; }"),
       tags$div(id="particles-js"),
       useShinyjs(),
+      tags$head( includeScript("https://d3js.org/d3.v3.min.js") ),
+      extendShinyjs(script = "www/js/graph.js"),
 
       # Page
       navbarPage(
