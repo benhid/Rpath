@@ -1,0 +1,10 @@
+name: rpath_app
+title:
+username:
+account: rpathestandares
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 243278
+bundleId: 1184501
+url: https://rpathestandares.shinyapps.io/rpath_app/
+when: 1516461479.36354

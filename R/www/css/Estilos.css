@@ -1,0 +1,67 @@
+svg {
+  border:1px solid black;
+}
+
+.link {
+	fill: none;
+	stroke: #666;
+	stroke-width: 1.5px;
+}
+		  
+.link.controlOf {
+	stroke: rgb(206, 13, 7);
+}
+.link.molecule_interaction {
+	stroke-dasharray: 0,2 1;
+}
+.link.in_complexLink {
+	stroke: green;
+}
+		  
+.circle {
+    fill: rgb(238, 242, 243);
+    stroke: #333;
+    stroke-width: 1.5px;
+}
+
+.circle.phosphorylation {
+	fill: rgb(246, 250, 3);
+	stroke:  #333;
+	stroke-width: 1.5px;
+}
+
+.circle.chem_Affects {
+	fill: rgb(68, 199, 109);
+	stroke:  #333;
+	stroke-width: 1.5px;
+}
+
+.circle.state_change {
+	fill: rgb(204, 101, 101);
+	stroke:  #333;
+	stroke-width: 1.5px;
+}
+
+.circleSM {
+	fill: rgb(54, 70, 212);
+	stroke: #333;
+	stroke-width: 1.5px;
+}
+
+.control {
+	fill: rgb(193, 216, 226);
+	stroke: #333;
+	stroke-width: 1.5px;
+}
+.control.expression {
+	fill: rgb(204, 101, 101);
+	stroke: #333;
+	stroke-width: 1.5px;
+}
+
+text {
+	font: 10px sans-serif;
+	pointer-events: none;
+	font-weight:bolder;
+	text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}
