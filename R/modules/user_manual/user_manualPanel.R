@@ -36,7 +36,7 @@ user.panel <-
                                    p("Active development team:"),
                                    tags$table(
                                      tags$tr(tags$th('Name'),tags$th('Email')),
-                                     tags$tr(tags$td('Antonio Benítez Hidalgo'),tags$td('antonio.benitez@lcc.uma.es')),
+                                     tags$tr(tags$td('Antonio Benitez Hidalgo'),tags$td('antonio.benitez@lcc.uma.es')),
                                      tags$tr(tags$td('Cesar Lobato Fernandez'),tags$td('ceslobfer95@uma.es')),
                                      class="table table-striped",
                                      width = 12
@@ -45,7 +45,7 @@ user.panel <-
                                    tags$table(
                                      tags$tr(tags$th('Name'),tags$th('Email')),
                                      tags$tr(tags$td('Daniel Torres Ramirez'),tags$td('dantorram@uma.es')),
-                                     tags$tr(tags$td('Maria José Muñoz Gonzalez'),tags$td('marmungon@uma.es')),
+                                     tags$tr(tags$td('Maria Jose Munoz Gonzalez'),tags$td('marmungon@uma.es')),
                                      class="table table-striped",
                                      width = 12
                                    ),
