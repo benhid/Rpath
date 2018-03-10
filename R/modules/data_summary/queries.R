@@ -1,10 +1,14 @@
+pw.endpoint <- "http://rdf.pathwaycommons.org/sparql/"
+
 query.custom <-
-  'SELECT ?name, ?organism WHERE {
- %s rdf:type bp:Pathway .
- ?pathway bp:pathwayComponent ?c .
- ?pathway bp:organism ?organism .
- ?c bp:name ?name .
- ?c rdf:type bp:BiochemicalReaction
+  'SELECT DISTINCT * WHERE {
+ %s bp:pathwayComponent ?reaction .
+ ?reaction bp:displayName ?reaction_name .
+ ?reaction bp:comment ?reaction_comment .
+ ?reaction rdf:type ?reaction_type .
+ VALUES ?reaction_type{ bp:BiochemicalReaction bp:Degradation bp:TemplateReaction }
+ OPTIONAL {
+  ?reaction bp:conversionDirection ?direction }
 } LIMIT 20'
 
 query.controlreactions <-

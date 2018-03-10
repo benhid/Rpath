@@ -6,15 +6,7 @@ search.panel <-
                   wellPanel(
                     textInput("term", "Term:",
                               placeholder = "name:gl?coly*"),
-                    helpText("Consider using a", a("Lucene query", href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html", target="_blank"),
-                             "string. Here you have some ",
-                             HTML('<a data-toggle="collapse" data-target="#ex">examples</a>.'),
-                             tags$div(id = 'ex',  class="collapse",
-                                      tags$li(a(id="example1","gly*",  `data-toggle`="tooltip", `data-placement`="right", title="Search in KEGGs all the pathways that start with gly- followed by whatever")),
-                                      tags$li(a(id="example2", "met?b*",  `data-toggle`="tooltip", `data-placement`="right", title="Search in KEGGs all the pathways that start with met- followed by whatever")),
-                                      tags$li(a(id="example3", "gluc*",`data-toggle`="tooltip", `data-placement`="right", title="Search in KEGGs all the pathways that start with gluc- followed by whatever"))
-                             )
-                    ),
+                    helpText("Consider using a", a("Lucene query", href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html", target="_blank")),
                     textInput("organism", "Organism",
                               placeholder = "9606"),
                     helpText("e.g. \"homo sapiens\", \"9606\""),

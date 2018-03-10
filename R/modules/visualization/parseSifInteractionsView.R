@@ -1,4 +1,4 @@
-parseSifInteractionsViewVisNetwork <- function(sifx){
+parseSifInteractionsVisNetwork <- function(sifx){
   interactions <- sifx$edges
   components <- sifx$nodes
   Links <- c()
@@ -6,9 +6,9 @@ parseSifInteractionsViewVisNetwork <- function(sifx){
   target <- c()
   tipoLink <- c()
   controls <- c()
-  
+
   # Node type in set
-  Proteins <- c() 
+  Proteins <- c()
   SmallMolecules <- c()
   participant_type<-components$PARTICIPANT_TYPE
   for(i in c(1:length(participant_type))){
@@ -18,11 +18,11 @@ parseSifInteractionsViewVisNetwork <- function(sifx){
       SmallMolecules <- c(SmallMolecules, components$PARTICIPANT[i])
     }
   }
-  
+
   #neighbor-of interaction type
   neighbor_of <- list()
   length(neighbor_of) <- length(Proteins)
-  
+
   for(i in c(1:length(interactions$INTERACTION_TYPE))){
     ParticipantA <- interactions$PARTICIPANT_A[i]
     ParticipantB <- interactions$PARTICIPANT_B[i]
@@ -33,20 +33,20 @@ parseSifInteractionsViewVisNetwork <- function(sifx){
              if(!is.na(pos)){
                neighbor_of[[pos]] <- c(neighbor_of[[pos]],ParticipantB)
              }
-             
+
            })
   }
-  
+
   for (j in c(1:length(neighbor_of))){
     setNeighborA <- neighbor_of[[j]]
     for (k in c(1:length(neighbor_of))){
-      
+
       setNeighborB <- neighbor_of[[k]]
       if (!is.null(setNeighborA) && 1==length(unique(setNeighborA %in% setNeighborB))
           && length(setNeighborA)<length(setNeighborB)){
         neighbor_of[[j]]<-NA
         break
-        
+
       }
     }
   }
@@ -62,10 +62,10 @@ parseSifInteractionsViewVisNetwork <- function(sifx){
   }
   neighbor_of<- neighbor_of[!is.na(neighbor_of)]
   neighbor_of <- list.clean(neighbor_of, fun = is.null, recursive = T)
-  
-  
+
+
   #Rest interactions
-  
+
   #Neighbor_sets
   neighborImput <- list()
   length(neighborImput) <- length(neighbor_of)
@@ -92,8 +92,8 @@ parseSifInteractionsViewVisNetwork <- function(sifx){
   #chemical-affects
   counterChemical <- 1
   proteins.chemical <- c()
-  
-  
+
+
   for(i in c(1:length(interactions$INTERACTION_TYPE))){
     ParticipantA <- interactions$PARTICIPANT_A[i]
     ParticipantB <- interactions$PARTICIPANT_B[i]
@@ -103,11 +103,11 @@ parseSifInteractionsViewVisNetwork <- function(sifx){
              for (j in c(1:length(neighbor_of))){
                if(length(neighbor_of)>0){
                  if(any(neighbor_of[[j]]==ParticipantA)){
-                   neighborImput[[j]] <- c(neighborImput[[j]], ParticipantB) 
+                   neighborImput[[j]] <- c(neighborImput[[j]], ParticipantB)
                    neighborBoolean <- T
                  }
                }
-               
+
              }
              if(neighborBoolean == F){
                if(any(protein.catalysis == ParticipantA)){
@@ -118,22 +118,22 @@ parseSifInteractionsViewVisNetwork <- function(sifx){
                  protein.catalysis <- c(protein.catalysis,ParticipantA)
                  protein.output[[length(protein.catalysis)]] <- ParticipantB
                }
-               
+
              }
-             
+
            },
            "consumption-controlled-by" = {
              neighborBoolean <- F
              for (j in c(1:length(neighbor_of))){
                if(length(neighbor_of)>0){
                  if(any(neighbor_of[[j]]==ParticipantB)){
-                   neighborOutput[[j]] <- c(neighborOutput[[j]], ParticipantA) 
+                   neighborOutput[[j]] <- c(neighborOutput[[j]], ParticipantA)
                    neighborBoolean <- T
                  }
                }
-               
+
              }
-             
+
              if(neighborBoolean == F){
                if(any(protein.catalysis == ParticipantB)){
                  poset <- grep(ParticipantB, protein.catalysis)
@@ -143,7 +143,7 @@ parseSifInteractionsViewVisNetwork <- function(sifx){
                  protein.catalysis <- c(protein.catalysis,ParticipantB)
                  protein.imput[[length(protein.catalysis)]] <- ParticipantA
                }
-               
+
              }
            },
            "controls-phosphorylation-of" = {
@@ -151,11 +151,11 @@ parseSifInteractionsViewVisNetwork <- function(sifx){
              source <- c(source, ParticipantB)
              target <- c(target, controlPhospho)
              tipoLink <- c(tipoLink, "imputLink")
-             #añadimos enlace proteinaControl->contorl
+             #anadimos enlace proteinaControl->contorl
              source <- c(source, ParticipantA)
              target <- c(target, controlPhospho)
              tipoLink <- c(tipoLink, "controlOf")
-             #añadimos enlace control->proteinaPhospho
+             #anadimos enlace control->proteinaPhospho
              source <- c(source, controlPhospho)
              target <- c(target, paste(ParticipantB,"_P"))
              tipoLink <- c(tipoLink, "outputLink")
@@ -168,11 +168,11 @@ parseSifInteractionsViewVisNetwork <- function(sifx){
              source <- c(source, ParticipantB)
              target <- c(target, controlState)
              tipoLink <- c(tipoLink, "imputLink")
-             #añadimos el enlace proteinaControl->control
+             #anadimos el enlace proteinaControl->control
              source <- c(source, ParticipantA)
              target <- c(target, controlState)
              tipoLink <- c(tipoLink, "controlOf")
-             #añadimos el enlace control->proteina final
+             #anadimos el enlace control->proteina final
              source <- c(source, controlState)
              target <- c(target, paste(ParticipantB,"_STATE_CHANGE"))
              tipoLink <- c(tipoLink, "outputLink")
@@ -181,12 +181,12 @@ parseSifInteractionsViewVisNetwork <- function(sifx){
              proteins.state <- c(proteins.state, paste(ParticipantB,"_STATE_CHANGE"))
            },
            "controls-expression-of" = {
-             
+
              controlExpresion <- paste("control_expression", counterExpresion)
              source <- c(source, ParticipantA)
              target <- c(target, controlExpresion)
              tipoLink <- c(tipoLink, "controlOf")
-             
+
              source <- c(source, controlExpresion)
              target <- c(target, ParticipantB)
              tipoLink <- c(tipoLink, "outputLink")
@@ -209,38 +209,37 @@ parseSifInteractionsViewVisNetwork <- function(sifx){
              source <- c(source, ParticipantA)
              target <- c(target, controlChemicalAffects)
              tipoLink <- c(tipoLink, "controlOf")
-             
+
              source<- c(source, controlChemicalAffects)
              target <- c(target, ParticipantB)
              tipoLink <- c(tipoLink, "outputLink")
-             
+
              source <- c(source, controlChemicalAffects)
              target <- c(target, paste(ParticipantB,"_chem_Affects"))
              tipoLink <- c(tipoLink, "outputLink")
-             counterChemical = counterChemical + 1 
+             counterChemical = counterChemical + 1
              controls<- c(controls, controlChemicalAffects)
              proteins.chemical <- c(proteins.chemical, paste(ParticipantB,"_chem_Affects"))
            })
   }
   protein.imput <- list.clean(protein.imput, fun = is.null, recursive = T)
   protein.output <- list.clean(protein.output, fun = is.null, recursive = T)
-  
+
   counterCatalysis <- 1
   if(length(protein.catalysis)>=1){
     for (i in c(1:length(protein.catalysis))){
       impt <- F
       if(length(protein.imput)>=i){
         impt <- T
-        print(protein.imput[[i]])
         imput.sm <- protein.imput[[i]]
       }
-      
+
       out <- F
       if(length(protein.output)>=i){
         out <- T
         output.sm <- protein.output[[i]]
       }
-      
+
       for(j in c(1:length(imput.sm))){
         control <- paste("control", counterCatalysis)
         if(impt){
@@ -248,24 +247,24 @@ parseSifInteractionsViewVisNetwork <- function(sifx){
           target <- c(target, control)
           tipoLink <- c(tipoLink, "imputLink")
         }
-        
+
         if(out){
           source <- c(source, control)
           target <- c(target, output.sm[j])
           tipoLink <- c(tipoLink, "outputLink")
         }
-        
+
         source <- c(source, protein.catalysis[i])
         target <- c(target, control)
         tipoLink <- c(tipoLink, "controlOf")
-        
+
       }
       controls <- c(controls,control)
       counterCatalysis <- counterCatalysis + 1
     }
   }
-  
-  
+
+
   if(length(neighbor_of)>=1){
     for (k in c(1:length(neighbor_of) )){
       sn <- neighbor_of[[k]]
@@ -289,19 +288,19 @@ parseSifInteractionsViewVisNetwork <- function(sifx){
             target <- c(target, control)
             tipoLink <- c(tipoLink, "controlOf")
           }
-          
+
         }
       }
       controls <- c(controls, control)
       counterCatalysis <- counterCatalysis + 1
     }
-    
+
   }
-  
+
   Links <- data.frame(source, tipoLink, target)
-  
+
   FinalNodes <- c()
-  
+
   nodos <-c()
   tipoNodo <- c()
   for(p in Proteins){
@@ -314,22 +313,21 @@ parseSifInteractionsViewVisNetwork <- function(sifx){
       tipoNodo <- c(tipoNodo, "NSM")
     }
   }
-  print(controls)
   for(c in controls){
     nodos <- c(nodos,c)
     tipoNodo <- c(tipoNodo, "control")
   }
-  
+
   for(ph in proteins.phosphorylation){
     nodos <- c(nodos,ph)
     tipoNodo <- c(tipoNodo, "phospho")
   }
-  
+
   for(pc in proteins.chemical){
     nodos <- c(nodos,pc)
     tipoNodo <- c(tipoNodo, "chemical")
   }
-  
+
   for(ps in proteins.state){
     nodos <- c(nodos,ps)
     tipoNodo <- c(tipoNodo, "state")
@@ -338,8 +336,8 @@ parseSifInteractionsViewVisNetwork <- function(sifx){
     nodos <- c(nodos,pe)
     tipoNodo <- c(tipoNodo, "NProt")
   }
-  
+
   FinalNodes <- data.frame(nodos, tipoNodo)
-  
+
   return(c(Links,FinalNodes))
 }

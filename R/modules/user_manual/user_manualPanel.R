@@ -28,7 +28,11 @@ user.panel <-
                                    h4("Version history"),
                                    tags$ul(
                                      tags$li(
-                                       span(strong("v1.0."), em("May 2018.")),
+                                       span(strong("v1.1."), em("May 2018.")),
+                                       "Major version published on khaos.uma.es"
+                                     ),
+                                     tags$li(
+                                       span(strong("v1.0."), em("Feb 2018.")),
                                        "First major version released on Github."
                                      )
                                    ),
@@ -36,7 +40,7 @@ user.panel <-
                                    p("Active development team:"),
                                    tags$table(
                                      tags$tr(tags$th('Name'),tags$th('Email')),
-                                     tags$tr(tags$td('Antonio Benítez Hidalgo'),tags$td('antonio.benitez@lcc.uma.es')),
+                                     tags$tr(tags$td('Antonio Benitez Hidalgo'),tags$td('antonio.benitez@lcc.uma.es')),
                                      tags$tr(tags$td('Cesar Lobato Fernandez'),tags$td('ceslobfer95@uma.es')),
                                      class="table table-striped",
                                      width = 12
@@ -45,11 +49,11 @@ user.panel <-
                                    tags$table(
                                      tags$tr(tags$th('Name'),tags$th('Email')),
                                      tags$tr(tags$td('Daniel Torres Ramirez'),tags$td('dantorram@uma.es')),
-                                     tags$tr(tags$td('Maria José Muñoz Gonzalez'),tags$td('marmungon@uma.es')),
+                                     tags$tr(tags$td('Maria Jose Munoz Gonzalez'),tags$td('marmungon@uma.es')),
                                      class="table table-striped",
-                                     width = 12
+                                     width=12
                                    ),
-                                   img(src="/banner_khaos.jpg", class="img-responsive center-block manualR")
+                                   img(src="http://khaos.uma.es/sites/default/files/banner_bg.jpg", class="img-responsive center-block manualR")
                                 )
                                )
                       ),
@@ -143,13 +147,15 @@ user.panel <-
                                        tags$td('Neighbor-of'),
                                        tags$td('ProteinA is neighbor of ProteinB and they are participants / controllers of same interaction.'),
                                        tags$td(img(src="img/usermanual/graph_A_neighbor_B.PNG", class="img-responsive center-block manualR"))),
-                                     class="table table-hover"), width = 12
-                                    ),
-                                    h4("Extended graph"),
-                                    p("As we said earlier, the binary SIF representation only contains pairwise interactions between physical
-                                      entities. It's possible to visualize an extended graph representation of the pathway which contains complex relationships between entities."),
-                                    img(src="img/usermanual/graph_extended_graph.PNG", class="img-responsive center-block manualR")
-                                 )
-                               )
+                                     class="table table-hover",
+                                     width=12
+                                   ),
+                                   h4("Extended graph"),
+                                   p("As we said earlier, the binary SIF representation only contains pairwise interactions between physical
+                                     entities. It's possible to visualize an extended graph representation of the pathway which contains complex relationships between entities."),
+                                   img(src="img/usermanual/graph_extended_graph.PNG", class="img-responsive center-block manualR")
+                                )
+                              )
+                            )
                       )
   )

@@ -1,6 +1,20 @@
-library(DT)
-library(plyr)
-library(paxtoolsr)
+output$searchResults <-  renderDataTable({
+  return(getResultsDf())
+}, options = list(pageLength = 10, searching = FALSE, lengthChange = FALSE), escape=FALSE, selection = 'single'
+)
+
+output$downloadOWL <- downloadHandler(
+  filename = function() {
+    paste('rpath-owl-', Sys.Date(), '.owl', sep='')
+  },
+  content = function(file) {
+    showNotification("Downloading file...")
+    URL <- getRowFromDf()
+    owl <- getPc(URL)
+
+    saveXML(owl, file)
+  }
+)
 
 # Auxiliar functions to prettify the output table
 createLink <- function(val) {
@@ -15,8 +29,9 @@ createImg <- function(val) {
 
 getRowFromDf <- function(){
   if(length(input$searchResults_rows_selected) > 0){
-    print("Reading url")
-    return(strsplit(as.character(finalSearchResultsDf$uri[input$searchResults_rows_selected]), "\"")[[1]][2])
+    URL <- strsplit(as.character(finalSearchResultsDf$uri[input$searchResults_rows_selected]), "\"")[[1]][2]
+    print(paste("Reading url: ", URL, sep=''))
+    return(URL)
   }
   else if(!is.null(input$owlFile)){
     print("Reading file")
@@ -38,6 +53,8 @@ getResultsDf <- eventReactive(input$searchButton, {
   dataSources <- input$dataSources
   organism <- input$organism
   numberOfResults <- input$numberOfResults
+
+  shinyjs::disable(id = "searchButton")
 
   # Validation
   if (term == ""){
@@ -84,6 +101,8 @@ getResultsDf <- eventReactive(input$searchButton, {
     # Error in search; replace with empty dataframe
     finalSearchResultsDf <- data.frame()
   }
+
+  shinyjs::enable(id = "searchButton")
 
   return(finalSearchResultsDf)
 })
