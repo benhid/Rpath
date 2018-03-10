@@ -11,7 +11,7 @@ output$downloadOWL <- downloadHandler(
     showNotification("Downloading file...")
     URL <- getRowFromDf()
     owl <- getPc(URL)
-    
+
     saveXML(owl, file)
   }
 )
@@ -53,6 +53,8 @@ getResultsDf <- eventReactive(input$searchButton, {
   dataSources <- input$dataSources
   organism <- input$organism
   numberOfResults <- input$numberOfResults
+
+  shinyjs::disable(id = "searchButton")
 
   # Validation
   if (term == ""){
@@ -99,6 +101,8 @@ getResultsDf <- eventReactive(input$searchButton, {
     # Error in search; replace with empty dataframe
     finalSearchResultsDf <- data.frame()
   }
+
+  shinyjs::enable(id = "searchButton")
 
   return(finalSearchResultsDf)
 })
