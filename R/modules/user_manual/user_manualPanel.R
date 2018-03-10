@@ -51,9 +51,9 @@ user.panel <-
                                      tags$tr(tags$td('Daniel Torres Ramirez'),tags$td('dantorram@uma.es')),
                                      tags$tr(tags$td('Maria Jose Munoz Gonzalez'),tags$td('marmungon@uma.es')),
                                      class="table table-striped",
-                                     width = 12
+                                     width=12
                                    ),
-                                   img(src="/banner_khaos.jpg", class="img-responsive center-block manualR")
+                                   img(src="http://khaos.uma.es/sites/default/files/banner_bg.jpg", class="img-responsive center-block manualR")
                                 )
                                )
                       ),
@@ -147,13 +147,15 @@ user.panel <-
                                        tags$td('Neighbor-of'),
                                        tags$td('ProteinA is neighbor of ProteinB and they are participants / controllers of same interaction.'),
                                        tags$td(img(src="img/usermanual/graph_A_neighbor_B.PNG", class="img-responsive center-block manualR"))),
-                                     class="table table-hover"), width = 12
-                                    ),
-                                    h4("Extended graph"),
-                                    p("As we said earlier, the binary SIF representation only contains pairwise interactions between physical
-                                      entities. It's possible to visualize an extended graph representation of the pathway which contains complex relationships between entities."),
-                                    img(src="img/usermanual/graph_extended_graph.PNG", class="img-responsive center-block manualR")
-                                 )
-                               )
+                                     class="table table-hover",
+                                     width=12
+                                   ),
+                                   h4("Extended graph"),
+                                   p("As we said earlier, the binary SIF representation only contains pairwise interactions between physical
+                                     entities. It's possible to visualize an extended graph representation of the pathway which contains complex relationships between entities."),
+                                   img(src="img/usermanual/graph_extended_graph.PNG", class="img-responsive center-block manualR")
+                                )
+                              )
+                            )
                       )
   )
