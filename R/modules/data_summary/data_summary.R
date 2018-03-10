@@ -8,7 +8,7 @@ output$downloadSIFF <- downloadHandler(
     showNotification("Downloading file as XML...")
     URL <- getRowFromDf()
     sif <- getPc(URL, "BINARY_SIF")
-    
+
     xml <- xmlTree()
     xml$addTag("document", close=FALSE)
     for (i in 1:nrow(sif)) {
@@ -19,7 +19,7 @@ output$downloadSIFF <- downloadHandler(
       xml$closeTag()
     }
     xml$closeTag()
-    
+
     saveXML(xml, file)
   }
 )
@@ -65,11 +65,13 @@ escape=FALSE, selection = 'single'
 getSIF <- function(){
   withProgress(message = 'Extracting SIF', value = 0, {
     incProgress(0.1, detail = paste('Path selected...'))
+    sif <- data.frame()
 
     tryCatch({
       URL <- getRowFromDf()
       sif <- getPc(URL, "BINARY_SIF")
     }, error = function(e){
+      showNotification("SIF couldn't be extracted from pathway.", type = "error")
     })
 
     return(sif)
@@ -84,6 +86,7 @@ CustomQuery <- eventReactive(input$queryButton, {
   withProgress(message = 'Extracting information', value = 0, {
     URL <- getRowFromDf()
     URL <- paste0('<',URL,'>')
+    CustomQx <- data.frame()
 
     tryCatch({
       CustomQx <- sprintf(input$customQuery, URL)
@@ -92,11 +95,6 @@ CustomQuery <- eventReactive(input$queryButton, {
       showNotification("Not a SPARQL statement or endpoint not valid.", type = "error")
     })
   })
-
-  if(!is.data.frame(CustomQx)){
-    # Error in statement; replace with empty dataframe
-    CustomQx <- data.frame()
-  }
 
   return(CustomQx)
 })
