@@ -151,11 +151,11 @@ parseSifInteractionsD3 <- function(sifx){
              source <- c(source, ParticipantB)
              target <- c(target, controlPhospho)
              tipoLink <- c(tipoLink, "imputLink")
-             #añadimos enlace proteinaControl->contorl
+             #anadimos enlace proteinaControl->contorl
              source <- c(source, ParticipantA)
              target <- c(target, controlPhospho)
              tipoLink <- c(tipoLink, "controlOf")
-             #añadimos enlace control->proteinaPhospho
+             #anadimos enlace control->proteinaPhospho
              source <- c(source, controlPhospho)
              target <- c(target, paste(ParticipantB,"_P"))
              tipoLink <- c(tipoLink, "outputLink")
@@ -168,11 +168,11 @@ parseSifInteractionsD3 <- function(sifx){
              source <- c(source, ParticipantB)
              target <- c(target, controlState)
              tipoLink <- c(tipoLink, "imputLink")
-             #añadimos el enlace proteinaControl->control
+             #anadimos el enlace proteinaControl->control
              source <- c(source, ParticipantA)
              target <- c(target, controlState)
              tipoLink <- c(tipoLink, "controlOf")
-             #añadimos el enlace control->proteina final
+             #anadimos el enlace control->proteina final
              source <- c(source, controlState)
              target <- c(target, paste(ParticipantB,"_STATE_CHANGE"))
              tipoLink <- c(tipoLink, "outputLink")
@@ -181,7 +181,6 @@ parseSifInteractionsD3 <- function(sifx){
              proteins.state <- c(proteins.state, paste(ParticipantB,"_STATE_CHANGE"))
            },
            "controls-expression-of" = {
-
              controlExpresion <- paste("control_expression", counterExpresion)
              source <- c(source, ParticipantA)
              target <- c(target, controlExpresion)
