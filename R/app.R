@@ -11,7 +11,7 @@ ipak <- function(pkg){
 ipak(c('shiny', 'shinyjs', 'DT'))
 ipak(c('plyr')) # Search module
 ipak(c('SPARQL', 'stringr', 'XML')) # Analysis module
-ipak(c('igraph', 'visNetwork', 'rlist')) # Visualization module
+ipak(c('igraph', 'visNetwork', 'rlist', 'V8')) # Visualization module
 
 source("https://bioconductor.org/biocLite.R")
 if (!require("paxtoolsr")) biocLite("paxtoolsr")
