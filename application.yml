@@ -1,0 +1,48 @@
+shiny:
+  proxy:
+    title: Khaos Research
+    logo-url: favicon.ico
+    landing-page: /
+    heartbeat-rate: 10000
+    heartbeat-timeout: 100000
+    port: 8146
+    authentication: none
+    # 'social' authentication configuration
+    social:
+      google:
+        app-id:
+        app-secret:
+    # 'simple' authentication configuration
+    admin-groups: khaos
+    users:
+    - name: dev
+      password: dev
+      groups: developer
+    - name: guest
+      password: guest
+      groups: user
+    # Docker configuration
+    docker:
+      cert-path: /home/none
+      url: http://localhost:9999
+      port-range-start: 20000
+  apps:
+  - name: 00_hello
+    display-name: Hello Application
+    description: Application which demonstrates the basics of a Shiny app.
+    docker-cmd: ["R", "-e", "shinyproxy::run_01_hello()"]
+    docker-image: openanalytics/shinyproxy-demo
+    groups: developer
+  - name: 01_rp
+    display-name: RPath
+    description: A Web-App for Biologic Pathway Exploration using Shiny and R. github.com/benhid/Rpath
+    docker-cmd: ["R", "-e", "shiny::runApp('/root/rpath')"]
+    docker-image: khaosresearch/rpath
+    groups: [user, developer]
+
+logging:
+  file:
+    shinyproxy.log
+
+server:
+  contextPath: /
