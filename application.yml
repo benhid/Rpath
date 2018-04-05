@@ -1,6 +1,6 @@
 shiny:
   proxy:
-    title: Khaos Research
+    title: Welcome to Shinyproxy
     logo-url: favicon.ico
     landing-page: /
     heartbeat-rate: 10000
@@ -13,7 +13,7 @@ shiny:
         app-id:
         app-secret:
     # 'simple' authentication configuration
-    admin-groups: khaos
+    admin-groups: developer
     users:
     - name: dev
       password: dev
